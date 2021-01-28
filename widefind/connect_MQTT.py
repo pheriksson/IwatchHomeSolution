@@ -58,7 +58,7 @@ class WFMQTT:
         self.client.loop_stop();
         print("done");
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     test = WFMQTT('130.240.74.55',1883);
     test.start();
 
