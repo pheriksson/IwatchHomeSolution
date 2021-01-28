@@ -38,7 +38,7 @@ class WFMQTT:
         self.report_location(str(message.payload.decode("utf-8")));
 
 
-    def main(self):
+    def start(self):
         self.client.connect(self.adr,self.port);
         self.client.loop_start(); #END LOOP IN on_connect if shits fucked
         while(self.conn_flag!=1):
@@ -58,8 +58,16 @@ class WFMQTT:
         self.client.loop_stop();
         print("done");
 
-test = WFMQTT('130.240.74.55',1883);
-test.main();
+if __name__ = '__main__':
+    test = WFMQTT('130.240.74.55',1883);
+    test.start();
+
+
+
+
+
+
+
 #broker_adr='xxxxxx'; #fyll i vid koppling.
 #broker_port=1883;
 #client = MQTT.Client();
