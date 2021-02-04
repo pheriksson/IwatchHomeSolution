@@ -25,7 +25,6 @@ def lookUpBinarySwitch(requests_base):
             if node['type'] == 'com.fibaro.binarySwitch' && node['properties']['energy'] > 0:
                 print(f"node: {node['id']}, name: {node['name']} is currently consuming W: {node['properties']['energy']}");
                 activeNodes.append(node['id'])
-
     else:
         print(f"Something went wrong")
     return activeNodes
@@ -36,10 +35,10 @@ def turnOnClosed(requestBase,binarySwitches):
     payload = {'deviceID':None,'name':'turnOn'}
     request = f'{requests_base}/api/callAction'
     for node in binarySwitches:
-        payload['deviceID'] = int(node['id'])
+        payload['deviceID'] = int(node)
         r = request.get(request, params=payload)
         if r.status_code == 200:
-            print(f'{node['id']} succesfully turned on!')
+            print(f'node: {int(node)} succesfully turned on!')
         ## Change r to post, doing this to just confirm that the process works.
 
 
@@ -49,10 +48,10 @@ def turnOffConsuming(requestBase, binarySwitches):
     request = f'{requests_base}/api/callAction'
     nodesOff = []
     for node in binarySwitches:
-        payload['deviceID'] = int(node['id'])
+        payload['deviceID'] = int(node)
         r = request.get(request, params=payload)
         if r.status_code == 200:
-            nodesOff.append(node['id'])
+            nodesOff.append(node)
             #As with turn on closed, try and change to post instead of a get req.
     return nodesOff
 
