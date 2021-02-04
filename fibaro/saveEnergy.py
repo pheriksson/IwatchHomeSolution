@@ -1,7 +1,9 @@
 import requests, json
 
 
-#handler for fibaro object -> flag to lookUpBinarySwitch and turn on/off.
+#TODO: Find a way to turn off node instead of using the GET api/callAction method. -> post api/device/deviceID=x&param=0 or something.
+
+#for fibaro object -> flag to lookUpBinarySwitch and turn on/off.
 
 def main():
     # ---------------------------- Main -----------------------------
@@ -37,7 +39,7 @@ def lookUpBinarySwitch(requests_base):
         print('Something went wrong')
     return activeNodes
 
-# Turn off all consuming binarySwitches. Return list off all switches turned off.
+# Turn off all consuming binary switches. Return list off all switches turned off.
 def turnOffConsuming(requestBase, binarySwitches):
     payload = {'deviceID':None,'name':'turnOff'}
     request = f'{requestBase}/api/callAction'
@@ -49,10 +51,15 @@ def turnOffConsuming(requestBase, binarySwitches):
         print(r.status_code);
         if r.status_code == 200:
             nodesOff.append(node)
+            print(f'node: ({node}) turned off!')
             #As with turn on closed, try and change to post instead of a get req.
     return nodesOff
 
-# Turn on all binarySwitches previously closed.
+
+
+
+
+# Turn on all binary switches previously closed. Return list of nodes which failed to turn on.
 def turnOnClosed(requestBase,binarySwitches):
     payload = {'deviceID':None,'name':'turnOn'}
     request = f'{requestBase}/api/callAction'
@@ -62,9 +69,9 @@ def turnOnClosed(requestBase,binarySwitches):
         r = request.get(requestBase, params=payload)
         print(f'turnOnClosed status code: {r.status_code}')
         if r.status_code == 200:
-            print(f'node: {node} succesfully turned on!')
+            print(f'node: ({node}) turned on!')
         else:
-            nodesError.append(node)
+            nodesError.append(node) #add some log??maybe for the future, external server.
     return nodesError
 
 
