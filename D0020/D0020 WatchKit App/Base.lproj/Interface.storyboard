@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="17701" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="17500"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="D0020_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <group width="1" alignment="left" id="dqn-hV-knO">
+                            <items>
+                                <button width="1" widthAdjustment="0.5" alignment="left" title="Styrning" id="8B7-Ct-sBt">
+                                    <connections>
+                                        <action selector="Kontrollerahem" destination="AgC-eL-Hgc" id="Cf1-Ee-kRD"/>
+                                    </connections>
+                                </button>
+                                <button width="1" widthAdjustment="0.5" alignment="left" title="Button" id="EiL-Ff-sN4"/>
+                            </items>
+                        </group>
+                        <group width="1" alignment="left" id="xOl-5y-v6P">
+                            <items>
+                                <button width="1" alignment="left" title="Välmående" id="7Mz-kg-Hr4">
+                                    <connections>
+                                        <action selector="välmående" destination="AgC-eL-Hgc" id="GDB-u8-5Th"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-16" y="-20"/>
+        </scene>
+    </scenes>
+</document>
