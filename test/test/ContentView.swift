@@ -17,13 +17,21 @@ struct ContentView: View {
     }
     
     var body: some View {
-        Text("Hello, world!")
+        Text("Our first Application")
             .padding()
-        
+            
             .onAppear{
                 if let healthStore = healthStore {
+                    print("hej")
                     healthStore.requestAuthorization { success in
-                        
+                        if success {
+                            healthStore.calculateSteps { statisticsCollection in
+                                if let statisticsCollection = statisticsCollection {
+                                    print(statisticsCollection)
+                                    print("är vi här")
+                                }
+                            }
+                        }
                     }
                 }
             }
