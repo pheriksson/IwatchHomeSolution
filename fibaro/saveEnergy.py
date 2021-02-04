@@ -10,53 +10,62 @@ def main():
     fibaro_Password = "jSCN47bC"
 
     requests_base= "http://%s:%s@%s" %(fibaro_User, fibaro_Password, fibaro_IP)
-    lookUpBinarySwitch(requests_base)
 
-
+    selectArr = lookUpBinarySwitch(requests_base);
+    print(selectArr)
+    #turnedOffArr = turnOffConsuming(requests_base,selectArr);
+    turnedOffArr = turnOffConsuming(requests_base,[30]) #Used for bug testing.
+    print(turnedOffArr)
+    #failedArr = turnOnClosed(requests_base, turnedOffArr)
+    #print(failedArr)
 
 def lookUpBinarySwitch(requests_base):
     request = '%s/api/devices/' %(requests_base)
     r = requests.get(request)
     r_dict = r.json()
-    #Slow to select all devices?? maybe change get request for nodes of a specific type.
     activeNodes = []
     if r.ok:
         for node in r_dict:
-            if node['type'] == 'com.fibaro.binarySwitch' && node['properties']['energy'] > 0:
-                print(f"node: {node['id']}, name: {node['name']} is currently consuming W: {node['properties']['energy']}");
-                activeNodes.append(node['id'])
+            try:
+                ##roomID 220 = U121.
+                if (node['roomID']==220) and (node['type'] == 'com.fibaro.binarySwitch') and (node['properties']['power'] > 10):
+                    print(f"node: {node['id']}, name: {node['name']} is currently consuming ({node['properties']['power']})W");
+                    activeNodes.append(node['id'])
+            except KeyError:
+                print('no such key');
     else:
-        print(f"Something went wrong")
+        print('Something went wrong')
     return activeNodes
-
-
-# Turn on all binarySwitches previously closed.
-def turnOnClosed(requestBase,binarySwitches):
-    payload = {'deviceID':None,'name':'turnOn'}
-    request = f'{requests_base}/api/callAction'
-    for node in binarySwitches:
-        payload['deviceID'] = int(node)
-        r = request.get(request, params=payload)
-        if r.status_code == 200:
-            print(f'node: {int(node)} succesfully turned on!')
-        ## Change r to post, doing this to just confirm that the process works.
-
 
 # Turn off all consuming binarySwitches. Return list off all switches turned off.
 def turnOffConsuming(requestBase, binarySwitches):
     payload = {'deviceID':None,'name':'turnOff'}
-    request = f'{requests_base}/api/callAction'
+    request = f'{requestBase}/api/callAction'
     nodesOff = []
     for node in binarySwitches:
-        payload['deviceID'] = int(node)
-        r = request.get(request, params=payload)
+        #print(type(request));
+        payload['deviceID'] = node
+        r = request.get(requestBase, params=payload)
+        print(r.status_code);
         if r.status_code == 200:
             nodesOff.append(node)
             #As with turn on closed, try and change to post instead of a get req.
     return nodesOff
 
-
-
+# Turn on all binarySwitches previously closed.
+def turnOnClosed(requestBase,binarySwitches):
+    payload = {'deviceID':None,'name':'turnOn'}
+    request = f'{requestBase}/api/callAction'
+    nodesError = []
+    for node in binarySwitches:
+        payload['deviceID'] = node
+        r = request.get(requestBase, params=payload)
+        print(f'turnOnClosed status code: {r.status_code}')
+        if r.status_code == 200:
+            print(f'node: {node} succesfully turned on!')
+        else:
+            nodesError.append(node)
+    return nodesError
 
 
 
