@@ -1,5 +1,5 @@
 import requests, json
-
+import time
 
 #TODO: Find a way to turn off node instead of using the GET api/callAction method. -> post api/device/deviceID=x&param=0 or something.
 
@@ -15,11 +15,16 @@ def main():
 
     selectArr = lookUpBinarySwitch(requests_base);
     print(selectArr)
-    #turnedOffArr = turnOffConsuming(requests_base,selectArr);
-    turnedOffArr = turnOffConsuming(requests_base,[30]) #Used for bug testing.
+    turnedOffArr = turnOffConsuming(requests_base,selectArr);
+    #turnedOffArr = turnOffConsuming(requests_base,[30]) #Used for bug testing.
     print(turnedOffArr)
-    #failedArr = turnOnClosed(requests_base, turnedOffArr)
-    #print(failedArr)
+
+    time.sleep(3)
+    failedArr = turnOnClosed(requests_base, turnedOffArr)
+    if(len(failedArr)== 0):
+        print(f'all devices succesfully turned on!')
+    else:
+        print(f'nodes failed to turn back on :{failedArr}')
 
 def lookUpBinarySwitch(requests_base):
     request = '%s/api/devices/' %(requests_base)
@@ -42,16 +47,20 @@ def lookUpBinarySwitch(requests_base):
 # Turn off all consuming binary switches. Return list off all switches turned off.
 def turnOffConsuming(requestBase, binarySwitches):
     payload = {'deviceID':None,'name':'turnOff'}
-    request = f'{requestBase}/api/callAction'
+    request = f'{requestBase}/api/callAction/'
+    #request = '%s/api/callAction/' %(requestBase)
     nodesOff = []
     for node in binarySwitches:
-        #print(type(request));
-        payload['deviceID'] = node
-        r = request.get(requestBase, params=payload)
-        print(r.status_code);
+        payload['deviceID'] = int(node)
+        r = requests.get(request, params=payload)
         if r.status_code == 200:
             nodesOff.append(node)
             print(f'node: ({node}) turned off!')
+        elif r.status_code == 202:
+            nodesOff.append(node)
+            print(f'node: ({node}) request sent, but not confirmed processing')
+        else:
+            print(f'something went wrong, {r.status_code}');
             #As with turn on closed, try and change to post instead of a get req.
     return nodesOff
 
@@ -62,15 +71,16 @@ def turnOffConsuming(requestBase, binarySwitches):
 # Turn on all binary switches previously closed. Return list of nodes which failed to turn on.
 def turnOnClosed(requestBase,binarySwitches):
     payload = {'deviceID':None,'name':'turnOn'}
-    request = f'{requestBase}/api/callAction'
+    request = f'{requestBase}/api/callAction/'
     nodesError = []
     for node in binarySwitches:
         payload['deviceID'] = node
-        r = request.get(requestBase, params=payload)
+        r = requests.get(request, params=payload)
         print(f'turnOnClosed status code: {r.status_code}')
         if r.status_code == 200:
             print(f'node: ({node}) turned on!')
         else:
+            print(f'node: {node} failed with status: {r.status_code}')
             nodesError.append(node) #add some log??maybe for the future, external server.
     return nodesError
 
