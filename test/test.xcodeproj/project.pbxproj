@@ -28,6 +28,7 @@
 		944A9E6825CD8E1C00B2C554 /* HomeKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944A9E6725CD8E1C00B2C554 /* HomeKit.swift */; };
 		948BD02625D6B78800248E02 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD02525D6B78800248E02 /* Step.swift */; };
 		948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03125D6BECB00248E02 /* HeartRate.swift */; };
+		948BD03925D6D78900248E02 /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03825D6D78900248E02 /* HeartRateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		944A9E6725CD8E1C00B2C554 /* HomeKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKit.swift; sourceTree = "<group>"; };
 		948BD02525D6B78800248E02 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		948BD03125D6BECB00248E02 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
+		948BD03825D6D78900248E02 /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 		7661C54625C342C100359328 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				948BD03825D6D78900248E02 /* HeartRateView.swift */,
 				948BD02425D6B77000248E02 /* Models */,
 				7661C5A325C3435100359328 /* test.entitlements */,
 				7661C54725C342C100359328 /* testApp.swift */,
@@ -444,6 +447,7 @@
 			files = (
 				7661C54A25C342C100359328 /* ContentView.swift in Sources */,
 				944A9E6825CD8E1C00B2C554 /* HomeKit.swift in Sources */,
+				948BD03925D6D78900248E02 /* HeartRateView.swift in Sources */,
 				948BD02625D6B78800248E02 /* Step.swift in Sources */,
 				7661C5B625C34A3800359328 /* HealthStore.swift in Sources */,
 				948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */,

@@ -8,6 +8,14 @@
 import SwiftUI
 import HealthKit
 
+
+struct HeartView: View {
+    
+    var body: some View {
+       Text("HeartRate page")
+    }
+}
+
 struct ContentView: View {
     
     private var healthStore: HealthStore?
@@ -36,16 +44,22 @@ struct ContentView: View {
     var body: some View {
         
         NavigationView {
-            List(steps , id: \.id) { step in
-                VStack {
-                    Text("\(step.count)")
-                    Text(step.date, style: .date)
-                        .opacity(0.5)
+        
+            VStack(spacing: 30) {
+                List(steps , id: \.id) { step in
+                    VStack {
+                        Text("\(step.count)")
+                        Text(step.date, style: .date)
+                            .opacity(0.5)
+                    }
+                }
+                NavigationLink(destination: HeartView()) {
+                    Text("Click here to come to heartrate view").padding()
                 }
             }
+            
             .navigationTitle("Steps")
         }
-       
         
             .onAppear{
                 if let healthStore = healthStore {

@@ -10,8 +10,14 @@ import SwiftUI
 struct ContentView: View {
     
     var body: some View {
-        Text("Vår health app")
-            .padding()
+        
+        VStack {
+            Text("Vår health app")
+                .padding()
+            
+            Text("Annat").padding()
+        }
+        
             
         
     }
