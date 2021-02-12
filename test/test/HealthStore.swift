@@ -24,6 +24,19 @@ class HealthStore{
         }
     }
     
+    func requestAuthorization(completion:@escaping (Bool) ->Void) {
+        print("Nu körs auth")
+        let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
+        print("type skapad")
+        guard let healthStore = self.healthStore else { return completion(false)}
+        print("healthStore objektet är skapat")
+        healthStore.requestAuthorization(toShare: [], read: [stepType]) { (success, error) in
+            completion(success)
+            print("auth gick igenom")
+        }
+        print("funktion är slut")
+    }
+    
    
     func calculateSteps(completion: @escaping (HKStatisticsCollection?) -> Void) {
         let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
@@ -47,18 +60,8 @@ class HealthStore{
     }
     
     
-    func requestAuthorization(completion:@escaping (Bool) ->Void) {
-        let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
+   
     
-        
-        guard let healthStore = self.healthStore else { return completion(false)}
-        
-        
-        healthStore.requestAuthorization(toShare: [], read: [stepType]) { (success, error) in
-            
-        }
-    }
-    /*
     func latestHeartRate(){
         
         guard let sampleType = HKObjectType.quantityType(forIdentifier: .heartRate) else { return }
@@ -80,9 +83,9 @@ class HealthStore{
             let latestHr = data.quantity.doubleValue(for: unit)
             //print("Latest Hr)*/
         }
-        
+        healthStore?.execute(query)
         print("query executed")
-    }*/
+    }
     
    
 }

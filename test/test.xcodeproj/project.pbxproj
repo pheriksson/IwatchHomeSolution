@@ -11,8 +11,6 @@
 		7661C54A25C342C100359328 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7661C54925C342C100359328 /* ContentView.swift */; };
 		7661C54C25C342C400359328 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7661C54B25C342C400359328 /* Assets.xcassets */; };
 		7661C54F25C342C400359328 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7661C54E25C342C400359328 /* Preview Assets.xcassets */; };
-		7661C55A25C342C400359328 /* testTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7661C55925C342C400359328 /* testTests.swift */; };
-		7661C56525C342C400359328 /* testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7661C56425C342C400359328 /* testUITests.swift */; };
 		7661C56A25C342C400359328 /* test WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7661C56925C342C400359328 /* test WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7661C56F25C342C500359328 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7661C56E25C342C500359328 /* Assets.xcassets */; };
 		7661C57625C342C500359328 /* test WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7661C57525C342C500359328 /* test WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -27,6 +25,9 @@
 		7661C5AD25C3441600359328 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7661C5AC25C3441600359328 /* HomeKit.framework */; };
 		7661C5AF25C3442200359328 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7661C5AE25C3442200359328 /* NetworkExtension.framework */; };
 		7661C5B625C34A3800359328 /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7661C5B525C34A3800359328 /* HealthStore.swift */; };
+		944A9E6825CD8E1C00B2C554 /* HomeKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944A9E6725CD8E1C00B2C554 /* HomeKit.swift */; };
+		948BD02625D6B78800248E02 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD02525D6B78800248E02 /* Step.swift */; };
+		948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03125D6BECB00248E02 /* HeartRate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,11 +94,7 @@
 		7661C54E25C342C400359328 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7661C55025C342C400359328 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7661C55525C342C400359328 /* testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7661C55925C342C400359328 /* testTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testTests.swift; sourceTree = "<group>"; };
-		7661C55B25C342C400359328 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7661C56025C342C400359328 /* testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7661C56425C342C400359328 /* testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testUITests.swift; sourceTree = "<group>"; };
-		7661C56625C342C400359328 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7661C56925C342C400359328 /* test WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7661C56E25C342C500359328 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7661C57025C342C500359328 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,6 +113,9 @@
 		7661C5AC25C3441600359328 /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/HomeKit.framework; sourceTree = DEVELOPER_DIR; };
 		7661C5AE25C3442200359328 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/NetworkExtension.framework; sourceTree = DEVELOPER_DIR; };
 		7661C5B525C34A3800359328 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
+		944A9E6725CD8E1C00B2C554 /* HomeKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKit.swift; sourceTree = "<group>"; };
+		948BD02525D6B78800248E02 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		948BD03125D6BECB00248E02 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,8 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				7661C54625C342C100359328 /* test */,
-				7661C55825C342C400359328 /* testTests */,
-				7661C56325C342C400359328 /* testUITests */,
 				7661C56D25C342C400359328 /* test WatchKit App */,
 				7661C57925C342C500359328 /* test WatchKit Extension */,
 				7661C54525C342C100359328 /* Products */,
@@ -181,6 +179,7 @@
 		7661C54625C342C100359328 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				948BD02425D6B77000248E02 /* Models */,
 				7661C5A325C3435100359328 /* test.entitlements */,
 				7661C54725C342C100359328 /* testApp.swift */,
 				7661C54925C342C100359328 /* ContentView.swift */,
@@ -188,6 +187,7 @@
 				7661C54B25C342C400359328 /* Assets.xcassets */,
 				7661C55025C342C400359328 /* Info.plist */,
 				7661C54D25C342C400359328 /* Preview Content */,
+				944A9E6725CD8E1C00B2C554 /* HomeKit.swift */,
 			);
 			path = test;
 			sourceTree = "<group>";
@@ -198,24 +198,6 @@
 				7661C54E25C342C400359328 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		7661C55825C342C400359328 /* testTests */ = {
-			isa = PBXGroup;
-			children = (
-				7661C55925C342C400359328 /* testTests.swift */,
-				7661C55B25C342C400359328 /* Info.plist */,
-			);
-			path = testTests;
-			sourceTree = "<group>";
-		};
-		7661C56325C342C400359328 /* testUITests */ = {
-			isa = PBXGroup;
-			children = (
-				7661C56425C342C400359328 /* testUITests.swift */,
-				7661C56625C342C400359328 /* Info.plist */,
-			);
-			path = testUITests;
 			sourceTree = "<group>";
 		};
 		7661C56D25C342C400359328 /* test WatchKit App */ = {
@@ -259,6 +241,15 @@
 				7661C5A525C3436A00359328 /* HealthKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		948BD02425D6B77000248E02 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				948BD02525D6B78800248E02 /* Step.swift */,
+				948BD03125D6BECB00248E02 /* HeartRate.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,7 +443,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7661C54A25C342C100359328 /* ContentView.swift in Sources */,
+				944A9E6825CD8E1C00B2C554 /* HomeKit.swift in Sources */,
+				948BD02625D6B78800248E02 /* Step.swift in Sources */,
 				7661C5B625C34A3800359328 /* HealthStore.swift in Sources */,
+				948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */,
 				7661C54825C342C100359328 /* testApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,7 +455,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7661C55A25C342C400359328 /* testTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,7 +462,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7661C56525C342C400359328 /* testUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,6 +708,7 @@
 				CODE_SIGN_ENTITLEMENTS = test/test.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"test/Preview Content\"";
+				DEVELOPMENT_TEAM = W3354TPG3R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -739,6 +732,7 @@
 				CODE_SIGN_ENTITLEMENTS = test/test.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"test/Preview Content\"";
+				DEVELOPMENT_TEAM = W3354TPG3R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
