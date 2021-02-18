@@ -6,13 +6,29 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct HeartRateView: View {
     
     //Detta är en annan sida på applikation (HR sidan har bara gjort Steps)
     
+    @State private var hrData: [heartRate] = [heartRate]()
+    
     var body: some View {
-       Text("HeartRate page")
+        Text("jag är här").padding()
+        /*NavigationView {
+            VStack(spacing: 30) {
+                List(hrData , id: \.id) { heartRate in
+                    VStack {
+                        Text("\(heartRate.heartRate)")
+                        Text(heartRate.date, style: .date)
+                            .opacity(0.5)
+                    }
+                }
+            }
+            
+            .navigationTitle("HearRate")
+        }*/
     }
 }
 

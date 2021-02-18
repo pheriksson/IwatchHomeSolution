@@ -13,8 +13,21 @@ import HealthKit
 
 struct HeartView: View {
     
+    @State private var hrData: [heartRate] = [heartRate]()
+    
     var body: some View {
-       Text("HeartRate page")
+        NavigationView {
+            VStack(spacing: 30) {
+                List(hrData , id: \.id) { heartRate in
+                    VStack {
+                        Text("\(heartRate.heartRate)")
+                        Text(heartRate.date, style: .date)
+                            .opacity(0.5)
+                    }
+                }
+            }
+            .navigationTitle("HearRate").padding()
+        }
     }
 }
 
@@ -57,7 +70,6 @@ struct ContentView: View {
                     Text("Click here to come to heartrate view").padding()
                 }
             }
-            
             .navigationTitle("Steps")
         }
         

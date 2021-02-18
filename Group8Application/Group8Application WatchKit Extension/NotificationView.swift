@@ -9,12 +9,16 @@ import SwiftUI
 
 struct NotificationView: View {
     var body: some View {
+        
         Text("Hello, World!")
+            .font(.largeTitle)
     }
 }
 
 struct NotificationView_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationView()
+        Group {
+            NotificationView()
+        }
     }
 }

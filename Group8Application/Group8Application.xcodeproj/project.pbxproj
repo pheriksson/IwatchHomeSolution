@@ -149,10 +149,10 @@
 		7661C54625C342C100359328 /* Group8Application */ = {
 			isa = PBXGroup;
 			children = (
-				948BD03825D6D78900248E02 /* HeartRateView.swift */,
 				948BD02425D6B77000248E02 /* Models */,
 				7661C5A325C3435100359328 /* test.entitlements */,
 				7661C54725C342C100359328 /* testApp.swift */,
+				948BD03825D6D78900248E02 /* HeartRateView.swift */,
 				7661C54925C342C100359328 /* ContentView.swift */,
 				7661C5B525C34A3800359328 /* HealthStore.swift */,
 				7661C54B25C342C400359328 /* Assets.xcassets */,

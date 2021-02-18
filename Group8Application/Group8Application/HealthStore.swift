@@ -30,20 +30,29 @@ class HealthStore{
     //Request auth innan man får använda olika var i HKHealthStore t.ex steps/HR
     
     func requestAuthorization(completion:@escaping (Bool) ->Void) {
-        print("Nu körs auth")
-        let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
-        print("type skapad")
+        
+        // Readable data
+        let stepR = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
+        let heartRateR = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
+        
+        //Tried to get all readable types into a set (Swift form of an unorganized array)
+        //let read = Set([])
+        
+        //Writeable data
+        let stepW = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+        let heartRateW = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+    
+        //Wrapping healthStore i.e checking if healthstore has been initiated
         guard let healthStore = self.healthStore else { return completion(false)}
-        print("healthStore objektet är skapat")
-        healthStore.requestAuthorization(toShare: [], read: [stepType]) { (success, error) in
+        
+        
+        healthStore.requestAuthorization(toShare: [stepW,heartRateW], read: [stepR,heartRateR]) { (success, error) in
             completion(success)
-            print("auth gick igenom")
         }
-        print("funktion är slut")
     }
     
    
-    //Beräknar steps under en viss period och sparar data i en collection
+    //Calculates the steps taken under a period of time
     func calculateSteps(completion: @escaping (HKStatisticsCollection?) -> Void) {
         let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
         
@@ -65,9 +74,8 @@ class HealthStore{
         
     }
     
-    //så nu kör xD
    
-    //Hämtar hr data
+    //Fetch the latest heart rate
     func latestHeartRate(){
         
         guard let sampleType = HKObjectType.quantityType(forIdentifier: .heartRate) else { return }
