@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HeartRateView: View {
     
+    //Detta är en annan sida på applikation (HR sidan har bara gjort Steps)
+    
     var body: some View {
        Text("HeartRate page")
     }

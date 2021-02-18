@@ -7,7 +7,7 @@
 
 import Foundation
 import HomeKit
-
+import SwiftUI
 class Fibaro{
     var access: HMHomeManager?
     
@@ -17,4 +17,6 @@ class Fibaro{
             print("fibaro stuff")
         }
     }
+    
+    
 }

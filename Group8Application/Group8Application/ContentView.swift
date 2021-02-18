@@ -8,6 +8,8 @@
 import SwiftUI
 import HealthKit
 
+//Detta är view funktionen som körs i början ContentView()
+
 
 struct HeartView: View {
     
@@ -42,9 +44,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
         NavigationView {
-        
             VStack(spacing: 30) {
                 List(steps , id: \.id) { step in
                     VStack {

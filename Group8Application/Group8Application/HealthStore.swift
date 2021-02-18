@@ -8,6 +8,9 @@
 import Foundation
 import HealthKit
 
+//HealthStore classes som hanterar ett object av HKHealtStore, med lite funktioner för att hämta data.
+//Har även skrivit steps är inne eftersom HKHealthStore hanterar all typ av data.
+
 extension Date{
     static func mondatAt12AM() -> Date {
         return Calendar(identifier: .iso8601).date(from: Calendar(identifier: .iso8601).dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date()))!
@@ -24,6 +27,8 @@ class HealthStore{
         }
     }
     
+    //Request auth innan man får använda olika var i HKHealthStore t.ex steps/HR
+    
     func requestAuthorization(completion:@escaping (Bool) ->Void) {
         print("Nu körs auth")
         let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
@@ -38,6 +43,7 @@ class HealthStore{
     }
     
    
+    //Beräknar steps under en viss period och sparar data i en collection
     func calculateSteps(completion: @escaping (HKStatisticsCollection?) -> Void) {
         let stepType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
         
@@ -59,9 +65,9 @@ class HealthStore{
         
     }
     
-    
+    //så nu kör xD
    
-    
+    //Hämtar hr data
     func latestHeartRate(){
         
         guard let sampleType = HKObjectType.quantityType(forIdentifier: .heartRate) else { return }
