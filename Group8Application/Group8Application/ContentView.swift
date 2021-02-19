@@ -86,7 +86,12 @@ struct ContentView: View {
                         }
                     }
                 }
+                if let HomeKit = homeKit {
+                    print("unwrappat homekit")
+                    HomeKit.test()
+                }
             }
+        
     }
 }
 
