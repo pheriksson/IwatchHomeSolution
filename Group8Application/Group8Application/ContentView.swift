@@ -8,38 +8,18 @@
 import SwiftUI
 import HealthKit
 
-//Detta är view funktionen som körs i början ContentView()
-
-
-struct HeartView: View {
-    
-    @State private var hrData: [heartRate] = [heartRate]()
-    
-    var body: some View {
-        NavigationView {
-            VStack(spacing: 30) {
-                List(hrData , id: \.id) { heartRate in
-                    VStack {
-                        Text("\(heartRate.heartRate)")
-                        Text(heartRate.date, style: .date)
-                            .opacity(0.5)
-                    }
-                }
-            }
-            .navigationTitle("HearRate").padding()
-        }
-    }
-}
 
 struct ContentView: View {
     
     private var healthStore: HealthStore?
     private var homeKit: Fibaro?
+    private var wideFind: MQTTClient?
     @State private var steps: [Step] = [Step]()
     
     init() {
         healthStore = HealthStore()
         homeKit = Fibaro()
+        wideFind = MQTTClient("130.240.74.55",1883,"GRP8-\(String(Int.random(in: 1..<9999)))")
     }
     
     private func updateUIFromStatistic(statisticsCollection: HKStatisticsCollection){
@@ -66,7 +46,7 @@ struct ContentView: View {
                             .opacity(0.5)
                     }
                 }
-                NavigationLink(destination: HeartView()) {
+                NavigationLink(destination: HeartRateView()) {
                     Text("Click here to come to heartrate view").padding()
                 }
             }
