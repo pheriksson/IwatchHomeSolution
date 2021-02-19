@@ -1,3 +1,6 @@
 
 fibaro/__pyca*
 widefind/__pyca*
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
