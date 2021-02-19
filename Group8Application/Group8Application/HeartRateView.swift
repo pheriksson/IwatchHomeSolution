@@ -10,13 +10,11 @@ import HealthKit
 
 struct HeartRateView: View {
     
-    //Detta är en annan sida på applikation (HR sidan har bara gjort Steps)
     
     @State private var hrData: [heartRate] = [heartRate]()
     
     var body: some View {
-        Text("jag är här").padding()
-        /*NavigationView {
+        NavigationView {
             VStack(spacing: 30) {
                 List(hrData , id: \.id) { heartRate in
                     VStack {
@@ -26,11 +24,16 @@ struct HeartRateView: View {
                     }
                 }
             }
-            
-            .navigationTitle("HearRate")
-        }*/
+            .navigationTitle("HearRate").padding()
+        }
     }
 }
+
+
+
+
+
+
 
 struct HeartRateView_Previews: PreviewProvider {
     static var previews: some View {

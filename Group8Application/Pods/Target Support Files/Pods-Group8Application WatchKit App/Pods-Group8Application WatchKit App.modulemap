@@ -1,0 +1,6 @@
+framework module Pods_Group8Application_WatchKit_App {
+  umbrella header "Pods-Group8Application WatchKit App-umbrella.h"
+
+  export *
+  module * { export * }
+}
