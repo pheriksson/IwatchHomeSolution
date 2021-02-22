@@ -22,6 +22,7 @@ class HealthStore{
     var query: HKStatisticsCollectionQuery?
     
     init() {
+        
         if (HKHealthStore.isHealthDataAvailable()) {
             healthStore = HKHealthStore()
         }
@@ -32,21 +33,15 @@ class HealthStore{
     func requestAuthorization(completion:@escaping (Bool) ->Void) {
         
         // Readable data
-        let stepR = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.stepCount)!
-        let heartRateR = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!
-        
-        //Tried to get all readable types into a set (Swift form of an unorganized array)
-        //let read = Set([])
-        
-        //Writeable data
-        let stepW = HKQuantityType.quantityType(forIdentifier: .stepCount)!
-        let heartRateW = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+        let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!,HKObjectType.workoutType()])
     
-        //Wrapping healthStore i.e checking if healthstore has been initiated
+        
+        
+        //Wrapping healthStore i.e checking if healthstore has been initiated and not nil
         guard let healthStore = self.healthStore else { return completion(false)}
         
         
-        healthStore.requestAuthorization(toShare: [stepW,heartRateW], read: [stepR,heartRateR]) { (success, error) in
+        healthStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
             completion(success)
         }
     }
@@ -89,6 +84,7 @@ class HealthStore{
         let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: Int(HKObjectQueryNoLimit), sortDescriptors: [sortDescriptor]) {
             (sample, result, error) in
             guard error == nil else{
+                
                 return
             }
             /*

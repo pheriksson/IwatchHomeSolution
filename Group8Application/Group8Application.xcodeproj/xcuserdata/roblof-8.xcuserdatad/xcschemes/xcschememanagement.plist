@@ -19,10 +19,10 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>Group8Application.xcscheme_^#shared#^_</key>
+		<key>PHONE_ONLY.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
