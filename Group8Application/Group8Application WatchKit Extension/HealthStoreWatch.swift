@@ -14,7 +14,22 @@ class HealthStoreWatch {
     init() {
         if (HKHealthStore.isHealthDataAvailable()) {
             HStore = HKHealthStore()
-            
+        }
+    }
+    
+    func requestAuthorization(completion:@escaping (Bool) ->Void) {
+        
+        // Readable/Writable data
+        let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!,HKObjectType.workoutType()])
+    
+        
+        
+        //unwrapping healthStore i.e checking if healthstore has been initiated and not nil
+        guard let HStore = self.HStore else { return completion(false)}
+        
+        
+        HStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
+            completion(success)
         }
     }
 }
