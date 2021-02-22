@@ -20,7 +20,7 @@ class HealthStoreWatch {
     func requestAuthorization(completion:@escaping (Bool) ->Void) {
         
         // Readable/Writable data
-        let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!,HKObjectType.workoutType()])
+        let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!])
     
         
         
