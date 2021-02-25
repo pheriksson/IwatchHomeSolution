@@ -8,9 +8,12 @@
 import Foundation
 import CocoaMQTT
 
+//TODO: Need to subscribe to specific tag, so that we do not get multiple readings.
+
 
 class MQTTClient{
     
+    var observers: [MQTTObserver]?
     var con: CocoaMQTT
     var host: String
     var port: UInt16
@@ -24,18 +27,34 @@ class MQTTClient{
         self.clientID = clientID
         self.con = CocoaMQTT(clientID: self.clientID, host: self.host, port: self.port)
         self.con.keepAlive = 60
-        //self.con.logLevel = .debug
-        
+        self.observers = [MQTTObserver]()
         self.pos = [0,0,0]
         self.con.delegate = self
         self.con.connect()
+        
+        
+        //self.con.logLevel = .debug
     }
     
     func get_post() -> [Int]{
         return self.pos!
     }
     
+    //TODO: Find a way to check if observers are alrdy in observers, duplicate observers will suck.
+    func registerObserver(obs : MQTTObserver){
+        if var arr = observers {
+            arr.append(obs)
+        }
+    }
     
+    //Notify all observers of specific event,
+    func notifyObservers(event : String ){
+        if let arr = observers{
+            for obs in arr{
+                obs.moveEvent(code: event)
+            }
+        }
+    }
     
     
 }
@@ -69,6 +88,14 @@ extension MQTTClient: CocoaMQTTDelegate{
                 self.pos![1] = Int(msg[3]) ?? 0
                 self.pos![2] = Int(msg[4]) ?? 0
                 
+                //Todo, check state -> call observers depending on state change
+                
+                //print("x: \(self.pos![0]) y: \(self.pos![0]) z: \(self.pos![0])")
+                //if self.pos![0] < 2000{
+                //    self.notifyObservers(event: "CALL FROM WIDEFIND THAT X < 2000")
+                //}
+                
+                
             }
         }
      }
@@ -77,16 +104,14 @@ extension MQTTClient: CocoaMQTTDelegate{
         print("subscribed: \(success), failed: \(failed)")
      }
      
-     func mqttDidPing(_ mqtt: CocoaMQTT) {
-        print("DIDPING")
-     }
-     
+     //Call recconnect on missed ping from certain intervall ??
      func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
-        print("RECIEVEPING")
+        print("RECIEVED PING")
      }
-
+     //Call reconnect??
      func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
         print("DISCONNECTED")
+        //Raise error
      }
     
     
@@ -96,5 +121,14 @@ extension MQTTClient: CocoaMQTTDelegate{
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16){}
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {}
     func mqtt(_ mqtt: CocoaMQTT, didStateChangeTo state: CocoaMQTTConnState) {}
+    func mqttDidPing(_ mqtt: CocoaMQTT) {}
     
+}
+
+
+
+protocol MQTTObserver{
+    let id: Int {get}
+    //When certain location is registered, call move event.
+    func moveEvent(code : String)
 }

@@ -18,8 +18,9 @@ struct ContentView: View {
     
     init() {
         healthStore = HealthStore()
-        homeKit = Fibaro()
         wideFind = MQTTClient("130.240.74.55",1883,"GRP8-\(String(Int.random(in: 1..<9999)))")
+        //homeKit = Fibaro(observe: wideFind!)
+        homeKit = Fibaro()
     }
     
     private func updateUIFromStatistic(statisticsCollection: HKStatisticsCollection){
