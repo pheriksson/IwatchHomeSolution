@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HealthView: View {
-    var store: HealthStoreWatch?
+    //var store: HealthStoreWatch?
     
     var body: some View {
         VStack{

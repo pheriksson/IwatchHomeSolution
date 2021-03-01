@@ -2,14 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSHealthShareUsageDescription</key>
-	<string>Want to access data of healthstore to read/write</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>Want to access data of healthstore to read/write</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>test WatchKit Extension</string>
+	<string>Group8Application WatchKit Extension</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -36,6 +32,18 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Want to access data of healthstore to read/write</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Want to access data of healthstore to read/write</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>workout-processing</string>
+	</array>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
 </dict>

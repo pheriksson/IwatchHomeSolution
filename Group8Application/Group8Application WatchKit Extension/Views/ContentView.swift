@@ -12,10 +12,10 @@ import HealthKit
 
 struct ContentView: View {
     
-    var store: HealthStoreWatch?
+    //var store: HealthStoreWatch?
     
     init() {
-        store = HealthStoreWatch()
+    //    store = HealthStoreWatch()
     }
     
     var body: some View {
@@ -48,14 +48,14 @@ struct ContentView: View {
         }
         
         .onAppear{
-            if let store = store {
+            /*if let store = store {
                 print("unwrappat healthStore")
                 store.requestAuthorization { success in
                     if success {
                        print("We made it")
                     }
                 }
-            }
+            }*/
 
         }
     }
