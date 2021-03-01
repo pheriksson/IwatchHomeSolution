@@ -18,8 +18,8 @@ class MQTTClient{
     var host: String
     var port: UInt16
     var clientID: String
-    var pos: [Int]?
-    var location,settings: [Bool]?
+    var pos: [Int]!
+    var location,settings: [Bool]!
 
     
     init(_ host: String, _ port: UInt16, _ clientID: String){
@@ -46,12 +46,11 @@ class MQTTClient{
     
     //TODO: Find a way to check if observers are alrdy in observers, duplicate observers will suck.
     func registerObserver(obs : MQTTObserver) -> Void{
-        if var arr = observers {
-            arr.append(obs)
-        }
+        observers!.append(obs)
     }
 
     func notifyObservers(event : String ) -> Void{
+        print(observers!)
         if let arr = observers{
             for obs in arr{
                 obs.moveEvent(code: event)
@@ -60,46 +59,47 @@ class MQTTClient{
     }
     
     //TODO: Check for settings -> if user wants the desired functionality.
+    //entering 
     func checkState() -> Void{
-        if var loc = location, let pos = pos{
-            switch (loc[0],loc[1]){
+            switch (location[0],location[1]){
                 case (true,false):
                     //Currently in kitchen
                     if (pos[0] < -1000){
                         //Leaving appartement
-                        loc[0] = false
+                        location[0] = false
                         return notifyObservers(event: "leaving appartement")
                     }
                     if (pos[1] > 0){
                         //Entering bedroom from kitchen
-                        loc[0] = false; loc[1] = true
+                        location[0] = false; location[1] = true
                         return notifyObservers(event: "entering bedroom")
                     }
                 case (false,true):
                     //Currently in bedroom
                     if(pos[0] < -1000){
                         //Leaving appartement
-                        loc[1] = false
+                        location[1] = false
                         return notifyObservers(event: "leaving appartement")
                     }
                     if(pos[1] < 0){
                         //Entering kitchen from bedroom
-                        loc[0] = true; loc[1] = false
+                        location[0] = true; location[1] = false
                         return notifyObservers(event: "entering kitchen")
                     }
                 case (false,false):
                     if (pos[0] > -1100){
                         if(pos[1] > 0){
-                            loc[1] = true
+                            location[1] = true
+                            return notifyObservers(event: "entering appartement")
                         }
-                        loc[0] = true
+                        location[0] = true
                         return notifyObservers(event: "entering appartement")
                     }
                 default:
                     print("somethings fucky, again... currently in kitchen and in beedrom at the same time??")
         }
         
-        }
+        
         
     }
     
@@ -132,13 +132,14 @@ extension MQTTClient: CocoaMQTTDelegate{
            let lowerRange = message.string!.description.range(of: "source") {
                 
                 let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",")
-                if var position = pos{
-                    position[0] = Int(msg[2]) ?? 0
-                    position[1] = Int(msg[3]) ?? 0
-                    position[2] = Int(msg[4]) ?? 0
-                    
+                print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
+            
+                
+                    pos[0] = Int(msg[2]) ?? 0
+                    pos[1] = Int(msg[3]) ?? 0
+                    pos[2] = Int(msg[4]) ?? 0
                     self.checkState()
-                }
+                
         }
      }
      
