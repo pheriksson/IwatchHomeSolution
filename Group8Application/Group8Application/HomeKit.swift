@@ -11,6 +11,7 @@ import SwiftUI
 
 
 class Fibaro: MQTTObserver{
+    
     var id : Int
     weak var observing : MQTTClient?
     
@@ -18,6 +19,7 @@ class Fibaro: MQTTObserver{
     private var url_base : String?
     private var nodeList : [nodeInfo] = [nodeInfo]()
     private var saveEnergyNodes: [Int]?
+    private var observers : [FibaroObserver]
     
     struct Post: Codable , Identifiable{
         let id = UUID()
@@ -34,36 +36,19 @@ class Fibaro: MQTTObserver{
     }
     
     var access: HMHomeManager?
+
     
     init(_ usr : String,_ pw : String,_ ip : String){
         if (HMHomeManager.accessibilityActivate()) {
             access = HMHomeManager()
-            print("fibaro stuff")
         }
-        self.id = Int.random(in: 1..<9999)
+        self.id = 80085
         
         //Fibaro base config.
         self.encoding = "\(usr):\(pw)".data(using: .utf8)!.base64EncodedString()
         self.url_base = "http://\(ip)/api/"
         
-        self.saveEnergyNodes = []
-        
-        
-    }
-    
-    init(_ usr : String,_ pw : String,_ ip : String, observe: MQTTClient){
-        if (HMHomeManager.accessibilityActivate()) {
-            access = HMHomeManager()
-        }
-
-        self.id = Int.random(in: 1..<9999)
-        self.observing = observe
-        self.observing!.registerObserver(obs: self)
-        
-        //Fibaro base config.
-        self.encoding = "\(usr):\(pw)".data(using: .utf8)!.base64EncodedString()
-        self.url_base = "http://\(ip)/api/"
-        
+        self.observers = [FibaroObserver]()
         self.saveEnergyNodes = []
     }
     
@@ -77,25 +62,26 @@ class Fibaro: MQTTObserver{
         return request
     }
     
-    //OPERATIONAL
+    
     private func getPowerLevel(dic : [String:Any]) -> Int{
-        if (dic["type"] as! String == "com.fibaro.binarySwitch"){
-            if let power = (dic["properties"] as! [String:Any])["power"] as? Double{
-                if (power > 0){
-                    return dic["id"] as! Int
-                }
+        // Limit for bug testing, remove when rdy.
+        if(dic["roomID"] as! Int != 220){return -1}
+        //
+        
+        if let power = (dic["properties"] as! [String:Any])["power"] as? Double{
+            if (power > 0){
+                return dic["id"] as! Int
             }
         }
-        return -1 //Need to change so that node with id = 0 does not ge
+        return -1 //Node does not consume energy
     }
     
-    //OPERATIONAL.
+    
     private func binarySwitchesConsumingEnergy(d : Data) -> [Int]{
-        //let str = String(decoding: d, as: UTF8.self)
         var binarySwitches : [Int] = []
         if let oneBSwitch = try! JSONSerialization.jsonObject(with: d, options: []) as? [String:Any]{
             let nodeConsuming = self.getPowerLevel(dic: oneBSwitch)
-            if(nodeConsuming != -1){
+            if(nodeConsuming >= 0){
                 binarySwitches.append(nodeConsuming)
             }
             return binarySwitches
@@ -103,7 +89,7 @@ class Fibaro: MQTTObserver{
         if let multipleBSwitch = try! JSONSerialization.jsonObject(with: d, options: []) as? [[String:Any]]{
             for node in multipleBSwitch{
                 let nodeConsuming = self.getPowerLevel(dic: node)
-                if(nodeConsuming != -1){
+                if(nodeConsuming >= 0){
                     binarySwitches.append(nodeConsuming)
                 }
             }
@@ -121,7 +107,7 @@ class Fibaro: MQTTObserver{
                 guard let response = response else{return}
                 if let respCode = response as? HTTPURLResponse{
                     if respCode.statusCode >= 400{
-                        print("Node : \(node) failed to be turned on!")
+                        print("Node : \(node) failed to be turned on!") //Remove printouts on release
                     }else{
                         print("Node : \(node) succeded in being turned on!")
                     }
@@ -129,19 +115,17 @@ class Fibaro: MQTTObserver{
             }
             task.resume()
         }
-        //Reset arr.
-        self.saveEnergyNodes = []
+        saveEnergyNodes = []
         
     }
     //Strange behaviour inc if nodes alrdy existing in saveEnergyNodes.
     //Potentailly many fucking calls.
     private func turnOffConsumingSwitches(){
-        let request = setupGetRequest(task: "devices/")
+        let request = setupGetRequest(task: "devices/?type=com.fibaro.binarySwitch")
         let task = URLSession.shared.dataTask(with: request){(data, response, error) in
             guard let data = data else{return}
             self.saveEnergyNodes = self.binarySwitchesConsumingEnergy(d: data)
             for consumingNode in self.saveEnergyNodes!{
-                //Call to
                 let request = self.setupGetRequest(task: "callAction?deviceID=\(consumingNode)&name=turnOff")
                 let task = URLSession.shared.dataTask(with: request){(_, response, _) in
                     guard let response = response else {return}
@@ -156,7 +140,6 @@ class Fibaro: MQTTObserver{
                     
                 }
                 task.resume()
-                //task: "callAction?deviceID=\(consumingNode)&name=turnOff"
             }
             
         }
@@ -287,47 +270,96 @@ class Fibaro: MQTTObserver{
             //print(type(of: str))
         }
         task.resume()
-        
-        
-        
     }
     
-
+    private func checkOven() -> Void{
+        //device id 267 -> oven in current fibaro configuration.
+        let request = setupGetRequest(task: "energy/now-3600/now/compare/devices/power/267")
+        let task = URLSession.shared.dataTask(with: request){(data, _, _) in
+            guard let data = data else {return}
+            if self.checkOvenParse(data){
+                let msg = ["FIBARO":true, "NOTIFICATION":"ALERT OVEN"] as [String : Any]
+                self.notifyObservers(msg: msg)
+            }
+            
+        }
+        task.resume()
+    }
     
+    private func checkOvenParse(_ data : Data) -> Bool{
+        //Will only return a list of one json file, so a bit funky formating, but i cannot be arsed...
+        if let oven = try! JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]]{
+            for onlyOne in oven{
+                if (onlyOne["W"] as! Int) > 0{
+                    return true
+                }
+            }
+        }
+        return false
+    }
     
-    //For responding to events from widefind, ie. code = "lämna kök" or something -> call for fibaro to turn off binary switches.
-    //Todo: enum klass för alla event -> vad som ska bli kallat
+    func recMsgFromWatch(code : Int){
+        //Setup response msg to watch.
+        var watchResponse = [String : Any]()
+        watchResponse["FIBARO"] = true
+        
+        switch code{
+        case 0:
+            //prep response with status of all binary switches.
+            print("Fibaro recieved call from watch to send status of all binary switches to watch")
+        case 1:
+            print("Fibaro recieved call from watch to send status of all doors to watch")
+            //prep response with status of all doors.
+        default:
+            print("Fibaro recieved code: \(code) from watch, somethings fucky.")
+        }
+    }
+    //Go over events in MQTTClient, mroe events should be called...
     func moveEvent(code: String) {
         switch code{
             case "entering appartement":
+                print("Entering appartement event")
                 print("Turning on previously closed consuming nodes...")
                 turnOnClosedSwitches()
-                print("call func 1")
+                
             case "leaving appartement":
+                print("Leaving appartement event")
                 print("Turning off consuming nodes...")
                 turnOffConsumingSwitches()
-                //saveEnergy()
+
             case "entering bedroom":
-                //Function for checking if oven is opperating or if any "spis plattor" is active.
-                print("call func 3")
+                print("Entering bedroom event")
+                print("CheckOven called.")
+                checkOven()
+
             case "leaving bedroom":
-                print("call func 4") //Currently not used
+                print("Leaving bedroom event")
+
             case "entering kitchen":
-                print("call func 5")
+                print("Entering kitchen event")
+                
             case "leaving kitchen":
-                print("call func 6") //Currently not used
+                print("Leaving kitchen event")
             default:
                 print("I feel a disturbance in the force, event: [\(code)] was called.")
         }
         
     }
-    private func turnOnNodes(id : [Int]) -> Bool{return true}
-    private func turnOffNodes(id : [Int]) -> Bool{return true}
-    private func checkEnergyConsumption() -> [Int]?{return [0]}
     
+    private func registerObserver(obs : FibaroObserver){
+        observers.append(obs)
+    }
     
-    
-    
-    
-    
+    private func notifyObservers(msg : [String : Any]){
+        for obs in observers{
+            obs.fibNotification(msg)
+        }
+    }
+}
+
+
+
+
+protocol FibaroObserver{
+    func fibNotification(_ msg : [String : Any]) -> Void
 }

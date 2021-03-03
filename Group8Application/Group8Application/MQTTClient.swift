@@ -8,8 +8,6 @@
 import Foundation
 import CocoaMQTT
 
-//TODO: Need to subscribe to specific tag, so that we do not get multiple readings.
-
 
 class MQTTClient{
     
@@ -20,6 +18,7 @@ class MQTTClient{
     var clientID: String
     var pos: [Int]!
     var location,settings: [Bool]!
+    //bajs
 
     
     init(_ host: String, _ port: UInt16, _ clientID: String){
