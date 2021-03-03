@@ -7,7 +7,7 @@ import WatchKit
 import Foundation
 import HealthKit
 
-class InterfaceController: WKHost, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+/*class InterfaceController: WKHost, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
 
     @IBOutlet var startStopButton: WKInterfaceButton!
     @IBOutlet var deviceLabel: WKInterfaceLabel!
@@ -140,3 +140,4 @@ class InterfaceController: WKHost, HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
     }
 }
 
+*/

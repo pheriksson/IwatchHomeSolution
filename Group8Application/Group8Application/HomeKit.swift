@@ -17,6 +17,7 @@ class Fibaro: MQTTObserver{
     private var encoding : String?
     private var url_base : String?
     private var nodeList : [nodeInfo] = [nodeInfo]()
+    private var saveEnergyNodes: [Int]?
     
     struct Post: Codable , Identifiable{
         let id = UUID()
@@ -163,10 +164,9 @@ class Fibaro: MQTTObserver{
     }
     
     
-    func test(){
-        
-        
+    func refresh(){
         //let request = setupGetRequest(task: "devices?id=30")
+        
         let request = setupGetRequest(task: "devices/")
         
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
@@ -176,10 +176,63 @@ class Fibaro: MQTTObserver{
                     var name = ""
                     var type = ""
                     var value = false
+                    if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data, options: []) as? NSArray {
+                
+                        print(convertedJsonIntoDict[0])
+                        /*for basenode in convertedJsonIntoDict
+                        {
+                            print(basenode)
+                            /*
+                            for node in basenode as! NSDictionary{
+                                if node.key as? String == "id"
+                                {
+                                    nodeID = node.value as! Int
+                                }
+                                if node.key as? String == "name"
+                                {
+                                    name = node.value as! String
+                                }
+                                
+                                if node.key as? String == "view"{
+                                    
+                                    
+                                    
+                                    // properties is of type Any Class, we need to downgrade it to Dictionary.
+                                    var viewArray: NSArray
+                                    viewArray = node.value as! NSArray
+                                    for keys in viewArray[0] as! NSDictionary
+                                    {
+                                        if keys.key as! String == "name"
+                                        {
+                                            type = keys.value as! String
+                                        }
+                                    }
+                                }
+                                
+                                
+                                if node.key as? String == "properties"{
+                                    // properties is of type Any Class, we need to downgrade it to Dictionary.
+                                    var propertiesDict: NSDictionary
+                                    propertiesDict = node.value as! NSDictionary
+                                    for attribute in propertiesDict{
+                                        let obj = attribute.key as? String
+                                        if obj == "value" {
+                                            value = attribute.value as! Bool
+                                        }
+                                    }
+                                }
+                            }
+                        */}*/
+                        let listEntry = nodeInfo(nodeID:nodeID, name:name, type:type, value:value)
+                        print(listEntry)
+                        self.nodeList.append(listEntry)
+                        print(self.nodeList)
+                    }
+                
                     if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary {
                         
                         
-                        //print(type(of: convertedJsonIntoDict))
+                        print(convertedJsonIntoDict)
                         for node in convertedJsonIntoDict{
                             if node.key as? String == "id"
                             {
@@ -221,8 +274,8 @@ class Fibaro: MQTTObserver{
                         }
                         let listEntry = nodeInfo(nodeID:nodeID, name:name, type:type, value:value)
                         print(listEntry)
-                        //nodeList.append(listEntry)
-                              
+                        self.nodeList.append(listEntry)
+                        print(self.nodeList)
                     }
                 }
                      catch let error as NSError {

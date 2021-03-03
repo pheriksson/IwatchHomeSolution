@@ -9,21 +9,95 @@ import Foundation
 import HealthKit
 
 class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+    
+    
+    
+    
+    var healthStore: HKHealthStore?
+    // Our workout session
+    var session: HKWorkoutSession?
+    // Live workout builder
+    var builder: HKLiveWorkoutBuilder?
+    // Tracking our workout state
+    var workingOut = false
+    //let heartRate = HR()
+//    let contentView = ContentView().environmentObject(heartRate)
+    
+    
+    
+    override init() {
+       //heartRate = "0"
+        super.init()
+        if (HKHealthStore.isHealthDataAvailable()) {
+            healthStore = HKHealthStore()
+            
+            //Workout
+            let configuration = HKWorkoutConfiguration()
+            configuration.activityType = .running
+            configuration.locationType = .outdoor
+                    
+            guard let healthStore = healthStore else { return }
+                    
+                    
+            do {
+                session = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
+                builder = session?.associatedWorkoutBuilder()
+            } catch {
+                // Handle failure here.
+                return
+            }
+            guard let session = session else { return }
+            guard let builder = builder else { return }
+                    
+            builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
+                    
+            session.delegate = self
+            builder.delegate = self
+        }
+    }
+    
+    func requestAuthorization(completion:@escaping (Bool) ->Void) {
+            
+            // Readable/Writable data
+    
+            let typesToShare = Set([HKQuantityType.workoutType()])
+            
+            //Quantities to read from HealthStore
+            let typesToRead = Set([
+                HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+                HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
+                HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
+            ])
+            
+            //unwrapping healthStore i.e checking if healthstore has been initiated and not nil
+            guard let healthStore = self.healthStore else { return completion(false)}
+            
+            
+            healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+                completion(success)
+            }
+    }
+    
+    func startWokrout() {
+        guard let session = session else { return }
+        guard let builder = builder else { return }
+        session.startActivity(with: Date())
+        builder.beginCollection(withStart: Date()){ (success, error) in
+            guard success else {
+                print("begin collection crashed")
+                return
+            }
+            print("Session and builder started")
+        }
+    }
+    
+    // Event functions
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         print("[workoutSession] Changed State: \(toState.rawValue)")
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
         print("[workoutSession] Encountered an error: \(error)")
-    }
-    
-    var HStore: HKHealthStore?
-    
-    override init() {
-        super.init()
-        if (HKHealthStore.isHealthDataAvailable()) {
-            HStore = HKHealthStore()
-        }
     }
     
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
@@ -37,33 +111,19 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 let value = statistics!.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let stringValue = String(Int(Double(round(1 * value!) / 1)))
-                //bpmLabel.setText(stringValue)
                 print("[workoutBuilder] Heart Rate: \(stringValue)")
+                //self.heartRate = stringValue
+                //print(self.heartRate)
             default:
                 return
             }
         }
     }
     
+    
     func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
         // Retreive the workout event.
         guard let workoutEventType = workoutBuilder.workoutEvents.last?.type else { return }
         print("[workoutBuilderDidCollectEvent] Workout Builder changed event: \(workoutEventType.rawValue)")
-    }
-    
-    func requestAuthorization(completion:@escaping (Bool) ->Void) {
-        
-        // Readable/Writable data
-        let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!])
-    
-        
-        
-        //unwrapping healthStore i.e checking if healthstore has been initiated and not nil
-        guard let HStore = self.HStore else { return completion(false)}
-        
-        
-        HStore.requestAuthorization(toShare: allTypes, read: allTypes) { (success, error) in
-            completion(success)
-        }
     }
 }
