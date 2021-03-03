@@ -27,6 +27,7 @@
 		7661C5AF25C3442200359328 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7661C5AE25C3442200359328 /* NetworkExtension.framework */; };
 		7661C5B625C34A3800359328 /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7661C5B525C34A3800359328 /* HealthStore.swift */; };
 		90E943CA2BA3BCFC0E28B5C6 /* Pods_Group8Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53AE03911DDB80EE7BEAE2F /* Pods_Group8Application.framework */; };
+		9403FCB625ED564500E39BD9 /* testInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403FCB525ED564500E39BD9 /* testInterface.swift */; };
 		9420480A25E3E20800A525BB /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9420480925E3E20800A525BB /* HealthView.swift */; };
 		9420480F25E3E7F300A525BB /* FibaroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9420480E25E3E7F300A525BB /* FibaroView.swift */; };
 		9420481C25E3E8BF00A525BB /* ZWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9420481B25E3E8BF00A525BB /* ZWaveView.swift */; };
@@ -114,6 +115,7 @@
 		7661C5AE25C3442200359328 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/NetworkExtension.framework; sourceTree = DEVELOPER_DIR; };
 		7661C5B525C34A3800359328 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		81CCDFAF81AE9D1D1E4F536A /* Pods-Group8Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Group8Application.release.xcconfig"; path = "Target Support Files/Pods-Group8Application/Pods-Group8Application.release.xcconfig"; sourceTree = "<group>"; };
+		9403FCB525ED564500E39BD9 /* testInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testInterface.swift; sourceTree = "<group>"; };
 		9420480925E3E20800A525BB /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
 		9420480E25E3E7F300A525BB /* FibaroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FibaroView.swift; sourceTree = "<group>"; };
 		9420481B25E3E8BF00A525BB /* ZWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWaveView.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				7661C58925C342C500359328 /* Info.plist */,
 				7661C58A25C342C500359328 /* PushNotificationPayload.apns */,
 				7661C58625C342C500359328 /* Preview Content */,
+				9403FCB525ED564500E39BD9 /* testInterface.swift */,
 			);
 			path = "Group8Application WatchKit Extension";
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				9420480A25E3E20800A525BB /* HealthView.swift in Sources */,
 				7661C57F25C342C500359328 /* NotificationController.swift in Sources */,
 				9420481C25E3E8BF00A525BB /* ZWaveView.swift in Sources */,
+				9403FCB625ED564500E39BD9 /* testInterface.swift in Sources */,
 				9420480F25E3E7F300A525BB /* FibaroView.swift in Sources */,
 				9420482125E3F92E00A525BB /* HealthStoreWatch.swift in Sources */,
 				7661C57D25C342C500359328 /* ContentView.swift in Sources */,

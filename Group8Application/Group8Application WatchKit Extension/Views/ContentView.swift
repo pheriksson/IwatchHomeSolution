@@ -13,9 +13,11 @@ import HealthKit
 struct ContentView: View {
     
     var store: HealthStoreWatch?
+    //var workout: InterfaceController?
     
     init() {
         store = HealthStoreWatch()
+      //  workout = InterfaceController()
     }
     
     var body: some View {
@@ -24,7 +26,7 @@ struct ContentView: View {
             Text("Group-8 App").padding()
             
             NavigationLink(
-                destination: HealthView(),
+                destination: HealthView(store:store!),
                 label: {
                     HStack {
                         Text("Health App")
@@ -53,6 +55,7 @@ struct ContentView: View {
                 store.requestAuthorization { success in
                     if success {
                        print("We made it")
+                    //    workout?.didAppear()
                     }
                 }
             }
