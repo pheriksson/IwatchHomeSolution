@@ -17,7 +17,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver{
     //var hue : PhilipHue?
 
 
-    override init(fib : Fibaro){
+    init(fib : Fibaro){
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
@@ -26,13 +26,14 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver{
             self.fibaro = fib
             //self.hue = philHue
         }
+        
 
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
 
         if let fibaroReq = message["FIBARO"]{
-            self.fibaro!.recMsgFromWatch(fibaroReq as Int)
+            self.fibaro!.recMsgFromWatch(code: fibaroReq as! Int)
         }
         if let hueReq = message["HUE"]{
             //hue req recieved.
@@ -48,8 +49,8 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver{
     }
 
     //Send msg to watch for processing.
-    func send(message : [String : Any]){
-        if !(session.isReachable()){
+    func send(_ message : [String : Any]){
+        if !(session.isReachable){
             return
         }
         session.sendMessage(message, replyHandler: nil, errorHandler: {
@@ -58,12 +59,12 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver{
         })
     }
 
-    private func fibNotification(_ msg :[String : Any]){
-        print("Fibaro response recieved with the msg \(msg["NOTIFICATION"] as String).")
+    internal func fibNotification(_ msg :[String : Any]){
+        print("Fibaro response recieved with the msg \(msg["NOTIFICATION"] as! String).")
         print("Sending said msg to watch for processing.")
         //Dispatch queue to wake phone up if in background state.
         DispatchQueue.main.async{
-            session.send(msg)
+            self.send(msg)
         }
     }
     
