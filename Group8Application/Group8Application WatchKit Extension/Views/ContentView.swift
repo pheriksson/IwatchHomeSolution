@@ -16,6 +16,13 @@ struct ContentView: View {
     
     init() {
         store = HealthStoreWatch()
+        store!.requestAuthorization(){ success in
+            if success {
+                print("Authorazation was sucessfully completed")
+            }
+        }
+        store!.startWokrout()
+        
     }
     
     var body: some View {
@@ -45,20 +52,6 @@ struct ContentView: View {
                     Text("Z-wave")
                     Image(systemName: "zzz")
             })
-        }
-        
-        .onAppear{
-            if let store = store {
-                print("unwrappat healthStore")
-                store.requestAuthorization { success in
-                    if success {
-                       print("We made it")
-                        store.startWokrout()
-                    //    workout?.didAppear()
-                    }
-                }
-            }
-
         }
     }
 }

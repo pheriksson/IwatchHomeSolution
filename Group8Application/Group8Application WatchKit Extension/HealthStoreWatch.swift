@@ -20,13 +20,12 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
     var builder: HKLiveWorkoutBuilder?
     // Tracking our workout state
     var workingOut = false
-    //let heartRate = HR()
-//    let contentView = ContentView().environmentObject(heartRate)
-    
+    // Var that holds current heartRate
+    var heartRate : String
     
     
     override init() {
-       //heartRate = "0"
+       heartRate = "0"
         super.init()
         if (HKHealthStore.isHealthDataAvailable()) {
             healthStore = HKHealthStore()
@@ -91,6 +90,12 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
         }
     }
     
+    public func getHeartRate() -> Int {
+        return Int(self.heartRate)!
+    }
+    
+    // ---------------------------------------------------------------------------
+    
     // Event functions
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         print("[workoutSession] Changed State: \(toState.rawValue)")
@@ -112,8 +117,7 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 let value = statistics!.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let stringValue = String(Int(Double(round(1 * value!) / 1)))
                 print("[workoutBuilder] Heart Rate: \(stringValue)")
-                //self.heartRate = stringValue
-                //print(self.heartRate)
+                self.heartRate = stringValue
             default:
                 return
             }
