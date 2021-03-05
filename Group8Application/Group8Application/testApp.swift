@@ -35,7 +35,7 @@ struct testApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(healthStore: self.healthStore!, widefind: self.wf!, homekit: self.fibaro!, wcCon: self.WC!)
             //And then pass the initialized state variables to the view.
             //ContentView(fibaro,healthStore)
         }
