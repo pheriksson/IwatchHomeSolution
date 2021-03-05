@@ -34,9 +34,13 @@ class PhoneConnection : NSObject, WCSessionDelegate{
     }
 
 
-    func send(reqType : String, msg : String){
-        let message = [ reqType : msg]
-        session.sendMessage(message, replyHandler: nil, errorHandler: {
+    func send(msg : [String : Any]){
+        if !(session.isReachable){
+            print("bajs")
+            return
+        }
+        
+        session.sendMessage(msg, replyHandler: nil, errorHandler: {
             error in
             print(error.localizedDescription)
         })

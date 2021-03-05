@@ -40,7 +40,7 @@ struct ContentView: View {
             })
                     
             NavigationLink(
-                destination: FibaroView(),
+                destination: FibaroView(phoneCon: self.phoneCon!),
                 label: {
                     Text("Fibaro")
                     Image(systemName: "house")

@@ -23,6 +23,8 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver{
             self.session = WCSession.default
             self.session.delegate = self
             self.session.activate()
+            print("WatchConnect constructor")
+            print(session.activationState)
             self.fibaro = fib
             //self.hue = philHue
         }
@@ -33,7 +35,15 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver{
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
 
         if let fibaroReq = message["FIBARO"]{
-            self.fibaro!.recMsgFromWatch(code: fibaroReq as! Int)
+            //self.fibaro!.recMsgFromWatch(code: fibaroReq as! Int)
+            if message["Toggle"] as! Bool{
+                print("Nu sätter vi på lampan")
+                self.fibaro!.turnOnSwitch(id: message["Node"] as! Int)
+            }
+            else {
+                print("Stänger av lampan")
+                self.fibaro!.turnOffSwitch(id: message["Node"] as! Int)
+            }
         }
         if let hueReq = message["HUE"]{
             //hue req recieved.

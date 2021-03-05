@@ -120,7 +120,7 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 self.heartRate = stringValue
             case HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning):
                 let statistics = workoutBuilder.statistics(for: quantityType)
-                print(workoutBuilder.dataSource?.typesToCollect)
+                //print(workoutBuilder.dataSource?.typesToCollect)
             default:
                 return
             }
