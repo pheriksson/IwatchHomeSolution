@@ -118,6 +118,9 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 let stringValue = String(Int(Double(round(1 * value!) / 1)))
                 print("[workoutBuilder] Heart Rate: \(stringValue)")
                 self.heartRate = stringValue
+            case HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning):
+                let statistics = workoutBuilder.statistics(for: quantityType)
+                print(workoutBuilder.dataSource?.typesToCollect)
             default:
                 return
             }

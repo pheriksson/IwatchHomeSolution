@@ -9,13 +9,15 @@ import SwiftUI
 
 
 struct FibaroView: View {
+    
+    @State var bol = true
+    
     var body: some View {
-        
         NavigationView {
             VStack{
                 HStack{
                     NavigationLink(
-                        destination: Text("Here we add lightswitch view"),
+                        destination: lamp(),
                         label: {
                             Image(systemName: "lightbulb")
                         })
@@ -24,6 +26,8 @@ struct FibaroView: View {
                         label: {
                             Image(systemName: "desktopcomputer")
                         })
+                    
+                    
                 }
             }
         }

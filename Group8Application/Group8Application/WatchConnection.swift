@@ -33,9 +33,6 @@ class WatchConnection : NSObject, WCSessionDelegate{
         if let hueReq = message["HUE"]{
             //hue req recieved.
         }
-        if let robReq = message["ROBOT"]{
-            //robot req recieved.
-        }
 
         if let testMsg = message["MSG"]{
             print("Recieved msg on phone \(testMsg)")

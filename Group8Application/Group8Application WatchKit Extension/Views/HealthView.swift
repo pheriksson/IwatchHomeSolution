@@ -16,7 +16,6 @@ struct HealthView: View {
     
     init(store: HealthStoreWatch?){
         self.store = store
-        updateHR()
     }
     
     var body: some View {
@@ -33,6 +32,9 @@ struct HealthView: View {
                 Text("Change state")
             })
             Text(String(heartRate)).padding()
+        }
+        .onAppear(){
+            updateHR()
         }
     }
     
