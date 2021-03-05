@@ -16,7 +16,7 @@ struct ContentView: View {
     private var wideFind: MQTTClient?
     @State private var steps: [Step] = [Step]()
     
-    init() {
+    init(healthStore) {
         healthStore = HealthStore()
         wideFind = MQTTClient("130.240.74.55",1883,"GRP8-\(String(Int.random(in: 1..<9999)))")
         homeKit = Fibaro("unicorn@ltu.se", "jSCN47bC", "130.240.114.44")

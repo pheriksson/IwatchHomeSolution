@@ -246,7 +246,7 @@ class Fibaro: MQTTObserver{
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
         }
         task.resume()
-
+        
     }
     
     private func checkOven() -> Void{
@@ -323,7 +323,7 @@ class Fibaro: MQTTObserver{
         
     }
     
-    private func registerObserver(obs : FibaroObserver){
+    func registerObserver(obs : FibaroObserver){
         observers.append(obs)
     }
     
