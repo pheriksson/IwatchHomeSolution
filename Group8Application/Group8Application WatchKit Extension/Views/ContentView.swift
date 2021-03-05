@@ -11,18 +11,18 @@ import HealthKit
 
 
 struct ContentView: View {
-    
+    var phoneCon: PhoneConnection?
     var store: HealthStoreWatch?
     
-    init() {
-        store = HealthStoreWatch()
+    init(healthStore : HealthStoreWatch, phoneCon : PhoneConnection) {
+        store = healthStore
+        self.phoneCon = phoneCon
         store!.requestAuthorization(){ success in
             if success {
                 print("Authorazation was sucessfully completed")
             }
         }
         store!.startWokrout()
-        
     }
     
     var body: some View {
@@ -56,10 +56,10 @@ struct ContentView: View {
     }
 }
 
-
+/*
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
-
+*/

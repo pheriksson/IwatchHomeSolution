@@ -9,10 +9,18 @@ import SwiftUI
 
 @main
 struct testApp: App {
+    
+    var phoneCon: PhoneConnection?
+    var healthStore: HealthStoreWatch?
+    
+    init() {
+        self.healthStore = HealthStoreWatch()
+        self.phoneCon = PhoneConnection()
+    }
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
+                ContentView(healthStore: healthStore!, phoneCon: phoneCon!)
             }
         }
         
