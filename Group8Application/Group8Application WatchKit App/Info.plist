@@ -26,7 +26,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>RobinOlofsson.Group8Application</string>
+	<string>Robin.Olofsson.Group8Application</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

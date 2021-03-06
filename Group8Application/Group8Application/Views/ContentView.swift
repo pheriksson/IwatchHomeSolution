@@ -14,12 +14,14 @@ struct ContentView: View {
     private var healthStore: HealthStore?
     private var homeKit: Fibaro?
     private var wideFind: MQTTClient?
+    private var watchConnection: WatchConnection
     @State private var steps: [Step] = [Step]()
     
-    init() {
-        healthStore = HealthStore()
-        wideFind = MQTTClient("130.240.74.55",1883,"GRP8-\(String(Int.random(in: 1..<9999)))")
-        homeKit = Fibaro("unicorn@ltu.se", "jSCN47bC", "130.240.114.44")
+    init(healthStore: HealthStore, widefind: MQTTClient, homekit : Fibaro, wcCon : WatchConnection) {
+        self.healthStore = healthStore
+        self.wideFind = widefind
+        self.homeKit = homekit
+        self.watchConnection = wcCon
     }
     
     private func updateUIFromStatistic(statisticsCollection: HKStatisticsCollection){
@@ -69,16 +71,16 @@ struct ContentView: View {
                 if let HomeKit = homeKit {
                     print("unwrappat homekit")
                     //HomeKit.getBinarySwitches()
-                    HomeKit.turnOnSwitch(id: 198)
+                    //omeKit.turnOnSwitch(id: 198)
                 }
             }
         
     }
 }
-
+/*
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(healthStore: <#HealthStore#>, widefind: <#MQTTClient#>, homekit: <#Fibaro#>, wcCon: <#WatchConnection#>)
     }
-}
+}*/
 

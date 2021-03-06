@@ -700,6 +700,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Group8Application WatchKit Extension/Group8Application WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Group8Application WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = W3354TPG3R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Group8Application WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -707,7 +708,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = Robin.Olofsson.Group8Application.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -725,6 +726,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Group8Application WatchKit Extension/Group8Application WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Group8Application WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = W3354TPG3R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Group8Application WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -732,7 +734,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = Robin.Olofsson.Group8Application.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -754,7 +756,7 @@
 				DEVELOPMENT_TEAM = W3354TPG3R;
 				IBSC_MODULE = Group8Application_WatchKit_Extension;
 				INFOPLIST_FILE = "Group8Application WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = Robin.Olofsson.Group8Application.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -775,7 +777,7 @@
 				DEVELOPMENT_TEAM = W3354TPG3R;
 				IBSC_MODULE = Group8Application_WatchKit_Extension;
 				INFOPLIST_FILE = "Group8Application WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = Robin.Olofsson.Group8Application.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -803,7 +805,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application;
+				PRODUCT_BUNDLE_IDENTIFIER = Robin.Olofsson.Group8Application;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -828,7 +830,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application;
+				PRODUCT_BUNDLE_IDENTIFIER = Robin.Olofsson.Group8Application;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;

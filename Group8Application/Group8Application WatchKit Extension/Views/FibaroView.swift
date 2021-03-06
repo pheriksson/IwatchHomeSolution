@@ -11,13 +11,18 @@ import SwiftUI
 struct FibaroView: View {
     
     @State var bol = true
+    var phoneCon : PhoneConnection?
+    
+    init(phoneCon: PhoneConnection){
+        self.phoneCon = phoneCon
+    }
     
     var body: some View {
         NavigationView {
             VStack{
                 HStack{
                     NavigationLink(
-                        destination: lamp(),
+                        destination: lamp(phoneCon: self.phoneCon!),
                         label: {
                             Image(systemName: "lightbulb")
                         })
@@ -33,9 +38,10 @@ struct FibaroView: View {
         }
     }
 }
-
+/*
 struct FibaroView_Previews: PreviewProvider {
     static var previews: some View {
         FibaroView()
     }
 }
+*/
