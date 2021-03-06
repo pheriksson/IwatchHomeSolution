@@ -60,7 +60,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
             /*
             if message["Toggle"] as! Bool{
                 print("Nu sätter vi på lampan")
-                
+                self.fibaro!.turnOnSwitch(id: message["Node"] as! Int)
             }
             else {
                 print("Stänger av lampan")
