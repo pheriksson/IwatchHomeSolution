@@ -34,27 +34,64 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-
+        
+        //If get request sent from watch -> call that objects recMsgFromWatch!
+        //Else (no data to return to watch) simply call requested function in respective object.
+        
+        
         if let fibaroReq = message["FIBARO"]{
-            //self.fibaro!.recMsgFromWatch(code: fibaroReq as! Int)
+            
+            if let GET = message["GET"]{
+                return self.fibaro!.recMsgFromWatch(code: message["CODE"] as! Int)
+            }
+            //If not get request -> post request, performe some action in the lab.
+            switch message["CODE"] as! Int{
+            case 0:
+                //Code 0 -> turn off "NODE" binarySwitch.
+                return self.fibaro!.turnOffSwitch(id: message["NODE"] as! Int)
+            case 1:
+                //Code 1 -> turn on "NODE" binarySwitch.
+                self.fibaro!.turnOnSwitch(id: message["Node"] as! Int)
+            default :
+                print("No more actions to be taken for fibaro, call your lokal developper noob.")
+            }
+            
+            return
+            /*
             if message["Toggle"] as! Bool{
                 print("Nu sätter vi på lampan")
-                self.fibaro!.turnOnSwitch(id: message["Node"] as! Int)
+                
             }
             else {
                 print("Stänger av lampan")
                 self.fibaro!.turnOffSwitch(id: message["Node"] as! Int)
-            }
+            }*/
         }
+        
         if let hueReq = message["HUE"]{
-            self.hue!.recMsgFromWatch(code: hueReq as! Int)
-        }else{
-            print("Recieved following msg in phone without a handler:")
-            for (key,value) in message{
-                print("Key: \(key) value: \(value)")
+            if let GET = message["GET"]{
+                return self.hue!.recMsgFromWatch(code: message["CODE"] as! Int)
             }
-            
+            //If not get request -> post request, perform some action in the lab.
+            switch message["CODE"] as! Int{
+            case 0:
+                //Code 0 -> turn off "NODE" light.
+                self.hue!.turnOffLight(light : message["NODE"] as! String)
+            case 1:
+                //Code 1 -> turn off "NODE" light.
+                self.hue!.turnOnLight(light : message["NODE"] as! String)
+            default:
+                print("No more actions to be taken for philip hue, call your lokal developper noob.")
+            }
+            return
         }
+        
+        print("Recieved following msg in phone without a handler:")
+        for (key,value) in message{
+           print("Key: \(key) value: \(value)")
+        }
+            
+        
     }
 
     //Send msg to watch for processing.
@@ -96,23 +133,11 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
     
     
     
-    /*private func hueNotification(_ msg : [String:Any]){
-        print("Philips Hue response recieved with the msg \(msg["NOTIFICATION"] as String).")
-        print("Sending said msg to watch for processing.")
-        //Dispatch queue to wake phone up if in background state.
-        DispatchQueue.maina.async{
-            session.send(msg)
-        }
-     }
-     */
-    
-    
-    
     //To be implemented.
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
     func sessionDidBecomeInactive(_ session: WCSession) {}
     func sessionDidDeactivate(_ session: WCSession) {}
 
-
-
 }
+
+

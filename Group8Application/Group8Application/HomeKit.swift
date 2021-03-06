@@ -329,6 +329,10 @@ class Fibaro: MQTTObserver{
     }
     
     private func notifyObservers(msg : [String : Any]){
+        print("Notifying observers of msg from Fibaro:")
+        for (key,value) in msg{
+            print("Key: \(key) value: \(value)")
+        }
         for obs in observers{
             obs.fibNotification(msg)
         }

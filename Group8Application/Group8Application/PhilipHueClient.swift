@@ -128,7 +128,7 @@ class HueClient : MQTTObserver{
         switch code{
         case "entering appartement":
             print("Entering appartement call recieved in philips hue")
-            print("Calling send msg to watch through fibaro for testing since im only pushing philip client")
+            print("Calling send msg to watch through philip hue for testing")
             watchGetLights()
         case "leaving appartement":
             print("Leaving appartement call recieved in philips hue")
