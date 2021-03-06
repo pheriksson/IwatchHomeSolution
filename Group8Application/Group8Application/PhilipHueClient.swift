@@ -36,6 +36,7 @@ class HueClient : MQTTObserver{
         request.httpMethod = "GET"
         return request
     }
+    
     func test() {
         //updateLights()
         //var test = watchGetLights()
@@ -47,7 +48,7 @@ class HueClient : MQTTObserver{
         //turnOffLight(light: "14")
         //turnOffLight(light: "15")
     }
-    //Returns dic of lamp id and light status (0 : off, 1 : on)
+    
     func parseLights(d : Data) -> [String : Int]{
         var lightStatus = [String:Int]()
         if let lights = try! JSONSerialization.jsonObject(with: d, options: []) as? NSDictionary{
@@ -117,7 +118,7 @@ class HueClient : MQTTObserver{
         let task = URLSession.shared.dataTask(with: request){(_, response, _) in
             guard let response = response else{return}
             if let respCode = response as? HTTPURLResponse{
-                print("Task ended with response: \(respCode.statusCode)")
+                print("Task switch light ended with response: \(respCode.statusCode)")
             }
         }
         task.resume()
@@ -145,8 +146,13 @@ class HueClient : MQTTObserver{
         }
     }
     
+    //Get request sent from watch controller, ie send something back.
+    func recMsgFromWatch(code : Int){
+        print("Watch controller wants philip hue to perform task \(code)")
+    }
     
-    private func registerObserver(obs : HueObserver){
+    
+    func registerObserver(obs : HueObserver){
         observers.append(obs)
     }
     

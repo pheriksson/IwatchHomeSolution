@@ -121,7 +121,7 @@ class Fibaro: MQTTObserver{
     //Strange behaviour inc if nodes alrdy existing in saveEnergyNodes.
     //Potentailly many fucking calls.
     private func turnOffConsumingSwitches(){
-        let request = setupGetRequest(task: "devices/?type=com.fibaro.binarySwitch")
+        let request = setupGetRequest(task: "devices?type=com.fibaro.binarySwitch")
         let task = URLSession.shared.dataTask(with: request){(data, response, error) in
             guard let data = data else{return}
             self.saveEnergyNodes = self.binarySwitchesConsumingEnergy(d: data)
@@ -264,10 +264,9 @@ class Fibaro: MQTTObserver{
     }
     
     private func checkOvenParse(_ data : Data) -> Bool{
-        //Will only return a list of one json file, so a bit funky formating, but i cannot be arsed...
         if let oven = try! JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]]{
             for onlyOne in oven{
-                if (onlyOne["W"] as! Int) > 0{
+                if ((onlyOne["W"] as! NSNumber).intValue > 0){
                     return true
                 }
             }
@@ -275,6 +274,8 @@ class Fibaro: MQTTObserver{
         return false
     }
     
+    
+    //Get request sent from watch controller, ie send something back.
     func recMsgFromWatch(code : Int){
         //Setup response msg to watch.
         var watchResponse = [String : Any]()
@@ -295,28 +296,28 @@ class Fibaro: MQTTObserver{
     func moveEvent(code: String) {
         switch code{
             case "entering appartement":
-                print("Entering appartement event")
+                print("Entering appartement event in fibaro")
                 print("Turning on previously closed consuming nodes...")
                 turnOnClosedSwitches()
                 
             case "leaving appartement":
-                print("Leaving appartement event")
+                print("Leaving appartement event in fibaro")
                 print("Turning off consuming nodes...")
                 turnOffConsumingSwitches()
 
             case "entering bedroom":
-                print("Entering bedroom event")
+                print("Entering bedroom event in fibaro")
                 print("CheckOven called.")
                 checkOven()
 
             case "leaving bedroom":
-                print("Leaving bedroom event")
+                print("Leaving bedroom event in fibaro")
 
             case "entering kitchen":
-                print("Entering kitchen event")
+                print("Entering kitchen event in fibaro")
                 
             case "leaving kitchen":
-                print("Leaving kitchen event")
+                print("Leaving kitchen event in fibaro")
             default:
                 print("I feel a disturbance in the force, event: [\(code)] was called.")
         }

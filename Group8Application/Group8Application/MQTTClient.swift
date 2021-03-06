@@ -89,9 +89,11 @@ class MQTTClient{
                     if (pos[0] > -1100){
                         if(pos[1] > 0){
                             location[1] = true
+                            notifyObservers(event: "entering bedroom")
                             return notifyObservers(event: "entering appartement")
                         }
                         location[0] = true
+                        notifyObservers(event: "entering kitchen")
                         return notifyObservers(event: "entering appartement")
                     }
                 default:
@@ -131,7 +133,8 @@ extension MQTTClient: CocoaMQTTDelegate{
            let lowerRange = message.string!.description.range(of: "source") {
                 
                 let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",")
-                print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
+                // FOR TESTING
+                //print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
             
                 
                     pos[0] = Int(msg[2]) ?? 0
@@ -173,8 +176,6 @@ extension MQTTClient: CocoaMQTTDelegate{
 
 
 protocol MQTTObserver{
-    var id: Int {get}
-    
     func moveEvent(code : String)
 
 }

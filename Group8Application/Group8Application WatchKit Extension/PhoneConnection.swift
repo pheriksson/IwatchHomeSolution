@@ -25,11 +25,9 @@ class PhoneConnection : NSObject, WCSessionDelegate{
 
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        if let notificationMsg = message["NOTIFICATION"]{
-            //Notification recieved.
-        }
-        if let testMsg = message["MSG"]{
-            print("Recieved test msg on watch: \(testMsg)")
+        print("Recieved following msg in watch:")
+        for(key,value) in message{
+            print("Key: \(key) value: \(value)")
         }
     }
 
