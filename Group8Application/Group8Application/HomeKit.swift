@@ -154,8 +154,6 @@ class Fibaro: MQTTObserver{
         
         let request = setupGetRequest(task: "devices?type=com.fibaro.binarySwitch")
         
-         
-        
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else {return}
             do {
@@ -225,9 +223,6 @@ class Fibaro: MQTTObserver{
                          print("catch let error")
                          print(error.localizedDescription)
                      }
-            //let str = String(decoding: data, as: UTF8.self)
-            print("kolla här\n\n\n\n\n\n\n\n\n\n\n\n")
-            //print(type(of: str))
         }
         task.resume()
 

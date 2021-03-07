@@ -70,8 +70,8 @@ struct ContentView: View {
                 }
                 if let HomeKit = homeKit {
                     print("unwrappat homekit")
-                    //HomeKit.getBinarySwitches()
-                    //omeKit.turnOnSwitch(id: 198)
+                    HomeKit.getBinarySwitches()
+                    //HomeKit.turnOnSwitch(id: 198)
                 }
             }
         
