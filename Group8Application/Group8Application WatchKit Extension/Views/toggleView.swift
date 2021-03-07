@@ -8,39 +8,47 @@
 import Foundation
 import SwiftUI
 
-
-
 struct ToggleView : View {
-    @State var isChecked: Bool = true
     
+    @State var isChecked: Bool = false
+   
     var phoneCon: PhoneConnection?
+    let name: String?
+    let id : Int?
     
-    init(phoneCon : PhoneConnection){
+    init(phoneCon : PhoneConnection, name : String, id : Int, status : Bool){
         self.phoneCon = phoneCon
+        self.name = name
+        self.id = id
+        self.isChecked = status
     }
     
     var body: some View{
+        
+        Image(systemName: "lightbulb.fill").padding()
         Toggle(isOn: self.$isChecked){
-            Text("Label")
+            Text(name!)
         }
         if(isChecked)
         {
-            Text("\(self.turnOn())")
+            Text("\(self.turnOn(node: self.id!))")
         }
         else{
-            Text("\(self.turnOff())")
+            Text("\(self.turnOff(node: self.id!))")
         }
     }
 
     
-    func turnOn() -> String
+    func turnOn(node : Int) -> String
     {
-        sendMsgToPhone(onOff: 1, node: 198)
+        print(id)
+        sendMsgToPhone(onOff: 1, node: node)
         return ""
     }
-    func turnOff() -> String
+    func turnOff(node : Int) -> String
     {
-        sendMsgToPhone(onOff: 0, node: 198)
+        print(id)
+        sendMsgToPhone(onOff: 0, node: node)
         return ""
     }
     

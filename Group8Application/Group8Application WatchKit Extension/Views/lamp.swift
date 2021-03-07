@@ -9,54 +9,40 @@ import SwiftUI
 
 struct lamp: View {
     
-
+    public struct tempItem: Identifiable{
+        let id = UUID()
+        let nodeID : Int
+        let name : String
+        var status : Bool
+    }
     
-    @State var lampSwitch = false
+    // connection reference
     var phoneCon: PhoneConnection?
+    
+    // nodeList
+    private var tempList: [tempItem] = [
+    tempItem(nodeID: 198, name: "Lampa", status: false),
+    tempItem(nodeID: 193, name: "Natt lampa", status: false)
+    ]
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
     }
-    
-    func sendMsgToPhone(onOff : Int, node : Int){
-        print("kör vi denna func?")
-        guard let phoneCon = phoneCon else {return}
-        
-        var dic = [String : Any]()
-        dic["FIBARO"] = true
-        dic["CODE"] = onOff
-        dic["NODE"] = node
-        
-        phoneCon.send(msg: dic)
-    }
+
     
     var body: some View {
         VStack{
             ScrollView{
-                ForEach(0...2){ index in
+                ForEach(tempList){ tempNode in
                     HStack{
-                        if lampSwitch{
-                            // Send session object to phone to change the value of the obj to true
-                            Image(systemName: "lightbulb.fill").padding()
-                            ToggleView(phoneCon: self.phoneCon!)
-                            
-                            
-                            //sendMsgToPhone(onOff: true, node: 198)
-                        }
-                        else {
-                            Image(systemName: "lightbulb")
-                            //Text("\(self.turnOff())")
-                        }
-                        Toggle(isOn: $lampSwitch) {
-                            //Text("\(self.test())")
-                        }
+                        // Send session object to phone to change the value of the obj to true
+                        ToggleView(phoneCon: self.phoneCon!, name: tempNode.name, id: tempNode.nodeID, status: tempNode.status)
+                        
+                
                     } // HStack end
                 }
             }
         } //Vstack end
-        //.onAppear(){
-        //        sendMsgToPhone(onOff: true, node: 198)
-        //}
     }
     
 /*    func turnOn() -> String
