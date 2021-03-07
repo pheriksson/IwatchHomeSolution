@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/user/Desktop/Workspace/D0020E_GIT/SmartWatch-D0020E/Group8Application/Group8Application/PhilipHueClient.swift">
-   </FileRef>
-   <FileRef
       location = "group:Group8Application.xcodeproj">
    </FileRef>
    <FileRef

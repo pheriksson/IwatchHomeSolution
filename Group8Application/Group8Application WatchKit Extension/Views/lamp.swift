@@ -11,45 +11,64 @@ struct lamp: View {
     
 
     
-    @State var lampSwitch = true
+    @State var lampSwitch = false
     var phoneCon: PhoneConnection?
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
     }
     
-    func sendMsgToPhone(onOff : Bool, node : Int){
-    
+    func sendMsgToPhone(onOff : Int, node : Int){
+        print("kör vi denna func?")
         guard let phoneCon = phoneCon else {return}
         
         var dic = [String : Any]()
         dic["FIBARO"] = true
-        dic["Toggle"] = onOff
-        dic["Node"] = node
+        dic["CODE"] = onOff
+        dic["NODE"] = node
         
         phoneCon.send(msg: dic)
     }
     
     var body: some View {
         VStack{
-            HStack{
-                if lampSwitch{
-                    // Send session object to phone to change the value of the obj to true
-                    Image(systemName: "lightbulb.fill").padding()
-                    //sendMsgToPhone(type: "MSG", msg: "Sätt på lampan")
+            ScrollView{
+                ForEach(0...2){ index in
+                    HStack{
+                        if lampSwitch{
+                            // Send session object to phone to change the value of the obj to true
+                            Image(systemName: "lightbulb.fill").padding()
+                            ToggleView(phoneCon: self.phoneCon!)
+                            
+                            
+                            //sendMsgToPhone(onOff: true, node: 198)
+                        }
+                        else {
+                            Image(systemName: "lightbulb")
+                            //Text("\(self.turnOff())")
+                        }
+                        Toggle(isOn: $lampSwitch) {
+                            //Text("\(self.test())")
+                        }
+                    } // HStack end
                 }
-                else {
-                    Image(systemName: "lightbulb")
-                }
-                Toggle(isOn: $lampSwitch) {
-                    
-                }
-            } // HStack end
+            }
         } //Vstack end
-        .onAppear(){
-                sendMsgToPhone(onOff: true, node: 198)
-        }
+        //.onAppear(){
+        //        sendMsgToPhone(onOff: true, node: 198)
+        //}
     }
+    
+/*    func turnOn() -> String
+    {
+        sendMsgToPhone(onOff: 1, node: 198)
+        return ""
+    }
+    func turnOff() -> String
+    {
+        sendMsgToPhone(onOff: 0, node: 198)
+        return ""
+    }*/
 }
 /*
 struct lamp_Previews: PreviewProvider {

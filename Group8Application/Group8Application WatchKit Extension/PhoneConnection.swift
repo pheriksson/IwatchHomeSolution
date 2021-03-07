@@ -37,7 +37,6 @@ class PhoneConnection : NSObject, WCSessionDelegate{
             print("bajs")
             return
         }
-        
         session.sendMessage(msg, replyHandler: nil, errorHandler: {
             error in
             print(error.localizedDescription)

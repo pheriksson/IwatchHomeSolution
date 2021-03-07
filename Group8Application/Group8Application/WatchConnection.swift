@@ -38,7 +38,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
         //If get request sent from watch -> call that objects recMsgFromWatch!
         //Else (no data to return to watch) simply call requested function in respective object.
         
-        
+        DispatchQueue.main.async {
         if let fibaroReq = message["FIBARO"]{
             
             if let GET = message["GET"]{
@@ -51,12 +51,13 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
                 return self.fibaro!.turnOffSwitch(id: message["NODE"] as! Int)
             case 1:
                 //Code 1 -> turn on "NODE" binarySwitch.
-                self.fibaro!.turnOnSwitch(id: message["Node"] as! Int)
+                self.fibaro!.turnOnSwitch(id: message["NODE"] as! Int)
             default :
                 print("No more actions to be taken for fibaro, call your lokal developper noob.")
             }
             
             return
+            
             /*
             if message["Toggle"] as! Bool{
                 print("Nu sätter vi på lampan")
@@ -91,7 +92,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
            print("Key: \(key) value: \(value)")
         }
             
-        
+    }
     }
 
     //Send msg to watch for processing.

@@ -32,7 +32,7 @@ class Fibaro: MQTTObserver{
         var nodeID: Int
         var name: String
         var type: String
-        var value: Bool
+        @State var value: Bool
     }
     
     var access: HMHomeManager?
@@ -163,10 +163,10 @@ class Fibaro: MQTTObserver{
                     var value = false
                     if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data, options: []) as? NSArray {
                 
-                        print(convertedJsonIntoDict)
+                        //print(convertedJsonIntoDict)
                         for basenode in convertedJsonIntoDict
                         {
-                            print(basenode)
+                            //print(basenode)
                             
                             for node in basenode as! NSDictionary{
                                 if node.key as? String == "id"
@@ -176,6 +176,12 @@ class Fibaro: MQTTObserver{
                                 if node.key as? String == "name"
                                 {
                                     name = node.value as! String
+                                    var checkIfOutlet: String =  node.value as! String
+                                    if checkIfOutlet.contains("vk")
+                                    {
+                                        print("wall outlet")
+                                        break
+                                    }
                                 }
                                 
                                 if node.key as? String == "view"{
@@ -230,10 +236,12 @@ class Fibaro: MQTTObserver{
     
     func turnOnSwitch(id: Int)
     {
-        let request = setupGetRequest(task: "callAction?deviceID=" + String(id) + "&name=turnOn")
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+        DispatchQueue.main.async {
+            let request = self.setupGetRequest(task: "callAction?deviceID=" + String(id) + "&name=turnOn")
+            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
+            }
+            task.resume()
         }
-        task.resume()
     }
     func turnOffSwitch(id: Int)
     {
@@ -241,7 +249,6 @@ class Fibaro: MQTTObserver{
         let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
         }
         task.resume()
-        
     }
     
     private func checkOven() -> Void{
