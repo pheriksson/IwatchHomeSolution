@@ -15,13 +15,15 @@ struct ContentView: View {
     private var homeKit: Fibaro?
     private var wideFind: MQTTClient?
     private var watchConnection: WatchConnection
+    private var hue : HueClient
     @State private var steps: [Step] = [Step]()
     
-    init(healthStore: HealthStore, widefind: MQTTClient, homekit : Fibaro, wcCon : WatchConnection) {
+    init(healthStore: HealthStore, widefind: MQTTClient, homekit : Fibaro, wcCon : WatchConnection, hue : HueClient) {
         self.healthStore = healthStore
         self.wideFind = widefind
         self.homeKit = homekit
         self.watchConnection = wcCon
+        self.hue = hue
     }
     
     private func updateUIFromStatistic(statisticsCollection: HKStatisticsCollection){

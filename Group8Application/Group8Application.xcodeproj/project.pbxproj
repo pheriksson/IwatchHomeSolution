@@ -43,6 +43,7 @@
 		948BD03925D6D78900248E02 /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03825D6D78900248E02 /* HeartRateView.swift */; };
 		A36607CBA5C1A6E27DEBCDCE /* Pods_Group8Application_WatchKit_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE760D1AE854B1E980F009C /* Pods_Group8Application_WatchKit_App.framework */; };
 		CE54DA1725DFEFE800BEE54A /* MQTTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54DA1625DFEFE800BEE54A /* MQTTClient.swift */; };
+		CE5DAE3525F3C4A700E84568 /* PhilipHueClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5DAE3425F3C4A700E84568 /* PhilipHueClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,7 @@
 		948BD03825D6D78900248E02 /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
 		AEE760D1AE854B1E980F009C /* Pods_Group8Application_WatchKit_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Group8Application_WatchKit_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE54DA1625DFEFE800BEE54A /* MQTTClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTClient.swift; sourceTree = "<group>"; };
+		CE5DAE3425F3C4A700E84568 /* PhilipHueClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhilipHueClient.swift; path = "/Users/user/Desktop/Workspace/D0020E_GIT/SmartWatch-D0020E/Group8Application/Group8Application/PhilipHueClient.swift"; sourceTree = "<absolute>"; };
 		D48C18590EA712546AB8A296 /* Pods-Group8Application WatchKit App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Group8Application WatchKit App.debug.xcconfig"; path = "Target Support Files/Pods-Group8Application WatchKit App/Pods-Group8Application WatchKit App.debug.xcconfig"; sourceTree = "<group>"; };
 		E53AE03911DDB80EE7BEAE2F /* Pods_Group8Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Group8Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -196,13 +198,14 @@
 		7661C54625C342C100359328 /* Group8Application */ = {
 			isa = PBXGroup;
 			children = (
-				9403FCCC25F24E9C00E39BD9 /* WatchConnection.swift */,
 				9420482525E3F98B00A525BB /* Views */,
 				7661C54B25C342C400359328 /* Assets.xcassets */,
 				7661C54D25C342C400359328 /* Preview Content */,
 				948BD02425D6B77000248E02 /* Models */,
 				7661C5A325C3435100359328 /* test.entitlements */,
 				7661C54725C342C100359328 /* testApp.swift */,
+				9403FCCC25F24E9C00E39BD9 /* WatchConnection.swift */,
+				CE5DAE3425F3C4A700E84568 /* PhilipHueClient.swift */,
 				7661C5B525C34A3800359328 /* HealthStore.swift */,
 				7661C55025C342C400359328 /* Info.plist */,
 				944A9E6725CD8E1C00B2C554 /* HomeKit.swift */,
@@ -541,6 +544,7 @@
 				9403FCCD25F24E9C00E39BD9 /* WatchConnection.swift in Sources */,
 				7661C5B625C34A3800359328 /* HealthStore.swift in Sources */,
 				CE54DA1725DFEFE800BEE54A /* MQTTClient.swift in Sources */,
+				CE5DAE3525F3C4A700E84568 /* PhilipHueClient.swift in Sources */,
 				948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */,
 				7661C54825C342C100359328 /* testApp.swift in Sources */,
 			);
