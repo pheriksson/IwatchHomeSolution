@@ -34,6 +34,7 @@
 		9420483225E40B2600A525BB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9420483125E40B2600A525BB /* HealthKit.framework */; };
 		9420483425E40B7400A525BB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9420483125E40B2600A525BB /* HealthKit.framework */; };
 		944A9E6825CD8E1C00B2C554 /* HomeKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944A9E6725CD8E1C00B2C554 /* HomeKit.swift */; };
+		945521B325ED1F8B00D8281E /* testInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945521B225ED1F8B00D8281E /* testInterface.swift */; };
 		948BD02625D6B78800248E02 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD02525D6B78800248E02 /* Step.swift */; };
 		948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03125D6BECB00248E02 /* HeartRate.swift */; };
 		948BD03925D6D78900248E02 /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03825D6D78900248E02 /* HeartRateView.swift */; };
@@ -121,6 +122,7 @@
 		9420483125E40B2600A525BB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		9420483325E40B7400A525BB /* Group8Application WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Group8Application WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		944A9E6725CD8E1C00B2C554 /* HomeKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKit.swift; sourceTree = "<group>"; };
+		945521B225ED1F8B00D8281E /* testInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testInterface.swift; sourceTree = "<group>"; };
 		948BD02525D6B78800248E02 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		948BD03125D6BECB00248E02 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		948BD03825D6D78900248E02 /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				7661C58925C342C500359328 /* Info.plist */,
 				7661C58A25C342C500359328 /* PushNotificationPayload.apns */,
 				7661C58625C342C500359328 /* Preview Content */,
+				945521B225ED1F8B00D8281E /* testInterface.swift */,
 			);
 			path = "Group8Application WatchKit Extension";
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9420480A25E3E20800A525BB /* HealthView.swift in Sources */,
+				945521B325ED1F8B00D8281E /* testInterface.swift in Sources */,
 				7661C57F25C342C500359328 /* NotificationController.swift in Sources */,
 				9420481C25E3E8BF00A525BB /* ZWaveView.swift in Sources */,
 				9420480F25E3E7F300A525BB /* FibaroView.swift in Sources */,
@@ -684,6 +688,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Group8Application WatchKit Extension/Group8Application WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Group8Application WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = W3354TPG3R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Group8Application WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -709,6 +714,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Group8Application WatchKit Extension/Group8Application WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Group8Application WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = W3354TPG3R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Group8Application WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -738,7 +744,7 @@
 				DEVELOPMENT_TEAM = W3354TPG3R;
 				IBSC_MODULE = Group8Application_WatchKit_Extension;
 				INFOPLIST_FILE = "Group8Application WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.WatchKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -759,7 +765,7 @@
 				DEVELOPMENT_TEAM = W3354TPG3R;
 				IBSC_MODULE = Group8Application_WatchKit_Extension;
 				INFOPLIST_FILE = "Group8Application WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = RobinOlofsson.Group8Application.WatchKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;

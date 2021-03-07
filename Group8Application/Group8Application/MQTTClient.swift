@@ -19,6 +19,8 @@ class MQTTClient{
     var port: UInt16
     var clientID: String
     var pos: [Int]?
+    var location,settings: [Bool]?
+
     
     init(_ host: String, _ port: UInt16, _ clientID: String){
         //Saving address incase of disconnects.
@@ -29,6 +31,8 @@ class MQTTClient{
         self.con.keepAlive = 60
         self.observers = [MQTTObserver]()
         self.pos = [0,0,0]
+        self.location = [false,false] //Uggly as fuck but will do the jobb, l[0] kitchen, l[1] bedroom
+        self.settings = [false,false,false,false]
         self.con.delegate = self
         self.con.connect()
         
@@ -37,23 +41,66 @@ class MQTTClient{
     }
     
     func get_post() -> [Int]{
-        return self.pos!
+        return pos!
     }
     
     //TODO: Find a way to check if observers are alrdy in observers, duplicate observers will suck.
-    func registerObserver(obs : MQTTObserver){
+    func registerObserver(obs : MQTTObserver) -> Void{
         if var arr = observers {
             arr.append(obs)
         }
     }
-    
-    //Notify all observers of specific event,
-    func notifyObservers(event : String ){
+
+    func notifyObservers(event : String ) -> Void{
         if let arr = observers{
             for obs in arr{
                 obs.moveEvent(code: event)
             }
         }
+    }
+    
+    //TODO: Check for settings -> if user wants the desired functionality.
+    func checkState() -> Void{
+        if var loc = location, let pos = pos{
+            switch (loc[0],loc[1]){
+                case (true,false):
+                    //Currently in kitchen
+                    if (pos[0] < -1000){
+                        //Leaving appartement
+                        loc[0] = false
+                        return notifyObservers(event: "leaving appartement")
+                    }
+                    if (pos[1] > 0){
+                        //Entering bedroom from kitchen
+                        loc[0] = false; loc[1] = true
+                        return notifyObservers(event: "entering bedroom")
+                    }
+                case (false,true):
+                    //Currently in bedroom
+                    if(pos[0] < -1000){
+                        //Leaving appartement
+                        loc[1] = false
+                        return notifyObservers(event: "leaving appartement")
+                    }
+                    if(pos[1] < 0){
+                        //Entering kitchen from bedroom
+                        loc[0] = true; loc[1] = false
+                        return notifyObservers(event: "entering kitchen")
+                    }
+                case (false,false):
+                    if (pos[0] > -1100){
+                        if(pos[1] > 0){
+                            loc[1] = true
+                        }
+                        loc[0] = true
+                        return notifyObservers(event: "entering appartement")
+                    }
+                default:
+                    print("somethings fucky, again... currently in kitchen and in beedrom at the same time??")
+        }
+        
+        }
+        
     }
     
     
@@ -64,7 +111,7 @@ class MQTTClient{
 extension MQTTClient: CocoaMQTTDelegate{
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topics: [String]) {
         for topic in topics{
-            print(topic)
+            print("Subscribed too : \(topic)")
         }
     }
     
@@ -74,32 +121,30 @@ extension MQTTClient: CocoaMQTTDelegate{
             mqtt.subscribe("#", qos: CocoaMQTTQOS.qos0)
             return
         }
+        //Raise error in the future.
         print("Failed to establish connection...")
      }
      
 
      
      func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
-        if let upperRange = message.string!.description.range(of: "REPORT:"){
-            if let lowerRange = message.string!.description.range(of: "source"){
-                let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",");
-                //msg[2,3,4] = x,y,z
-                self.pos![0] = Int(msg[2]) ?? 0
-                self.pos![1] = Int(msg[3]) ?? 0
-                self.pos![2] = Int(msg[4]) ?? 0
+        if let upperRange = message.string!.description.range(of: "REPORT:"),
+           let lowerRange = message.string!.description.range(of: "source") {
                 
-                //Todo, check state -> call observers depending on state change
-                
-                //print("x: \(self.pos![0]) y: \(self.pos![0]) z: \(self.pos![0])")
-                //if self.pos![0] < 2000{
-                //    self.notifyObservers(event: "CALL FROM WIDEFIND THAT X < 2000")
-                //}
-                
-                
-            }
+                let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",")
+                if var position = pos{
+                    position[0] = Int(msg[2]) ?? 0
+                    position[1] = Int(msg[3]) ?? 0
+                    position[2] = Int(msg[4]) ?? 0
+                    
+                    self.checkState()
+                }
         }
      }
      
+    
+    
+    
      func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopics success: NSDictionary, failed: [String]) {
         print("subscribed: \(success), failed: \(failed)")
      }
@@ -128,7 +173,8 @@ extension MQTTClient: CocoaMQTTDelegate{
 
 
 protocol MQTTObserver{
-    let id: Int {get}
-    //When certain location is registered, call move event.
+    var id: Int {get}
+    
     func moveEvent(code : String)
+
 }
