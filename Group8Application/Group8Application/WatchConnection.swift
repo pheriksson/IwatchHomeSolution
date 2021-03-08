@@ -39,12 +39,14 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
         //Else (no data to return to watch) simply call requested function in respective object.
         
         DispatchQueue.main.async {
+            //print(message["CODE"])
         if let fibaroReq = message["FIBARO"]{
             
             if let GET = message["GET"]{
                 return self.fibaro!.recMsgFromWatch(code: message["CODE"] as! Int)
             }
             //If not get request -> post request, performe some action in the lab.
+            
             switch message["CODE"] as! Int{
             case 0:
                 //Code 0 -> turn off "NODE" binarySwitch.
@@ -52,6 +54,16 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
             case 1:
                 //Code 1 -> turn on "NODE" binarySwitch.
                 self.fibaro!.turnOnSwitch(id: message["NODE"] as! Int)
+            case 2:
+                //Code 2 -> retrive all outlets in the network.
+                print("Vi är i watchConnection för att hämta listan")
+                var list = [String: Any]()
+                list["FIBARO"] = true
+                list["CODE"] = 1
+                list["BODY"] = self.fibaro!.watchGetOutlets()
+                
+                //print("Vi är tillbacka i Watch connection")
+                //self.send(list)
             default :
                 print("No more actions to be taken for fibaro, call your lokal developper noob.")
             }
@@ -96,7 +108,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
     }
 
     //Send msg to watch for processing.
-    func send(_ message : [String : Any]){
+    func send(message : [String : Any]){
         if !(session.isReachable){
             return
         }
@@ -108,14 +120,15 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
 
     internal func fibNotification(_ msg :[String : Any]){
         print("Fib response recieved with the msg:")
-        for(key,value) in msg{
+        /*for(key,value) in msg{
             print("Key: \(key), value: \(value)")
-        }
-        /*
+        }*/
+        
         DispatchQueue.main.async{
-            self.send(msg)
+            print("skicka till send")
+            self.send(message: msg)
         }
-        */
+        
     }
     
     func hueNotification(_ msg: [String : Any]) {
@@ -126,9 +139,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
         /*
          DispatchQueue.main.async{
          self.send(msg)
-         }
-         
-         */
+         }*/
     }
     
     

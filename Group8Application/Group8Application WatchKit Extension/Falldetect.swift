@@ -6,3 +6,19 @@
 //
 
 import Foundation
+import CoreMotion
+import HealthKit
+
+/*class CMFallDetectionManager : NSObject , CMFallDetectionDelegate {
+    
+    /*if CMFallDetectionManager.isAvailable {
+        let manager = CMFallDetectionManager
+        manager.delegate = myDelegate
+        myManager = manager
+    }
+    func fallDetectionManager(_fallDetectionManager: CMFallDetectionManager,
+                              didDetect event: CMFallDetectionEvent,
+                              comppletionHandler handler: @escaping () -> Void) {
+
+    }*/
+}*/

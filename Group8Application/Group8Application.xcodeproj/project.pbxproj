@@ -43,6 +43,7 @@
 		948BD02625D6B78800248E02 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD02525D6B78800248E02 /* Step.swift */; };
 		948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03125D6BECB00248E02 /* HeartRate.swift */; };
 		948BD03925D6D78900248E02 /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03825D6D78900248E02 /* HeartRateView.swift */; };
+		94EC6D3325F63E6C005BE490 /* Falldetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EC6D3225F63E6C005BE490 /* Falldetect.swift */; };
 		A36607CBA5C1A6E27DEBCDCE /* Pods_Group8Application_WatchKit_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE760D1AE854B1E980F009C /* Pods_Group8Application_WatchKit_App.framework */; };
 		CE54DA1725DFEFE800BEE54A /* MQTTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE54DA1625DFEFE800BEE54A /* MQTTClient.swift */; };
 /* End PBXBuildFile section */
@@ -136,6 +137,7 @@
 		948BD02525D6B78800248E02 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		948BD03125D6BECB00248E02 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		948BD03825D6D78900248E02 /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
+		94EC6D3225F63E6C005BE490 /* Falldetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Falldetect.swift; sourceTree = "<group>"; };
 		AEE760D1AE854B1E980F009C /* Pods_Group8Application_WatchKit_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Group8Application_WatchKit_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE54DA1625DFEFE800BEE54A /* MQTTClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTClient.swift; sourceTree = "<group>"; };
 		D48C18590EA712546AB8A296 /* Pods-Group8Application WatchKit App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Group8Application WatchKit App.debug.xcconfig"; path = "Target Support Files/Pods-Group8Application WatchKit App/Pods-Group8Application WatchKit App.debug.xcconfig"; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				7661C58A25C342C500359328 /* PushNotificationPayload.apns */,
 				7661C58625C342C500359328 /* Preview Content */,
 				9403FCB525ED564500E39BD9 /* testInterface.swift */,
+				94EC6D3225F63E6C005BE490 /* Falldetect.swift */,
 			);
 			path = "Group8Application WatchKit Extension";
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				7661C58325C342C500359328 /* ComplicationController.swift in Sources */,
 				7661C57B25C342C500359328 /* testApp.swift in Sources */,
 				9403FCC325F2453000E39BD9 /* lamp.swift in Sources */,
+				94EC6D3325F63E6C005BE490 /* Falldetect.swift in Sources */,
 				941A154B25F5083D001A6D1C /* toggleView.swift in Sources */,
 				7661C58125C342C500359328 /* NotificationView.swift in Sources */,
 			);

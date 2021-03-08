@@ -118,16 +118,16 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 let value = statistics!.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let stringValue = String(Int(Double(round(1 * value!) / 1)))
-                print("[workoutBuilder] Heart Rate: \(stringValue)")
+                //print("[workoutBuilder] Heart Rate: \(stringValue)")
                 self.heartRate = stringValue
             case HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning):
                 let statistics = workoutBuilder.statistics(for: quantityType)
                 let distanceUnit = HKUnit.meter()
                 let valueRun = statistics!.mostRecentQuantity()?.doubleValue(for: distanceUnit)
                 let stringValue = String(Int(Double(round(1 * valueRun!) / 1)))
-                print("[workoutBuilder] Distance walked: \(stringValue)")
+                //print("[workoutBuilder] Distance walked: \(stringValue)")
                 self.distanceWalked += Int(stringValue)!
-                print(workoutBuilder.dataSource?.typesToCollect)
+               // print(workoutBuilder.dataSource?.typesToCollect)
             default:
                 return
             }
@@ -141,3 +141,4 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
         print("[workoutBuilderDidCollectEvent] Workout Builder changed event: \(workoutEventType.rawValue)")
     }
 }
+

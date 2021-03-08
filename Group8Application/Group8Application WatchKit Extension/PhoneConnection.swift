@@ -12,7 +12,8 @@ import WatchConnectivity
 class PhoneConnection : NSObject, WCSessionDelegate{
     
     var session : WCSession!
-
+    var view : lamp?
+    
     override init(){
         super.init()
         if WCSession.isSupported(){
@@ -26,8 +27,14 @@ class PhoneConnection : NSObject, WCSessionDelegate{
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         print("Recieved following msg in watch:")
-        for(key,value) in message{
+        //self.view = self.view?.getLampView()
+        /*for(key,value) in message{
             print("Key: \(key) value: \(value)")
+        }*/
+        if let fibaroReq = message["FIBARO"] {
+            print("HEJ")
+            //self.view!.updateList(list: message["BODY"] as! [Dictionary<String,Any>])
+            
         }
     }
 
@@ -37,6 +44,7 @@ class PhoneConnection : NSObject, WCSessionDelegate{
             print("bajs")
             return
         }
+        
         session.sendMessage(msg, replyHandler: nil, errorHandler: {
             error in
             print(error.localizedDescription)

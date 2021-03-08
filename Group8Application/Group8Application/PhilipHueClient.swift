@@ -71,7 +71,7 @@ class HueClient : MQTTObserver{
         self.updateLightsHelper(completion:{ [weak self] result -> Void in
             switch result{
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             case .success(var lights):
                 //Update state of lights, awkward casting .... improve might be to change light status to String : Any ....
                 self?.lights = lights
