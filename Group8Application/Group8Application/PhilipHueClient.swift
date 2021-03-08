@@ -10,6 +10,7 @@ import Foundation
 enum hueError : Error{
     case noDataAvailable
     case cannotProccessData
+    case codeNotSupported
 }
 
 //Change Homekit devices query.
@@ -149,6 +150,23 @@ class HueClient : MQTTObserver{
     //Get request sent from watch controller, ie send something back.
     func recMsgFromWatch(code : Int){
         print("Watch controller wants philip hue to perform task \(code)")
+        switch code{
+        case 0:
+            print("Case 0: Return list of all lights to watchConnection handler")
+            watchGetLights()
+        case 0:
+            print("Case 0")
+        case 0:
+            print("Case 0")
+        case 0:
+            print("Case 0")
+        default:
+            print("Recieved \(code) from watch - not supported")
+            //throw hueError.codeNotSupported
+        
+        
+        
+        }
     }
     
     
