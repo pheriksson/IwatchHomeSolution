@@ -15,8 +15,9 @@ struct ContentView: View {
     var store: HealthStoreWatch?
     
     init(healthStore : HealthStoreWatch, phoneCon : PhoneConnection) {
-        store = healthStore
+        self.store = healthStore
         self.phoneCon = phoneCon
+        //Move to init.
         store!.requestAuthorization(){ success in
             if success {
                 print("Authorazation was sucessfully completed")
@@ -53,7 +54,11 @@ struct ContentView: View {
                     Image(systemName: "lightbulb.fill")
             })
         }
+    
+        
+        
     }
+    
 }
 
 /*

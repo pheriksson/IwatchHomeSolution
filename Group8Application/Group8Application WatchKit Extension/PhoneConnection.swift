@@ -9,19 +9,28 @@ import Foundation
 import WatchConnectivity
 
 
+
 class PhoneConnection : NSObject, WCSessionDelegate{
     
     var session : WCSession!
+    var notCreator : NotificationCreator!
 
-    override init(){
+    init(notification : NotificationCreator){
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
             self.session.delegate = self
             self.session.activate()
+            self.notCreator = notification
         }
     }
-
+    //Used for sending notifications recieved from phone.
+    func sendLocalNotification(_ title: String = "Grp8Application",_ subtitle: String = "Warning", body: String){
+        if let notificationCreater = self.notCreator{
+            notificationCreater.createNotification(title: title, subtitle: subtitle, body: body, badge: 0)
+            //Change badge to increament
+        }
+    }
 
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
