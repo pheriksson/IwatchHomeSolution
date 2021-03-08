@@ -243,11 +243,8 @@
 				7661C58225C342C500359328 /* ComplicationController.swift */,
 				CECA827C25F64BDD00944BEE /* NotificationCreator.swift */,
 				7661C58625C342C500359328 /* Preview Content */,
-<<<<<<< HEAD
 				9403FCB525ED564500E39BD9 /* testInterface.swift */,
 				94EC6D3225F63E6C005BE490 /* Falldetect.swift */,
-=======
->>>>>>> 2f9f824652c7c272d626e3e4014291fdd3120359
 			);
 			path = "Group8Application WatchKit Extension";
 			sourceTree = "<group>";
