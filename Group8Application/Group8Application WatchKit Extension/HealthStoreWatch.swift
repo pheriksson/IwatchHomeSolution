@@ -22,10 +22,12 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
     var workingOut = false
     // Var that holds current heartRate
     var heartRate : String
+    var distanceWalked : Int
     
     
     override init() {
-       heartRate = "0"
+        heartRate = "0"
+        distanceWalked = 0
         super.init()
         if (HKHealthStore.isHealthDataAvailable()) {
             healthStore = HKHealthStore()
@@ -120,7 +122,12 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 self.heartRate = stringValue
             case HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning):
                 let statistics = workoutBuilder.statistics(for: quantityType)
-                //print(workoutBuilder.dataSource?.typesToCollect)
+                let distanceUnit = HKUnit.meter()
+                let valueRun = statistics!.mostRecentQuantity()?.doubleValue(for: distanceUnit)
+                let stringValue = String(Int(Double(round(1 * valueRun!) / 1)))
+                print("[workoutBuilder] Distance walked: \(stringValue)")
+                self.distanceWalked += Int(stringValue)!
+                print(workoutBuilder.dataSource?.typesToCollect)
             default:
                 return
             }

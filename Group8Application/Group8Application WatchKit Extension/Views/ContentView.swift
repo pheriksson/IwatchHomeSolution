@@ -49,8 +49,8 @@ struct ContentView: View {
             NavigationLink(
                 destination: ZWaveView(),
                 label: {
-                    Text("Z-wave")
-                    Image(systemName: "zzz")
+                    Text("PhilipHue")
+                    Image(systemName: "lightbulb.fill")
             })
         }
     }

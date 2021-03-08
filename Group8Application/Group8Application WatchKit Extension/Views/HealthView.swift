@@ -10,6 +10,7 @@ import SwiftUI
 struct HealthView: View {
     var store: HealthStoreWatch?
     @State private var heartRate: Int = 0
+    @State private var distance: Int = 0
     @State private var heart: Bool = true
     
     init(store: HealthStoreWatch?){
@@ -25,20 +26,25 @@ struct HealthView: View {
                 Label(String(heartRate), systemImage: "heart").foregroundColor(.red)
             }
             ProgressView(value: Double(heartRate), total: 200.0).preferredColorScheme(.dark)
+            
+            Label(String(distance), systemImage: "figure.walk").foregroundColor(.green)
+            
+            ProgressView(value: Double(distance), total: 1000.0).preferredColorScheme(.dark)
 
         }
         .onAppear(){
             //Starts the function that updates the current value of State variable
-            updateHR()
+            update()
         }
     }
     
-    func updateHR() {
+    func update() {
         // Update first then create a sync call to delay next update
         self.heartRate = self.store!.getHeartRate()
         self.heart.toggle()
+        self.distance = self.store!.distanceWalked
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+1) {
-            updateHR()
+            update()
         }
     }
 }
