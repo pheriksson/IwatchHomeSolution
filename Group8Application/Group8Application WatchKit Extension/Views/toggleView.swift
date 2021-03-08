@@ -53,7 +53,7 @@ struct ToggleView : View {
     }
     
     func sendMsgToPhone(onOff : Int, node : Int){
-        print("kör vi denna func?")
+        
         guard let phoneCon = phoneCon else {return}
         
         var dic = [String : Any]()
@@ -62,6 +62,7 @@ struct ToggleView : View {
         dic["NODE"] = node
         
         phoneCon.send(msg: dic)
+        print("protocol FIBARO msg was created and sent")
     }
 }
 

@@ -45,16 +45,6 @@ struct lamp: View {
         } //Vstack end
     }
     
-/*    func turnOn() -> String
-    {
-        sendMsgToPhone(onOff: 1, node: 198)
-        return ""
-    }
-    func turnOff() -> String
-    {
-        sendMsgToPhone(onOff: 0, node: 198)
-        return ""
-    }*/
 }
 /*
 struct lamp_Previews: PreviewProvider {
