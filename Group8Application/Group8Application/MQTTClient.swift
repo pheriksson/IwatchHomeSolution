@@ -131,17 +131,21 @@ extension MQTTClient: CocoaMQTTDelegate{
      func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16 ) {
         if let upperRange = message.string!.description.range(of: "REPORT:"),
            let lowerRange = message.string!.description.range(of: "source") {
-                
+
                 let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",")
                 // FOR TESTING
                 //print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
-            
-                
+                //Used for initial condition.
+                if pos[0] == 0 && pos[1] == 0 && pos[2] == 0{
                     pos[0] = Int(msg[2]) ?? 0
                     pos[1] = Int(msg[3]) ?? 0
                     pos[2] = Int(msg[4]) ?? 0
-                    self.checkState()
-                
+                    return
+                }
+                pos[0] = Int(msg[2]) ?? 0
+                pos[1] = Int(msg[3]) ?? 0
+                pos[2] = Int(msg[4]) ?? 0
+                self.checkState()
         }
      }
      
