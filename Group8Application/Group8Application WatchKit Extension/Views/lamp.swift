@@ -28,7 +28,7 @@ struct lamp: View {
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
-        self.sendMsgToPhone(code: 2)
+        self.sendMsgToPhone(code: 0)
     }
 
     
@@ -72,18 +72,14 @@ struct lamp: View {
     }
     
     func sendMsgToPhone(code : Int){
-        
-       // guard let phoneCon = phoneCon else {return}
-        
-        var dic = [String : Any]()
-        dic["FIBARO"] = true
-        dic["CODE"] = code
-        //print(dic["CODE"]) 
-        
-        phoneCon.send(msg: dic)
+        var msg = [String : Any]()
+        msg["FIBARO"] = true
+        msg["GET"] = true
+        msg["CODE"] = code
+        phoneCon.send(msg: msg)
         print("protocol FIBARO msg was created and sent")
     }
-    
+    //Används??
     public func getLampView() -> lamp
     {
         print("Ger referensen till lamp")

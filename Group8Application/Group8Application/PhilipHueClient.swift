@@ -73,10 +73,10 @@ class HueClient : MQTTObserver{
             switch result{
             case .failure(let error):
                 print(error.localizedDescription)
-            case .success(var lights):
-                //Update state of lights, awkward casting .... improve might be to change light status to String : Any ....
-                self?.lights = lights
-                self!.notifyObservers(lights as [String : Any])
+            case .success(let lights):
+                let msg = self!.prepMsgForWatch(body: lights)
+                self!.lights = lights //Line used for testing.
+                self!.notifyObservers(msg)
                 
             }
         })
@@ -91,12 +91,19 @@ class HueClient : MQTTObserver{
             }
             let response = self.parseLights(d: data)
             completion(.success(response as [String : Int]))
-            
-            
-            //self.lights = self.parseLights(d: data)
         }
         task.resume()
     }
+    
+    
+    func prepMsgForWatch(body : [String : Any]) -> [String: Any]{
+        var tempMsg = [String : Any]()
+        tempMsg["HUE"] = true
+        tempMsg["BODY"] = body
+        tempMsg["CODE"] = 0
+        return tempMsg
+    }
+
     //Turn on/off practicaly the same,
     func turnOnLight(light : String){
         switchLightState(light : light, onoff : true)
@@ -129,8 +136,6 @@ class HueClient : MQTTObserver{
         switch code{
         case "entering appartement":
             print("Entering appartement call recieved in philips hue")
-            print("Calling send msg to watch through philip hue for testing")
-            watchGetLights()
         case "leaving appartement":
             print("Leaving appartement call recieved in philips hue")
         case "entering kitchen":
@@ -154,11 +159,11 @@ class HueClient : MQTTObserver{
         case 0:
             print("Case 0: Return list of all lights to watchConnection handler")
             watchGetLights()
-        case 0:
+        case 1:
             print("Case 0")
-        case 0:
+        case 2:
             print("Case 0")
-        case 0:
+        case 3:
             print("Case 0")
         default:
             print("Recieved \(code) from watch - not supported")
@@ -176,12 +181,11 @@ class HueClient : MQTTObserver{
     
     private func notifyObservers(_ msg : [String : Any]){
         print("Notifying observers of msg from philip hue:")
-        for (x,y) in msg{
-            print("Node: \(x) status : \(y)")
+        for (key,value) in msg{
+            print("Node: \(key) status : \(value)")
         }
-        var setHeaderMsg = msg; setHeaderMsg["HUE"] = true
         for obs in observers{
-            obs.hueNotification(setHeaderMsg)
+            obs.hueNotification(msg)
         }
         
     }

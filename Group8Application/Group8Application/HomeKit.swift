@@ -20,22 +20,6 @@ class Fibaro: MQTTObserver{
     private var nodeList = [Dictionary<String, Any>]()
     private var saveEnergyNodes: [Int]?
     private var observers : [FibaroObserver]
- /*
-    struct Post: Codable , Identifiable{
-        let id = UUID()
-        var title: String
-        var body: String
-    }
-    
-    struct nodeInfo : Identifiable {
-        let id = UUID()
-        var nodeID: Int
-        var name: String
-        var type: String
-        @State var value: Bool
-    }
-    */
-    
     var access: HMHomeManager?
 
     
@@ -102,7 +86,7 @@ class Fibaro: MQTTObserver{
         if saveEnergyNodes!.isEmpty{
             return
         }
-        for node in self.saveEnergyNodes!{
+        for node in saveEnergyNodes!{
             let request = self.setupGetRequest(task: "callAction?deviceID=\(node)&name=turnOn")
             let task = URLSession.shared.dataTask(with: request){(_, response, _) in
                 guard let response = response else{return}
@@ -110,15 +94,16 @@ class Fibaro: MQTTObserver{
                     if respCode.statusCode >= 400{
                         print("Node : \(node) failed to be turned on!") //Remove printouts on release
                     }else{
-                        print("Node : \(node) succeded in being turned on!")
+                        print("Node : \(node) succeded in being turned on!") //Remove printouts on release
                     }
                 }
             }
             task.resume()
         }
+        //Reset temporarily saved nodes.
         saveEnergyNodes = []
-        
     }
+    
     //Strange behaviour inc if nodes alrdy existing in saveEnergyNodes.
     //Potentailly many fucking calls.
     private func turnOffConsumingSwitches(){
@@ -138,11 +123,9 @@ class Fibaro: MQTTObserver{
                             print("Node : \(consumingNode) succeded in being turned off!")
                         }
                     }
-                    
                 }
                 task.resume()
             }
-            
         }
         task.resume()
     }
@@ -152,13 +135,12 @@ class Fibaro: MQTTObserver{
             switch result{
             case .failure(let error):
                 print(error.localizedDescription)
-            case .success(var list):
-                //Update state of list, awkward casting .... improve might be to change light status to String : Any ....
-                var dic = [String: Any]()
-                dic["FIBARO"] = true
-                dic["CODE"] = 0
-                dic["BODY"] = list
-                self!.notifyObservers(msg: dic)
+            case .success(let list):
+                var msg = [String: Any]()
+                msg["FIBARO"] = true
+                msg["CODE"] = 0
+                msg["BODY"] = list
+                self!.notifyObservers(msg: msg)
             }
         })
     }
@@ -185,46 +167,23 @@ class Fibaro: MQTTObserver{
                 if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: d, options: []) as? NSArray {
             
                     //print(convertedJsonIntoDict)
-                    for basenode in convertedJsonIntoDict
-                    {
+                    for basenode in convertedJsonIntoDict{
                         var dic = [String : Any]()
-                        
                         //print(basenode)
                         var check = false
+                        //
                         for node in basenode as! NSDictionary{
-                            if node.key as? String == "id"
-                            {
+                            if node.key as? String == "id"{
                                 dic["nodeID"] = node.value as! Int
                             }
-                            if node.key as? String == "name"
-                            {
+                            if node.key as? String == "name"{
                                 dic["name"] = node.value as! String
                                 dic["type"] = "com.fibaro.binarySwitch"
                                 var checkIfOutlet: String =  node.value as! String
-                                if checkIfOutlet.contains("vk")
-                                {
-                                    //print("wall outlet")
+                                if checkIfOutlet.contains("vk"){
                                     check = true
                                 }
                             }
-                            
-                            /*if node.key as? String == "view"{
-                                
-                                
-                                
-                                // properties is of type Any Class, we need to downgrade it to Dictionary.
-                                var viewArray: NSArray
-                                viewArray = node.value as! NSArray
-                                for keys in viewArray[0] as! NSDictionary
-                                {
-                                    if keys.key as! String == "name"
-                                    {
-                                        type = keys.value as! String
-                                    }
-                                }
-                            }*/
-                            
-                            
                             if node.key as? String == "properties"{
                                 // properties is of type Any Class, we need to downgrade it to Dictionary.
                                 var propertiesDict: NSDictionary
@@ -243,14 +202,6 @@ class Fibaro: MQTTObserver{
                         }
                         check = false
                     }
-                    
-                    //let listEntry = nodeInfo(nodeID:nodeID, name:name, type:type, value:value)
-                    //print(self.nodeList)
-                    //self.nodeList.append(listEntry)
-                    /*for node in self.nodeList {
-                        print("Nodens id: " + String(node.nodeID) + " | Nodens value " + String(node.value))
-                        print(self.nodeList.count)
-                    }*/
                 }
             }
             catch let error as NSError {
@@ -260,112 +211,15 @@ class Fibaro: MQTTObserver{
         return nodeList
     }
     
-    /*func getBinarySwitches() -> [nodeInfo]{
-        //let request = setupGetRequest(task: "devices?id=30")
-        
-        //let request = setupGetRequest(task: "devices/")
-        print("Vi håller på att hämta alla eluttag")
-        let request = setupGetRequest(task: "devices?type=com.fibaro.binarySwitch")
-        
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            guard let data = data else {return}
-            do {
-                    var nodeID = -1
-                    var name = ""
-                    var type = "com.fibaro.binarySwitch"
-                    var value = false
-                    if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data, options: []) as? NSArray {
-                
-                        //print(convertedJsonIntoDict)
-                        for basenode in convertedJsonIntoDict
-                        {
-                            //print(basenode)
-                            var check = false
-                            for node in basenode as! NSDictionary{
-                                if node.key as? String == "id"
-                                {
-                                    nodeID = node.value as! Int
-                                }
-                                if node.key as? String == "name"
-                                {
-                                    name = node.value as! String
-                                    var checkIfOutlet: String =  node.value as! String
-                                    if checkIfOutlet.contains("vk")
-                                    {
-                                        //print("wall outlet")
-                                        check = true
-                                    }
-                                }
-                                
-                                if node.key as? String == "view"{
-                                    
-                                    
-                                    
-                                    // properties is of type Any Class, we need to downgrade it to Dictionary.
-                                    var viewArray: NSArray
-                                    viewArray = node.value as! NSArray
-                                    for keys in viewArray[0] as! NSDictionary
-                                    {
-                                        if keys.key as! String == "name"
-                                        {
-                                            type = keys.value as! String
-                                        }
-                                    }
-                                }
-                                
-                                
-                                if node.key as? String == "properties"{
-                                    // properties is of type Any Class, we need to downgrade it to Dictionary.
-                                    var propertiesDict: NSDictionary
-                                    propertiesDict = node.value as! NSDictionary
-                                    for attribute in propertiesDict{
-                                        let obj = attribute.key as? String
-                                        if obj == "value" {
-                                            value = attribute.value as! Bool
-                                        }
-                                    }
-                                }
-                            }
-                            if (check){
-                                let listEntry = nodeInfo(nodeID:nodeID, name:name, type:type, value:value)
-                                self.nodeList.append(listEntry)
-                            }
-                            check = false
-                        }
-                        
-                        //let listEntry = nodeInfo(nodeID:nodeID, name:name, type:type, value:value)
-                        print(self.nodeList)
-                        //self.nodeList.append(listEntry)
-                        /*for node in self.nodeList {
-                            print("Nodens id: " + String(node.nodeID) + " | Nodens value " + String(node.value))
-                            print(self.nodeList.count)
-                        }*/
-                    }
-                }
-                     catch let error as NSError {
-                         print("catch let error")
-                         print(error.localizedDescription)
-                     }
-        }
+    func turnOnSwitch(id: Int){
+        let request = self.setupGetRequest(task: "callAction?deviceID=" + String(id) + "&name=turnOn")
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in} //Do something with response code?
         task.resume()
-        
-        return(nodeList)
-    }*/
-    
-    func turnOnSwitch(id: Int)
-    {
-        DispatchQueue.main.async {
-            let request = self.setupGetRequest(task: "callAction?deviceID=" + String(id) + "&name=turnOn")
-            let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-            }
-            task.resume()
-        }
     }
-    func turnOffSwitch(id: Int)
-    {
+    
+    func turnOffSwitch(id: Int){
         let request = setupGetRequest(task: "callAction?deviceID=" + String(id) + "&name=turnOff")
-        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-        }
+        let task = URLSession.shared.dataTask(with: request) {(data, response, error) in} //Do something with response code?
         task.resume()
     }
     
@@ -375,7 +229,7 @@ class Fibaro: MQTTObserver{
         let task = URLSession.shared.dataTask(with: request){(data, _, _) in
             guard let data = data else {return}
             if self.checkOvenParse(data){
-                let msg = ["FIBARO":true, "NOTIFICATION":"ALERT OVEN"] as [String : Any]
+                let msg = ["FIBARO":true, "CODE":0, "NOTIFICATION":"ALERT OVEN"] as [String : Any]
                 self.notifyObservers(msg: msg)
             }
             
@@ -383,6 +237,8 @@ class Fibaro: MQTTObserver{
         task.resume()
     }
     
+    //Currently only recieving one node -> change to parse several objects if change in
+    //checkOven function to include several devices.
     private func checkOvenParse(_ data : Data) -> Bool{
         if let oven = try! JSONSerialization.jsonObject(with: data, options: []) as? [[String:Any]]{
             for onlyOne in oven{
@@ -397,14 +253,17 @@ class Fibaro: MQTTObserver{
     
     //Get request sent from watch controller, ie send something back.
     func recMsgFromWatch(code : Int){
-        //Setup response msg to watch.
-        var watchResponse = [String : Any]()
-        watchResponse["FIBARO"] = true
+
+        var response = [String : Any]()
+        response["FIBARO"] = true
         
         switch code{
         case 0:
             //prep response with status of all binary switches.
             print("Fibaro recieved call from watch to send status of all binary switches to watch")
+            response["CODE"] = 0
+            response["BODY"] = self.watchGetOutlets()
+            self.notifyObservers(msg: response)
         case 1:
             print("Fibaro recieved call from watch to send status of all doors to watch")
             //prep response with status of all doors.

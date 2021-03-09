@@ -15,15 +15,11 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
     @Published var outletList : [Dictionary <String, Any>]
     private var outlletFlag = false
     var session : WCSession!
-    var view : lamp?
-    
-    //override init(){
-        
+    //var view : lamp? Tar bort efter bekräftelse.
     var notCreator : NotificationCreator!
 
     init(notification : NotificationCreator){
         self.outletList = [Dictionary<String, Any>]()
-        
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
@@ -43,29 +39,52 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            
+            /*
             print("Recieved following msg in watch:")
-            //self.view = self.view?.getLampView()
-            /*for(key,value) in message{
+            for(key,value) in message{
                 print("Key: \(key) value: \(value)")
-            }*/
+            }
+            */
+            
+                //<!--------------------- FIBARO -------------------!>//
             if let fibaroReq = message["FIBARO"] {
-                switch message["CODE"] as! Int{
-                case 0:
-                    self.outlletFlag = true
-                    self.outletList = message["BODY"] as! [Dictionary<String, Any>]
-                    //print("coolt")
-                    //Code 0 -> turn off "NODE" binarySwitch.
-                    //return self.fibaro!.turnOffSwitch(id: message["NODE"] as! Int)
-                default :
-                    print("No more actions to be taken for fibaro, call your lokal developper noob.")
+                if let notification = message["NOTIFICATION"]{
+                    //Switch here if we want to support different types off notification.
+                    self.sendLocalNotification(body: notification as! String)
                 }
-                print("HEJ")
+                if let responseCode = message["CODE"]{
+                    switch responseCode as! Int{
+                    case 0:
+                        self.outlletFlag = true
+                        self.outletList = message["BODY"] as! [Dictionary<String, Any>]
+                    case 1:
+                        print("Doors to be implemented")
+                    default:
+                        print("No more actions to be taken for fibaro with responseCode : \(responseCode as! Int) recieved in PhoneConnection")
+                    }
+                }
+            }
+                //<!--------------------- PHILIP HUE -------------------!>//
+            if let hueReq = message["HUE"]{
+                if let notification = message["NOTIFICATION"]{
+                    //Switch here if we want to support different types off notifications.
+                    self.sendLocalNotification(body: notification as! String)
+                }
+                if let responseCode = message["CODE"]{
+                    switch responseCode as! Int{
+                    case 0:
+                        let recievedHue = message["BODY"] as! [String : Any]
+                        print("Recieved msg from philip hue in phoneConnection")
+                        for (key,value) in recievedHue{
+                            print("Key \(key) value\(value)")
+                        }
+                        //Set view for philipHueSwitches.
+                        print("Setup view for philipHue lights")
+                    default:
+                        print("No more actions to be taken for hue with responseCode : \(responseCode as! Int) recieved in PhoneConnection")
                 
-                
-                
-                //self.view!.updateList(list: message["BODY"] as! [Dictionary<String,Any>])
-                
+                    }
+                }
             }
         }
     }
@@ -73,10 +92,8 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
 
     func send(msg : [String : Any]){
         if !(session.isReachable){
-            print("bajs")
             return
         }
-        
         session.sendMessage(msg, replyHandler: nil, errorHandler: {
             error in
             print(error.localizedDescription)
@@ -86,8 +103,7 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
     //To be implemented.
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
     
-    public func getOutletFlag() -> Bool
-    {
+    public func getOutletFlag() -> Bool{
         return outlletFlag
     }
 //}

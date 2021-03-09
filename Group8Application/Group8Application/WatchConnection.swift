@@ -33,54 +33,44 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
 
     }
 
+    
+    //If get request sent from watch -> call that objects recMsgFromWatch!
+    //Else (no data to return to watch) simply call requested function in respective object.
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         
-        //If get request sent from watch -> call that objects recMsgFromWatch!
-        //Else (no data to return to watch) simply call requested function in respective object.
         
         DispatchQueue.main.async {
-            //print(message["CODE"])
-        if let fibaroReq = message["FIBARO"]{
             
+            //<!----------------- FIBARO --------------------!>//
+        if let fibaroReq = message["FIBARO"]{
             if let GET = message["GET"]{
                 return self.fibaro!.recMsgFromWatch(code: message["CODE"] as! Int)
             }
             //If not get request -> post request, performe some action in the lab.
-            
             switch message["CODE"] as! Int{
             case 0:
                 //Code 0 -> turn off "NODE" binarySwitch.
-                return self.fibaro!.turnOffSwitch(id: message["NODE"] as! Int)
+                self.fibaro!.turnOffSwitch(id: message["NODE"] as! Int)
             case 1:
                 //Code 1 -> turn on "NODE" binarySwitch.
                 self.fibaro!.turnOnSwitch(id: message["NODE"] as! Int)
             case 2:
+                print("Läs kommentar, har flyttat skiten.")
                 //Code 2 -> retrive all outlets in the network.
-                print("Vi är i watchConnection för att hämta listan")
-                var list = [String: Any]()
+                /*
+                print("Vi är i watchConnection för att hämta listan") meddelandet ska komma in i get. dvs medelandet ska
+                var list = [String: Any]()                            skickas från klockan med message["GET"] = true, se                                                            recMsgFromWatch i Homekit klassen
                 list["FIBARO"] = true
                 list["CODE"] = 0
                 list["BODY"] = self.fibaro!.watchGetOutlets()
-                
-                //print("Vi är tillbacka i Watch connection")
-                //self.send(list)
+                */
             default :
                 print("No more actions to be taken for fibaro, call your lokal developper noob.")
             }
             
             return
-            
-            /*
-            if message["Toggle"] as! Bool{
-                print("Nu sätter vi på lampan")
-                self.fibaro!.turnOnSwitch(id: message["Node"] as! Int)
-            }
-            else {
-                print("Stänger av lampan")
-                self.fibaro!.turnOffSwitch(id: message["Node"] as! Int)
-            }*/
         }
-        
+            //<!----------------- PHILIP HUE --------------------!>//
         if let hueReq = message["HUE"]{
             if let GET = message["GET"]{
                 return self.hue!.recMsgFromWatch(code: message["CODE"] as! Int)
@@ -99,12 +89,14 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
             return
         }
         
+            
+            //<!---------------- BUG TESTING -------------------!>//
         print("Recieved following msg in phone without a handler:")
         for (key,value) in message{
            print("Key: \(key) value: \(value)")
         }
             
-    }
+        }
     }
 
     //Send msg to watch for processing.
@@ -117,29 +109,31 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
             print(error.localizedDescription)
         })
     }
-
+    //Varför internal?
     internal func fibNotification(_ msg :[String : Any]){
+        /*
         print("Fib response recieved with the msg:")
-        /*for(key,value) in msg{
+        for(key,value) in msg{
             print("Key: \(key), value: \(value)")
-        }*/
+        }
+        */
         
         DispatchQueue.main.async{
-            print("skicka till send")
             self.send(message: msg)
         }
         
     }
     
     func hueNotification(_ msg: [String : Any]) {
+        /*
         print("Hue response recieved with the msg:")
         for(key,value) in msg{
             print("Key: \(key), value: \(value)")
         }
-        /*
-         DispatchQueue.main.async{
-         self.send(msg)
-         }*/
+        */
+        DispatchQueue.main.async{
+            self.send(message : msg)
+        }
     }
     
     
