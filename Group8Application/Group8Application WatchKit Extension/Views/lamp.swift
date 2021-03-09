@@ -52,7 +52,7 @@ struct lamp: View {
                             //}
                             //{Text("\(x)")}
                             //Text("\(x)")
-                            var name = vadFanSomHellst[index]
+                            //var name = vadFanSomHellst[index]
                             Text("hej")
                             //Text(self.phoneCon.outletList[index])
                             // Send session object to phone to change the value of the obj to true

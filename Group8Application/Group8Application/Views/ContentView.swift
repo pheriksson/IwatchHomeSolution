@@ -26,57 +26,33 @@ struct ContentView: View {
         self.hue = hue
     }
     
-    private func updateUIFromStatistic(statisticsCollection: HKStatisticsCollection){
-        
-        let startDate = Calendar.current.date(byAdding: .day,value: -7, to: Date())!
-        let endDate = Date()
-        
-        statisticsCollection.enumerateStatistics(from: startDate, to: endDate) { (statistics,stop) in
-            
-            let count = statistics.sumQuantity()?.doubleValue(for: .count())
-            
-            let step = Step(count: Int(count ?? 0), date: statistics.startDate)
-            steps.append(step)
-        }
-    }
+   
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 30) {
-                List(steps , id: \.id) { step in
-                    VStack {
-                        Text("\(step.count)")
-                        Text(step.date, style: .date)
-                            .opacity(0.5)
-                    }
-                }
-                NavigationLink(destination: HeartRateView()) {
-                    Text("Click here to come to heartrate view").padding()
-                }
+        
+        NavigationView{
+            VStack {
+                Image(systemName: "house")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 200, height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .padding()
+                
+                NavigationLink(
+                    destination: StepView(healthStore: self.healthStore!),
+                    label: {
+                        Text("Go to step view")
+                    })
             }
-            .navigationTitle("Steps")
+            .navigationTitle("Home screen")
         }
-        
-            .onAppear{
-                if let healthStore = healthStore {
-                    print("unwrappat healthStore")
-                    healthStore.requestAuthorization { success in
-                        if success {
-                           healthStore.calculateSteps { statisticsCollection in
-                                if let statisticsCollection = statisticsCollection {
-                                    updateUIFromStatistic(statisticsCollection: statisticsCollection)
-                                }
-                            }
-                        }
-                    }
-                }
-                if let HomeKit = homeKit {
-                    print("unwrappat homekit")
-                    //HomeKit.getBinarySwitches()
-                    //HomeKit.turnOnSwitch(id: 198)
-                }
+        .onAppear{
+            if let HomeKit = homeKit {
+                //print("unwrappat homekit")
+                //HomeKit.getBinarySwitches()
+                //HomeKit.turnOnSwitch(id: 198)
             }
-        
+        }
     }
 }
 /*
