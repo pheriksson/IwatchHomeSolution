@@ -17,7 +17,7 @@ struct lamp: View {
     }
     
     // connection reference
-    var phoneCon: PhoneConnection?
+    @ObservedObject var phoneCon: PhoneConnection
     
     // nodeList
     private var tempList: [tempItem] = [
@@ -28,40 +28,57 @@ struct lamp: View {
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
-        
+        self.sendMsgToPhone(code: 2)
     }
 
     
     var body: some View {
-        VStack{
-            ScrollView{
-                
-                ForEach(tempList){ tempNode in
-                    HStack{
-                        // Send session object to phone to change the value of the obj to true
-                        ToggleView(phoneCon: self.phoneCon!, name: tempNode.name, id: tempNode.nodeID, status: tempNode.status)
-                        
-                
-                    } // HStack end
+        //.onAppear(){
+          //  self.sendMsgToPhone(code: 2)
+        //}
+        if(phoneCon.getOutletFlag()){
+            
+            let keys = phoneCon.outletList.map{$0.keys}
+            let values = phoneCon.outletList.map{$0.values}
+            
+             
+            VStack{
+                ScrollView{
+                    let vadFanSomHellst = phoneCon.outletList as NSObject
+                    ForEach(0..<phoneCon.outletList.count){ index in
+                        HStack{
+                          //  if let x = vadFanSomHellst[index] as! [String: Any], let sub = x["type"] as! String{
+                            //    Text("\(sub)")
+                            //}
+                            //{Text("\(x)")}
+                            //Text("\(x)")
+                            var name = vadFanSomHellst[index]
+                            Text("hej")
+                            //Text(self.phoneCon.outletList[index])
+                            // Send session object to phone to change the value of the obj to true
+                            //ToggleView(phoneCon: self.phoneCon!, name: values[0], id: values[1], status: values[2])
+                            
+                    
+                        } // HStack end
+                    }
                 }
-            }
-        } //Vstack end
-        .onAppear(){
-            self.sendMsgToPhone(code: 2)
+            } //Vstack end
+            
+        }
+        else{
+            Text("vi laddar data")
+            Image(systemName: "hourglass")
         }
     }
- 
-    
-    
     
     func sendMsgToPhone(code : Int){
         
-        guard let phoneCon = phoneCon else {return}
+       // guard let phoneCon = phoneCon else {return}
         
         var dic = [String : Any]()
         dic["FIBARO"] = true
         dic["CODE"] = code
-        //print(dic["CODE"])
+        //print(dic["CODE"]) 
         
         phoneCon.send(msg: dic)
         print("protocol FIBARO msg was created and sent")
@@ -72,19 +89,22 @@ struct lamp: View {
         print("Ger referensen till lamp")
         return self
     }
-    /*
-    public func updateList(list : [Dictionary<String, Any>])
+    
+    
+    
+    /*public func updateList(list : [Dictionary<String, Any>])
     {
         for node in list {
             let id : Int
             let name : String
             let value : Bool
             
+            print("HEJ IGEN!!!")
             if node.keys as! String == "nodeID" {
                 
             }
-            let tempNode = tempItem(nodeID: node["nodeID"], name: node["name"], status: node["value"])
-            tempList.append(tempItem(nodeID: node["nodeID"], name: node["name"], status: node["value"]))
+            //let tempNode = tempItem(nodeID: node["nodeID"], name: node["name"], status: node["value"])
+            //tempList.append(tempItem(nodeID: node["nodeID"], name: node["name"], status: node["value"]))
         }
         print("Uppdate list")
     }*/

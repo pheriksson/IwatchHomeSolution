@@ -10,17 +10,20 @@ import WatchConnectivity
 
 
 
-class PhoneConnection : NSObject, WCSessionDelegate {
+class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifiable{
     
+    @Published var outletList : [Dictionary <String, Any>]
+    private var outlletFlag = false
     var session : WCSession!
     var view : lamp?
     
-    override init(){
+    //override init(){
         
     var notCreator : NotificationCreator!
 
     init(notification : NotificationCreator){
-
+        self.outletList = [Dictionary<String, Any>]()
+        
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
@@ -39,15 +42,31 @@ class PhoneConnection : NSObject, WCSessionDelegate {
 
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        print("Recieved following msg in watch:")
-        //self.view = self.view?.getLampView()
-        /*for(key,value) in message{
-            print("Key: \(key) value: \(value)")
-        }*/
-        if let fibaroReq = message["FIBARO"] {
-            print("HEJ")
-            //self.view!.updateList(list: message["BODY"] as! [Dictionary<String,Any>])
+        DispatchQueue.main.async {
             
+            print("Recieved following msg in watch:")
+            //self.view = self.view?.getLampView()
+            /*for(key,value) in message{
+                print("Key: \(key) value: \(value)")
+            }*/
+            if let fibaroReq = message["FIBARO"] {
+                switch message["CODE"] as! Int{
+                case 0:
+                    self.outlletFlag = true
+                    self.outletList = message["BODY"] as! [Dictionary<String, Any>]
+                    //print("coolt")
+                    //Code 0 -> turn off "NODE" binarySwitch.
+                    //return self.fibaro!.turnOffSwitch(id: message["NODE"] as! Int)
+                default :
+                    print("No more actions to be taken for fibaro, call your lokal developper noob.")
+                }
+                print("HEJ")
+                
+                
+                
+                //self.view!.updateList(list: message["BODY"] as! [Dictionary<String,Any>])
+                
+            }
         }
     }
 
@@ -66,7 +85,11 @@ class PhoneConnection : NSObject, WCSessionDelegate {
     }
     //To be implemented.
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
+    
+    public func getOutletFlag() -> Bool
+    {
+        return outlletFlag
+    }
+//}
 
 }
-
-

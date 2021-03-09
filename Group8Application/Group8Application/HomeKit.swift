@@ -156,6 +156,7 @@ class Fibaro: MQTTObserver{
                 //Update state of list, awkward casting .... improve might be to change light status to String : Any ....
                 var dic = [String: Any]()
                 dic["FIBARO"] = true
+                dic["CODE"] = 0
                 dic["BODY"] = list
                 self!.notifyObservers(msg: dic)
             }

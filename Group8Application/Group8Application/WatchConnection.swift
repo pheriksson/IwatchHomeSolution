@@ -59,7 +59,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
                 print("Vi är i watchConnection för att hämta listan")
                 var list = [String: Any]()
                 list["FIBARO"] = true
-                list["CODE"] = 1
+                list["CODE"] = 0
                 list["BODY"] = self.fibaro!.watchGetOutlets()
                 
                 //print("Vi är tillbacka i Watch connection")
