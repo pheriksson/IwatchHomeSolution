@@ -12,14 +12,20 @@ import WatchConnectivity
 
 class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifiable{
     
+    private var notCreator : NotificationCreator!
+    
+    
     @Published var outletList : [Dictionary <String, Any>]
-    private var outlletFlag = false
+    //@Published var philipHueLights : [String : Int] //Sett class and have view only listen on that class variable??
+    private var outlletFlag = false                 //So we do not get multiple instances of the same view reacting??
     var session : WCSession!
     //var view : lamp? Tar bort efter bekräftelse.
-    var notCreator : NotificationCreator!
+    
+    var philipHueLights : HueContainer
 
     init(notification : NotificationCreator){
         self.outletList = [Dictionary<String, Any>]()
+        self.philipHueLights = HueContainer()
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
@@ -27,6 +33,12 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
             self.session.activate()
             self.notCreator = notification
         }
+        /* USED FOR TESTING PHILIP HUE VIEW
+        DispatchQueue.main.asyncAfter(deadline: .now()+10){
+            self.philipHueLights.recieveHueLights(lights: ["LampID1337":1,"LampID80085":0 ])
+        }
+        */
+        
     }
     //Used for sending notifications recieved from phone.
     func sendLocalNotification(_ title: String = "Grp8Application",_ subtitle: String = "Warning", body: String){
@@ -73,11 +85,12 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
                 if let responseCode = message["CODE"]{
                     switch responseCode as! Int{
                     case 0:
-                        let recievedHue = message["BODY"] as! [String : Any]
+                        let recievedHue = message["BODY"] as! [String : Int]
                         print("Recieved msg from philip hue in phoneConnection")
                         for (key,value) in recievedHue{
                             print("Key \(key) value\(value)")
                         }
+                        self.philipHueLights.recieveHueLights(lights: recievedHue) //Update hue lights
                         //Set view for philipHueSwitches.
                         print("Setup view for philipHue lights")
                     default:
@@ -107,5 +120,43 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
         return outlletFlag
     }
 //}
+    
+    func getHueContainer() -> HueContainer{
+        return philipHueLights
+    }
+    
+    
 
 }
+
+class HueContainer : ObservableObject{
+    
+    @Published var lights : [String : Int]
+    private var lightStatus : Bool = false
+    
+    init(){
+        self.lights = [String : Int]()
+    }
+    
+    //Light id = key, status = value.
+    func recieveHueLights(lights : [String : Int]){
+        print("Setting recieveHueLights to true.")
+        self.lightStatus = true
+        print("Updating published list off lights.")
+        self.lights = lights
+        print("Published list off lights set")
+    }
+    
+    func getHueLights() -> [String : Int]{
+        return lights
+    }
+    
+    func getHueLightStatus() -> Bool{
+        return lightStatus
+    }
+    
+    
+}
+
+
+
