@@ -37,7 +37,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
     //If get request sent from watch -> call that objects recMsgFromWatch!
     //Else (no data to return to watch) simply call requested function in respective object.
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        
+        print("Vi tog emot meddelandet")
         
         DispatchQueue.main.async {
             
@@ -59,7 +59,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
                 //Code 2 -> retrive all outlets in the network.
                 /*
                 print("Vi är i watchConnection för att hämta listan") meddelandet ska komma in i get. dvs medelandet ska
-                var list = [String: Any]()                            skickas från klockan med message["GET"] = true, se                                                            recMsgFromWatch i Homekit klassen
+                var list = [String: Any]()                            skickas från klockan med message["GET"] = true, se                                                                                            recMsgFromWatch i Homekit klassen
                 list["FIBARO"] = true
                 list["CODE"] = 0
                 list["BODY"] = self.fibaro!.watchGetOutlets()
@@ -117,7 +117,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
             print("Key: \(key), value: \(value)")
         }
         */
-        
+        //print("Jag kollar här nu")
         DispatchQueue.main.async{
             self.send(message: msg)
         }

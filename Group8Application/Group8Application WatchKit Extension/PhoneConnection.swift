@@ -13,13 +13,16 @@ import WatchConnectivity
 class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifiable{
     
     @Published var outletList : [Dictionary <String, Any>]
+    @Published var outletDoorList : [Dictionary <String, Any>]
     private var outlletFlag = false
+    private var tempFlag = false
     var session : WCSession!
     //var view : lamp? Tar bort efter bekräftelse.
     var notCreator : NotificationCreator!
 
     init(notification : NotificationCreator){
-        self.outletList = [Dictionary<String, Any>]()
+        self.outletList = [Dictionary<String, String>]()
+        self.outletDoorList = [Dictionary<String, Any>]()
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
@@ -48,6 +51,7 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
             
                 //<!--------------------- FIBARO -------------------!>//
             if let fibaroReq = message["FIBARO"] {
+                print("Jag kollar här nu")
                 if let notification = message["NOTIFICATION"]{
                     //Switch here if we want to support different types off notification.
                     self.sendLocalNotification(body: notification as! String)
@@ -58,7 +62,8 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
                         self.outlletFlag = true
                         self.outletList = message["BODY"] as! [Dictionary<String, Any>]
                     case 1:
-                        print("Doors to be implemented")
+                        self.tempFlag = true
+                        self.outletDoorList = message["BODY"] as! [Dictionary<String, Any>]
                     default:
                         print("No more actions to be taken for fibaro with responseCode : \(responseCode as! Int) recieved in PhoneConnection")
                     }
@@ -94,6 +99,7 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
         if !(session.isReachable){
             return
         }
+        print("nu skickar vi till telefonen")
         session.sendMessage(msg, replyHandler: nil, errorHandler: {
             error in
             print(error.localizedDescription)
@@ -105,6 +111,14 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
     
     public func getOutletFlag() -> Bool{
         return outlletFlag
+    }
+    
+    public func getTempFlag() -> Bool {
+        return tempFlag
+    }
+    
+    public func resetOutletFlag(){
+        self.outlletFlag = false
     }
 //}
 

@@ -21,16 +21,17 @@ struct FibaroView: View {
         NavigationView {
             VStack{
                 HStack{
+                    
                     NavigationLink(
                         destination: lamp(phoneCon: self.phoneCon!),
                         label: {
                             Image(systemName: "lightbulb")
-                        })
+                        })/*
                     NavigationLink(
-                        destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
+                        destination: DoorView(phoneCone: self.phoneCon!),
                         label: {
-                            Image(systemName: "desktopcomputer")
-                        })
+                            Image(systemName: "greetingcard.fill")
+                        })*/
                     
                     
                 }

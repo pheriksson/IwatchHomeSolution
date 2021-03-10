@@ -29,6 +29,7 @@
 		9403FCC825F24E3700E39BD9 /* PhoneConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403FCC725F24E3700E39BD9 /* PhoneConnection.swift */; };
 		9403FCCD25F24E9C00E39BD9 /* WatchConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403FCCC25F24E9C00E39BD9 /* WatchConnection.swift */; };
 		9408D9BE25F7EEAE00C68D11 /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9408D9BD25F7EEAE00C68D11 /* StepView.swift */; };
+		9408D9C325F8B33600C68D11 /* DoorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9408D9C225F8B33600C68D11 /* DoorView.swift */; };
 		941A154325F4F1E1001A6D1C /* PhilipHueClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941A154225F4F1E1001A6D1C /* PhilipHueClient.swift */; };
 		941A154B25F5083D001A6D1C /* toggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941A154A25F5083D001A6D1C /* toggleView.swift */; };
 		9420480A25E3E20800A525BB /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9420480925E3E20800A525BB /* HealthView.swift */; };
@@ -120,6 +121,7 @@
 		9403FCC725F24E3700E39BD9 /* PhoneConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneConnection.swift; sourceTree = "<group>"; };
 		9403FCCC25F24E9C00E39BD9 /* WatchConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchConnection.swift; sourceTree = "<group>"; };
 		9408D9BD25F7EEAE00C68D11 /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
+		9408D9C225F8B33600C68D11 /* DoorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorView.swift; sourceTree = "<group>"; };
 		941A154225F4F1E1001A6D1C /* PhilipHueClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipHueClient.swift; sourceTree = "<group>"; };
 		941A154A25F5083D001A6D1C /* toggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toggleView.swift; sourceTree = "<group>"; };
 		9420480925E3E20800A525BB /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				7661C57C25C342C500359328 /* ContentView.swift */,
 				9403FCC225F2453000E39BD9 /* lamp.swift */,
 				941A154A25F5083D001A6D1C /* toggleView.swift */,
+				9408D9C225F8B33600C68D11 /* DoorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 			files = (
 				9420480A25E3E20800A525BB /* HealthView.swift in Sources */,
 				9403FCC825F24E3700E39BD9 /* PhoneConnection.swift in Sources */,
+				9408D9C325F8B33600C68D11 /* DoorView.swift in Sources */,
 				CECA827D25F64BDD00944BEE /* NotificationCreator.swift in Sources */,
 				9420481C25E3E8BF00A525BB /* ZWaveView.swift in Sources */,
 				9420480F25E3E7F300A525BB /* FibaroView.swift in Sources */,

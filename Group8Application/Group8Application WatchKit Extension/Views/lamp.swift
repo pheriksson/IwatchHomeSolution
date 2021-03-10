@@ -18,6 +18,7 @@ struct lamp: View {
     
     // connection reference
     @ObservedObject var phoneCon: PhoneConnection
+
     
     // nodeList
     private var tempList: [tempItem] = [
@@ -28,25 +29,37 @@ struct lamp: View {
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
+        print("lamp init")
         self.sendMsgToPhone(code: 0)
     }
-
     
     var body: some View {
         //.onAppear(){
           //  self.sendMsgToPhone(code: 2)
         //}
         if(phoneCon.getOutletFlag()){
+          //  Text("\(self.callReset())")
+            //let keys = phoneCon.outletList.map{$0.keys}
+            //let values = phoneCon.outletList.map{$0.values}
             
-            let keys = phoneCon.outletList.map{$0.keys}
-            let values = phoneCon.outletList.map{$0.values}
-            
-             
+            //Text("\(values[1])")
             VStack{
                 ScrollView{
-                    let vadFanSomHellst = phoneCon.outletList as NSObject
-                    ForEach(0..<phoneCon.outletList.count){ index in
+                    let list = phoneCon.outletList as NSArray
+                    ForEach(0..<list.count){ index in
+                        //HStack{
+                            let dic = list[index] as! NSDictionary
+                            ToggleView(phoneCon: self.phoneCon, name: dic.value(forKey: "name") as! String, id: dic.value(forKey: "nodeID") as! Int, status: dic.value(forKey: "value") as! Bool)
+                            /*ForEach(0..<test.count){i in
+                                Text("\(test.value(forKey: "type") as! String)")
+                            }*/
+                            //Text("\(test.count)")
+                       // }
+                    }
+                    
+                    /*ForEach(0..<phoneCon.outletList.count){ index in
                         HStack{
+                            //Text(keys[index])
                           //  if let x = vadFanSomHellst[index] as! [String: Any], let sub = x["type"] as! String{
                             //    Text("\(sub)")
                             //}
@@ -60,11 +73,10 @@ struct lamp: View {
                             
                     
                         } // HStack end
-                    }
+                    }*/
                 }
             } //Vstack end
-            
-        }
+        }// if end
         else{
             Text("vi laddar data")
             Image(systemName: "hourglass")
@@ -86,7 +98,9 @@ struct lamp: View {
         return self
     }
     
-    
+    func callReset(){
+        self.phoneCon.resetOutletFlag()
+    }
     
     /*public func updateList(list : [Dictionary<String, Any>])
     {
