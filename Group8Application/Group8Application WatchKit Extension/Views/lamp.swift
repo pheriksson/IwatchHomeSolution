@@ -29,8 +29,7 @@ struct lamp: View {
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
-        print("lamp init")
-        self.sendMsgToPhone(code: 0)
+        //self.sendMsgToPhone(code: 0)
     }
     
     var body: some View {

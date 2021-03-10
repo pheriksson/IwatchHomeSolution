@@ -39,7 +39,7 @@ struct ContentView: View {
                         Image(systemName: "heart")
                     }
             })
-                    
+                
             NavigationLink(
                 destination: FibaroView(phoneCon: self.phoneCon!),
                 label: {
@@ -48,7 +48,10 @@ struct ContentView: View {
             })
             
             NavigationLink(
-                destination: PhilipHueView(phoneCon: self.phoneCon!),
+                destination: PhilipHueView(phoneCon: self.phoneCon!).onAppear(){
+                    print("Jag är i onappear \n")
+                    self.phoneCon!.send(msg: ["HUE":true,"GET":true ,"CODE":0]) //Call to fetch data for view.
+                },
                 label: {
                     Text("PhilipHue")
                     Image(systemName: "lightbulb.fill")

@@ -37,30 +37,27 @@ struct ToggleView : View {
         Toggle(isOn: $isChecked) {
             Text("Node : \(id!)")
             HStack{
-                
-                if (!self.firstClick.getLoaded()){
-                    Text("\(self.firstClick.setFinishedLoading())")
-                    Text("first load")
+                if isChecked {
+                    Text("\(self.turnOn(node: self.id!))")
                 }
-                else {
-                    Text("2nd load")
-                    /*
-                    if isChecked {
-                        Text("\(self.turnOn(node: self.id!))")
-                    }
-                    else{
-                        Text("\(self.turnOff(node: self.id!))")
-                    }*/
+                else{
+                    Text("\(self.turnOff(node: self.id!))")
                 }
             }
+        }
+        .onAppear(){
+            self.firstClick.setFinishedLoading()
         }
     }
 
     //Turn on func
     func turnOn(node : Int) -> String
     {
-        print("ON")
-        sendMsgToPhone(onOff: 1, node: node)
+        if self.firstClick.getLoaded(){
+            print("ON")
+            sendMsgToPhone(onOff: 1, node: node)
+            return ""
+        }
         return ""
     }
     
@@ -68,8 +65,11 @@ struct ToggleView : View {
     //Turn off
     func turnOff(node : Int) -> String
     {
-        print("Off")
-        sendMsgToPhone(onOff: 0, node: node)
+        if self.firstClick.getLoaded(){
+            print("Off")
+            sendMsgToPhone(onOff: 0, node: node)
+            return ""
+        }
         return ""
     }
     
@@ -86,7 +86,7 @@ struct ToggleView : View {
         print("protocol FIBARO msg was created and sent")
     }
 }
-
+/*
 class prepLoad{
 
     var prep: Bool = false
@@ -102,3 +102,4 @@ class prepLoad{
     }
 }
 
+*/

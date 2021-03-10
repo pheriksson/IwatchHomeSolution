@@ -15,10 +15,11 @@ struct PhilipHueView: View {
     //On exit, set false state.
     
     init(phoneCon : PhoneConnection){
+        print("AADADADADADAD \n\n\n\n")
         self.WMC = phoneCon
         self.lights = WMC.getHueContainer()
-        self.WMC.send(msg: ["HUE":true,"GET":true ,"CODE":0]) //Call to fetch data for view.
-        
+        print("Sending msg to phone")
+ 
     }
     
     var body: some View {

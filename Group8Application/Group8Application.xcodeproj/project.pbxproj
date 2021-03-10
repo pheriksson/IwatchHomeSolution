@@ -39,6 +39,8 @@
 		9420483225E40B2600A525BB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9420483125E40B2600A525BB /* HealthKit.framework */; };
 		9420483425E40B7400A525BB /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9420483125E40B2600A525BB /* HealthKit.framework */; };
 		944A9E6825CD8E1C00B2C554 /* HomeKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944A9E6725CD8E1C00B2C554 /* HomeKit.swift */; };
+		946E704925F9154000912B2A /* PhilipHueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946E704725F9154000912B2A /* PhilipHueView.swift */; };
+		946E704A25F9154000912B2A /* PhilipHueToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946E704825F9154000912B2A /* PhilipHueToggleView.swift */; };
 		948BD02625D6B78800248E02 /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD02525D6B78800248E02 /* Step.swift */; };
 		948BD03225D6BECB00248E02 /* HeartRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948BD03125D6BECB00248E02 /* HeartRate.swift */; };
 		94EC6D3325F63E6C005BE490 /* Falldetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EC6D3225F63E6C005BE490 /* Falldetect.swift */; };
@@ -131,6 +133,8 @@
 		9420483125E40B2600A525BB /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS7.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		9420483325E40B7400A525BB /* Group8Application WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Group8Application WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		944A9E6725CD8E1C00B2C554 /* HomeKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKit.swift; sourceTree = "<group>"; };
+		946E704725F9154000912B2A /* PhilipHueView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipHueView.swift; sourceTree = "<group>"; };
+		946E704825F9154000912B2A /* PhilipHueToggleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhilipHueToggleView.swift; sourceTree = "<group>"; };
 		948BD02525D6B78800248E02 /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		948BD03125D6BECB00248E02 /* HeartRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRate.swift; sourceTree = "<group>"; };
 		94EC6D3225F63E6C005BE490 /* Falldetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Falldetect.swift; sourceTree = "<group>"; };
@@ -284,6 +288,8 @@
 		9420482625E3F9AD00A525BB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				946E704825F9154000912B2A /* PhilipHueToggleView.swift */,
+				946E704725F9154000912B2A /* PhilipHueView.swift */,
 				9420480925E3E20800A525BB /* HealthView.swift */,
 				9420481B25E3E8BF00A525BB /* ZWaveView.swift */,
 				9420480E25E3E7F300A525BB /* FibaroView.swift */,
@@ -556,6 +562,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9420480A25E3E20800A525BB /* HealthView.swift in Sources */,
+				946E704A25F9154000912B2A /* PhilipHueToggleView.swift in Sources */,
+				946E704925F9154000912B2A /* PhilipHueView.swift in Sources */,
 				9403FCC825F24E3700E39BD9 /* PhoneConnection.swift in Sources */,
 				9408D9C325F8B33600C68D11 /* DoorView.swift in Sources */,
 				CECA827D25F64BDD00944BEE /* NotificationCreator.swift in Sources */,

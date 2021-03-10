@@ -66,6 +66,7 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
             //Quantities to read from HealthStore
             let typesToRead = Set([
                 HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+                //HKQuantityType.quantityType(forIdentifier: .oxygenSaturation)!,
                 HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
                 HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
             ])
@@ -95,6 +96,10 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
     public func getHeartRate() -> Int {
         return Int(self.heartRate)!
     }
+
+    /*public func exitWorkout {
+        
+    }*/
     
     // ---------------------------------------------------------------------------
     
@@ -127,7 +132,8 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 let stringValue = String(Int(Double(round(1 * valueRun!) / 1)))
                 //print("[workoutBuilder] Distance walked: \(stringValue)")
                 self.distanceWalked += Int(stringValue)!
-               // print(workoutBuilder.dataSource?.typesToCollect)
+                //print(workoutBuilder.dataSource?.typesToCollect)
+    
             default:
                 return
             }

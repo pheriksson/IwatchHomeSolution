@@ -71,6 +71,7 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
                 if let notification = message["NOTIFICATION"]{
                     //Switch here if we want to support different types off notification.
                     self.sendLocalNotification(body: notification as! String)
+                    return
                 }
                 if let responseCode = message["CODE"]{
                     switch responseCode as! Int{
@@ -89,7 +90,9 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
             if let hueReq = message["HUE"]{
                 if let notification = message["NOTIFICATION"]{
                     //Inte satt ngn notification trigger för phue, 10:e mars.
+                    print("HUE recieved")
                     self.sendLocalNotification(body: notification as! String)
+                    return
                 }
                 if let responseCode = message["CODE"]{
                     switch responseCode as! Int{
@@ -116,7 +119,9 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
         if !(session.isReachable){
             return
         }
-        print("nu skickar vi till telefonen")
+        for (key,value) in msg{
+            print("SENDING KEY: \(key) Value: \(value)")
+        }
         session.sendMessage(msg, replyHandler: nil, errorHandler: {
             error in
             print(error.localizedDescription)

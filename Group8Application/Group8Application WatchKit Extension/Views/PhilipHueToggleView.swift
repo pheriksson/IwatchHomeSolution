@@ -26,18 +26,19 @@ struct PhilipHueToggleView: View {
     }
     
     func toggleClicked(status : Bool) -> String{
-        print("toggleClicked with status: \(status)")
-        print("And light id of \(self.lightId)")
-        print("Preparing call to turn off/on light")
+        //print("toggleClicked with status: \(status)")
+       //print("And light id of \(self.lightId)")
+        //print("Preparing call to turn off/on light")
         
+        //print("Preparing call to turn off/on light")
+        if !(self.firstClick.getLoaded()){
+            return ""
+        }
         if status{
             self.WMC.send(msg: ["HUE":true,"NODE":self.lightId, "CODE": 1])
         }else{
             self.WMC.send(msg: ["HUE":true,"NODE":self.lightId, "CODE": 0])
         }
-        
-        
-        
         return ""
     }
     
@@ -45,16 +46,16 @@ struct PhilipHueToggleView: View {
         Toggle(isOn : self.$isClicked){
             HStack{
                 Text("\(lightId)").padding()
-                if (!self.firstClick.getLoaded()){
-                    Text("\(self.firstClick.setFinishedLoading())")
+                
+                if (self.isClicked){
+                    Text("\(toggleClicked(status : true))")
                 }else{
-                    if (self.isClicked){
-                        Text("\(toggleClicked(status : true))")
-                    }else{
-                        Text("\(toggleClicked(status : false))")
-                    }
+                    Text("\(toggleClicked(status : false))")
                 }
             }
+        }
+        .onAppear(){
+            self.firstClick.setFinishedLoading()
         }
     }
 }
@@ -63,9 +64,8 @@ class prepLoad{
     
     var prep: Bool = false
     
-    func setFinishedLoading() -> String{
+    func setFinishedLoading() -> Void{
         self.prep = true
-        return ""
     }
     
     func getLoaded() -> Bool{

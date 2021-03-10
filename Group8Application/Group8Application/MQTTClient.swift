@@ -134,7 +134,7 @@ extension MQTTClient: CocoaMQTTDelegate{
 
                 let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",")
                 // FOR TESTING
-                //print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
+                print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
                 //Used for initial condition.
                 if pos[0] == 0 && pos[1] == 0 && pos[2] == 0{
                     pos[0] = Int(msg[2]) ?? 0

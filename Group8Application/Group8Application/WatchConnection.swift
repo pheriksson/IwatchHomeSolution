@@ -28,7 +28,9 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
             print(session.activationState)
             self.fibaro = fib
             self.hue = hue
+            
         }
+        
         
 
     }
@@ -39,8 +41,10 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         print("Vi tog emot meddelandet")
         
-        DispatchQueue.main.async {
-            
+        //DispatchQueue.main.async {
+            for (key,value) in message{
+                print("RECIEVED \(key) \(value) in phone.")
+            }
             //<!----------------- FIBARO --------------------!>//
         if let fibaroReq = message["FIBARO"]{
             if let GET = message["GET"]{
@@ -96,7 +100,7 @@ class WatchConnection : NSObject, WCSessionDelegate, FibaroObserver, HueObserver
            print("Key: \(key) value: \(value)")
         }
             
-        }
+        //}
     }
 
     //Send msg to watch for processing.

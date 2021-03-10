@@ -35,6 +35,7 @@ struct testApp: App {
                     print("App is active")
                 case .inactive:
                     print("App is now inactive")
+                   // healthStore.
                 case .background:
                     print("App is in background")
                 @unknown default:
