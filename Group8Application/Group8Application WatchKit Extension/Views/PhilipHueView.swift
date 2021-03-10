@@ -12,9 +12,13 @@ struct PhilipHueView: View {
     @ObservedObject var lights : HueContainer
     var WMC : PhoneConnection
     
+    //On exit, set false state.
+    
     init(phoneCon : PhoneConnection){
         self.WMC = phoneCon
         self.lights = WMC.getHueContainer()
+        self.WMC.send(msg: ["HUE":true,"GET":true ,"CODE":0]) //Call to fetch data for view.
+        
     }
     
     var body: some View {
@@ -25,7 +29,7 @@ struct PhilipHueView: View {
                     HStack {
                         //Text(key)
                         //Text("\(recievedLights[key]!)")
-                        PhilipHueToggleView(WMC: self.WMC,id : key, onOff: recievedLights[key]!, firstClick : [true])
+                        PhilipHueToggleView(WMC: self.WMC,id : key, onOff: recievedLights[key]!)
                     }
                 }
             

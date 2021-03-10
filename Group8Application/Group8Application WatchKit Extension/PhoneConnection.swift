@@ -79,7 +79,7 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
                 //<!--------------------- PHILIP HUE -------------------!>//
             if let hueReq = message["HUE"]{
                 if let notification = message["NOTIFICATION"]{
-                    //Switch here if we want to support different types off notifications.
+                    //Inte satt ngn notification trigger för phue, 10:e mars.
                     self.sendLocalNotification(body: notification as! String)
                 }
                 if let responseCode = message["CODE"]{

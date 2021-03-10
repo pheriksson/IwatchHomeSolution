@@ -30,6 +30,14 @@ struct PhilipHueToggleView: View {
         print("And light id of \(self.lightId)")
         print("Preparing call to turn off/on light")
         
+        if status{
+            self.WMC.send(msg: ["HUE":true,"NODE":self.lightId, "CODE": 1])
+        }else{
+            self.WMC.send(msg: ["HUE":true,"NODE":self.lightId, "CODE": 0])
+        }
+        
+        
+        
         return ""
     }
     
