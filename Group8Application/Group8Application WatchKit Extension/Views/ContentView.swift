@@ -48,7 +48,7 @@ struct ContentView: View {
             })
             
             NavigationLink(
-                destination: ZWaveView(),
+                destination: PhilipHueView(phoneCon: self.phoneCon!),
                 label: {
                     Text("PhilipHue")
                     Image(systemName: "lightbulb.fill")
