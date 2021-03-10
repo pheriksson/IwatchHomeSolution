@@ -48,10 +48,13 @@ struct ContentView: View {
             })
             
             NavigationLink(
-                destination: PhilipHueView(phoneCon: self.phoneCon!).onAppear(){
-                    print("Jag är i onappear \n")
-                    self.phoneCon!.send(msg: ["HUE":true,"GET":true ,"CODE":0]) //Call to fetch data for view.
-                },
+                destination: PhilipHueView(phoneCon: self.phoneCon!)
+                            .onAppear(){
+                                self.phoneCon!.send(msg: ["HUE":true,"GET":true ,"CODE":0])}
+                            .onDisappear(){
+                                print("Om denna text syns då vi exitar philipHueView avkommentera nedanstående rad.")
+                                //self.phoneCon!.getHueContainer().waitRefreshList()
+                            },
                 label: {
                     Text("PhilipHue")
                     Image(systemName: "lightbulb.fill")

@@ -169,11 +169,12 @@ class HueContainer : ObservableObject{
     
     //Light id = key, status = value.
     func recieveHueLights(lights : [String : Int]){
-        print("Setting recieveHueLights to true.")
         self.lightStatus = true
-        print("Updating published list off lights.")
         self.lights = lights
-        print("Published list off lights set")
+    }
+    
+    func waitRefreshList(){
+        self.lightStatus = false
     }
     
     func getHueLights() -> [String : Int]{

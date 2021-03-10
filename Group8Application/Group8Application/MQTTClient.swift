@@ -57,8 +57,21 @@ class MQTTClient{
         }
     }
     
-    //TODO: Check for settings -> if user wants the desired functionality.
-    //entering 
+    func setInitialState() -> Void{
+        if pos[0] < -1000{
+            //Starting from outside the appartement.
+            location[0] = false; location[1] = false;
+        }else if pos[1] > 0{
+            //Starting from bedroom.
+            location[0] = false; location[1] = true;
+        }else{
+            //Starting from kitchen.
+            location[0] = true; location [1] = false;
+        }
+    }
+    
+    
+    //TODO: Check for settings -> if user wants the desired functionality (automated functions etc.).
     func checkState() -> Void{
             switch (location[0],location[1]){
                 case (true,false):
@@ -97,7 +110,7 @@ class MQTTClient{
                         return notifyObservers(event: "entering appartement")
                     }
                 default:
-                    print("somethings fucky, again... currently in kitchen and in beedrom at the same time??")
+                    print("somethings funky, currently in kitchen and in beedrom at the same time")
         }
         
         
@@ -134,14 +147,15 @@ extension MQTTClient: CocoaMQTTDelegate{
 
                 let msg = message.string!.description[upperRange.upperBound...lowerRange.lowerBound].components(separatedBy: ",")
                 // FOR TESTING
-                print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
-                //Used for initial condition.
+                //print("X:\(msg[2]) Y:\(msg[3]) Z:\(msg[4]) ")
+                //Used for initial condition or if somehow widefind spits out invalid value.
                 if pos[0] == 0 && pos[1] == 0 && pos[2] == 0{
                     pos[0] = Int(msg[2]) ?? 0
                     pos[1] = Int(msg[3]) ?? 0
                     pos[2] = Int(msg[4]) ?? 0
-                    return
+                    return self.setInitialState()
                 }
+                //Update check -> if one value is null set all to 0 and wait for another value to update location.
                 pos[0] = Int(msg[2]) ?? 0
                 pos[1] = Int(msg[3]) ?? 0
                 pos[2] = Int(msg[4]) ?? 0

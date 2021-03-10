@@ -161,14 +161,12 @@ class Fibaro: MQTTObserver{
     func parseOutlets(d: Data) -> [Dictionary<String, Any>]
     {
         do {
+                self.nodeList = [Dictionary<String, Any>]() //Reseting nodeList so we do not get more nodes each time we request
+                                                            //new outlets to display to watch.
                 if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: d, options: []) as? NSArray {
-            
-                    //print(convertedJsonIntoDict)
                     for basenode in convertedJsonIntoDict{
                         var dic = [String : Any]()
-                        //print(basenode)
                         var check = false
-                        //
                         for node in basenode as! NSDictionary{
                             if node.key as? String == "id"{
                                 dic["nodeID"] = node.value as! Int
@@ -255,8 +253,8 @@ class Fibaro: MQTTObserver{
         
         switch code{
         case 0:
-            //prep response with status of all binary switches.
             print("Fibaro recieved call from watch to send status of all binary switches to watch")
+            //prep response with status of all binary switches.
             response["CODE"] = 0
             response["BODY"] = self.watchGetOutlets()
             self.notifyObservers(msg: response)

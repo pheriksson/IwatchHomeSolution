@@ -26,11 +26,6 @@ struct PhilipHueToggleView: View {
     }
     
     func toggleClicked(status : Bool) -> String{
-        //print("toggleClicked with status: \(status)")
-       //print("And light id of \(self.lightId)")
-        //print("Preparing call to turn off/on light")
-        
-        //print("Preparing call to turn off/on light")
         if !(self.firstClick.getLoaded()){
             return ""
         }
