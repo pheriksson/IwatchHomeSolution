@@ -33,10 +33,11 @@ struct ToggleView : View {
     
     var body: some View{
         
-        Image(systemName: "lightbulb.fill").padding()
         Toggle(isOn: $isChecked) {
-            Text("Node : \(id!)")
             HStack{
+                Image(systemName: "lightbulb.fill").padding()
+                Text("\(name!)")
+                
                 if isChecked {
                     Text("\(self.turnOn(node: self.id!))")
                 }

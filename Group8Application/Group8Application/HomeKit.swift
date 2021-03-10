@@ -250,7 +250,6 @@ class Fibaro: MQTTObserver{
     
     //Get request sent from watch controller, ie send something back.
     func recMsgFromWatch(code : Int){
-        print("Varför kommer vi inte hit?")
         var response = [String : Any]()
         response["FIBARO"] = true
         

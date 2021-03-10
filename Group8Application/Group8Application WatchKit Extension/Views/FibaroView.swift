@@ -30,14 +30,14 @@ struct FibaroView: View {
                         label: {
                             Image(systemName: "lightbulb")
                         })
-                    NavigationLink(
+                   /* NavigationLink(
                         destination: DoorView(phoneCone: self.phoneCon!).onAppear(){
                             self.phoneCon!.send(msg: ["FIBARO":true,"GET":true ,"CODE":1]) //Call to fetch data for view.
                             print("protocol FIBARO msg was created and sent")
                         },
                         label: {
                             Image(systemName: "greetingcard.fill")
-                        })
+                        })*/
                     
                     
                 }

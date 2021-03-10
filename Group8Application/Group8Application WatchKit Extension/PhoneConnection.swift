@@ -26,13 +26,14 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
     //var view : lamp? Tar bort efter bekräftelse.
     
     var philipHueLights : HueContainer
-
+    var fibBS : FibContainer
+    
     init(notification : NotificationCreator){
         self.outletDoorList = [Dictionary<String, Any>]()
 
         self.outletList = [Dictionary<String, Any>]()
         self.philipHueLights = HueContainer()
-
+        self.fibBS = FibContainer()
         super.init()
         if WCSession.isSupported(){
             self.session = WCSession.default
@@ -67,7 +68,7 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
             
                 //<!--------------------- FIBARO -------------------!>//
             if let fibaroReq = message["FIBARO"] {
-                print("Jag kollar här nu")
+                print("Fibaro message recieved")
                 if let notification = message["NOTIFICATION"]{
                     //Switch here if we want to support different types off notification.
                     self.sendLocalNotification(body: notification as! String)
@@ -76,11 +77,14 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
                 if let responseCode = message["CODE"]{
                     switch responseCode as! Int{
                     case 0:
-                        self.outlletFlag = true
-                        self.outletList = message["BODY"] as! [Dictionary<String, Any>]
-                    case 1:
-                        self.tempFlag = true
-                        self.outletDoorList = message["BODY"] as! [Dictionary<String, Any>]
+                        print("Recieved msg from Fib in phoneConnection")
+                        self.fibBS.recieveFibSwitches(lights: message["BODY"] as! [Dictionary<String, Any>])
+                        print("fib container set")
+                        //self.outlletFlag = true
+                        //self.outletList = message["BODY"] as! [Dictionary<String, Any>]
+                    //case 1:
+                        //self.tempFlag = true
+                        //self.outletDoorList = message["BODY"] as! [Dictionary<String, Any>]
                     default:
                         print("No more actions to be taken for fibaro with responseCode : \(responseCode as! Int) recieved in PhoneConnection")
                     }
@@ -148,7 +152,9 @@ class PhoneConnection : NSObject, WCSessionDelegate, ObservableObject, Identifia
         return philipHueLights
     }
     
-    
+    func getFibContainer() -> FibContainer {
+        return fibBS
+    }
 
 }
 
@@ -177,8 +183,35 @@ class HueContainer : ObservableObject{
     func getHueLightStatus() -> Bool{
         return lightStatus
     }
+}
+
+
+// Fib container
+
+class FibContainer : ObservableObject {
+    @Published var lights : [Dictionary<String, Any>]
+    private var lightStatus : Bool = false
     
+    init(){
+        self.lights = [Dictionary<String, Any>]()
+    }
     
+    //Light id = key, status = value.
+    func recieveFibSwitches(lights : [Dictionary<String, Any>]){
+        print("Setting recieveFibSwitches to true.")
+        self.lightStatus = true
+        print("Updating published list off switches.")
+        self.lights = lights
+        print("Published list off switches set")
+    }
+    
+    func getFibSwitches() -> [Dictionary<String, Any>]{
+        return lights
+    }
+    
+    func getFibSwitchesStatus() -> Bool{
+        return lightStatus
+    }
 }
 
 
