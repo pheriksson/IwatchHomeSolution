@@ -21,16 +21,23 @@ struct FibaroView: View {
         NavigationView {
             VStack{
                 HStack{
+                    
                     NavigationLink(
-                        destination: lamp(phoneCon: self.phoneCon!),
+                        destination: lamp(phoneCon: self.phoneCon!).onAppear(){
+                            self.phoneCon!.send(msg: ["FIBARO":true,"GET":true ,"CODE":0]) //Call to fetch data for view.
+                            print("protocol FIBARO msg was created and sent")
+                        },
                         label: {
                             Image(systemName: "lightbulb")
                         })
-                    NavigationLink(
-                        destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
+                   /* NavigationLink(
+                        destination: DoorView(phoneCone: self.phoneCon!).onAppear(){
+                            self.phoneCon!.send(msg: ["FIBARO":true,"GET":true ,"CODE":1]) //Call to fetch data for view.
+                            print("protocol FIBARO msg was created and sent")
+                        },
                         label: {
-                            Image(systemName: "desktopcomputer")
-                        })
+                            Image(systemName: "greetingcard.fill")
+                        })*/
                     
                     
                 }

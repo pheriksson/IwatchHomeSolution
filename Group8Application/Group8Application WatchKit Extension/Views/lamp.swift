@@ -9,48 +9,65 @@ import SwiftUI
 
 struct lamp: View {
     
-
-    
-    @State var lampSwitch = true
-    var phoneCon: PhoneConnection?
+    // connection reference
+    var phoneCon: PhoneConnection
+    @ObservedObject var fibCont: FibContainer
     
     init(phoneCon : PhoneConnection){
         self.phoneCon = phoneCon
-    }
-    
-    func sendMsgToPhone(onOff : Bool, node : Int){
-    
-        guard let phoneCon = phoneCon else {return}
-        
-        var dic = [String : Any]()
-        dic["FIBARO"] = true
-        dic["Toggle"] = onOff
-        dic["Node"] = node
-        
-        phoneCon.send(msg: dic)
+        self.fibCont = phoneCon.fibBS
     }
     
     var body: some View {
-        VStack{
-            HStack{
-                if lampSwitch{
-                    // Send session object to phone to change the value of the obj to true
-                    Image(systemName: "lightbulb.fill").padding()
-                    //sendMsgToPhone(type: "MSG", msg: "Sätt på lampan")
+       
+        if(fibCont.getFibSwitchesStatus()){
+            VStack{
+                ScrollView{
+                    let list = fibCont.getFibSwitches()
+                    ForEach(0..<list.count){ index in
+                            let dic = list[index] as! NSDictionary
+                            ToggleView(phoneCon: self.phoneCon, name: dic.value(forKey: "name") as! String, id: dic.value(forKey: "nodeID") as! Int, status: dic.value(forKey: "value") as! Bool)
+                    }
                 }
-                else {
-                    Image(systemName: "lightbulb")
-                }
-                Toggle(isOn: $lampSwitch) {
-                    
-                }
-            } // HStack end
-        } //Vstack end
-        .onAppear(){
-                sendMsgToPhone(onOff: true, node: 198)
+            } //Vstack end
+        }// if end
+        else{
+            Text("vi laddar data")
+            Image(systemName: "hourglass")
         }
     }
+    
+    func sendMsgToPhone(code : Int){
+        var msg = [String : Any]()
+        msg["FIBARO"] = true
+        msg["GET"] = true
+        msg["CODE"] = code
+        phoneCon.send(msg: msg)
+        print("protocol FIBARO msg was created and sent")
+    }
+    
+    // Vad gör denna? 
+    /*public func updateList(list : [Dictionary<String, Any>])
+    {
+        for node in list {
+            let id : Int
+            let name : String
+            let value : Bool
+            
+            print("HEJ IGEN!!!")
+            if node.keys as! String == "nodeID" {
+                
+            }
+            //let tempNode = tempItem(nodeID: node["nodeID"], name: node["name"], status: node["value"])
+            //tempList.append(tempItem(nodeID: node["nodeID"], name: node["name"], status: node["value"]))
+        }
+        print("Uppdate list")
+    }*/
 }
+
+
+
+
 /*
 struct lamp_Previews: PreviewProvider {
     static var previews: some View {

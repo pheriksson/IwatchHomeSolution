@@ -7,30 +7,7 @@
 
 import Foundation
 import HealthKit
-import WatchKit
 
-<<<<<<< HEAD
-
-/*
-class HealthStoreWatch: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
-    @IBOutlet var bpmLabel: WKInterfaceLabel!
-    let healthStore: HKHealthStore?
-    let session: HKWorkoutSession?
-    let builder: HKLiveWorkoutBuilder?
-
-
-    override init() {
-        healthStore = HKHealthStore()
-        if (HKHealthStore.isHealthDataAvailable()) {
-            
-            let configuration = HKWorkoutConfiguration()
-            configuration.activityType = .running
-            configuration.locationType = .outdoor
-            
-            guard let healthStore = healthStore else { return }
-            
-            
-=======
 class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
     
     
@@ -45,10 +22,12 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
     var workingOut = false
     // Var that holds current heartRate
     var heartRate : String
+    var distanceWalked : Int
     
     
     override init() {
-       heartRate = "0"
+        heartRate = "0"
+        distanceWalked = 0
         super.init()
         if (HKHealthStore.isHealthDataAvailable()) {
             healthStore = HKHealthStore()
@@ -61,7 +40,6 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
             guard let healthStore = healthStore else { return }
                     
                     
->>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
             do {
                 session = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
                 builder = session?.associatedWorkoutBuilder()
@@ -71,67 +49,15 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
             }
             guard let session = session else { return }
             guard let builder = builder else { return }
-<<<<<<< HEAD
-            
-            builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
-            
-            
-=======
                     
             builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
                     
->>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
             session.delegate = self
             builder.delegate = self
         }
     }
     
     func requestAuthorization(completion:@escaping (Bool) ->Void) {
-<<<<<<< HEAD
-        
-        // Readable/Writable data
-       // let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!])
-    
-        let typesToShare = Set([HKQuantityType.workoutType()])
-        
-        //Quantities to read from HealthStore
-        let typesToRead = Set([
-            HKQuantityType.quantityType(forIdentifier: .heartRate)!,
-            HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
-            HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
-        ])
-        
-        //unwrapping healthStore i.e checking if healthstore has been initiated and not nil
-        guard let healthStore = self.healthStore else { return completion(false)}
-        
-        
-        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
-            completion(success)
-        }
-    }
-    
-    func startHeartRate() {
-        
-        guard let session = session, let builder = builder else {
-            print("session or builder null pointer")
-            return
-        }
-        
-        
-        session.startActivity(with: Date())
-        
-        builder.beginCollection(withStart: Date()) { (success, error) in
-            
-            guard success else {
-                print("error occured in begin collections")
-                // Handle errors.
-            }
-            print("Session started")
-            // Indicate that the session has started.
-        }
-    }
-}*/
-=======
             
             // Readable/Writable data
     
@@ -140,6 +66,7 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
             //Quantities to read from HealthStore
             let typesToRead = Set([
                 HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+                //HKQuantityType.quantityType(forIdentifier: .oxygenSaturation)!,
                 HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
                 HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
             ])
@@ -169,6 +96,10 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
     public func getHeartRate() -> Int {
         return Int(self.heartRate)!
     }
+
+    /*public func exitWorkout {
+        
+    }*/
     
     // ---------------------------------------------------------------------------
     
@@ -192,11 +123,17 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
                 let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
                 let value = statistics!.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
                 let stringValue = String(Int(Double(round(1 * value!) / 1)))
-                print("[workoutBuilder] Heart Rate: \(stringValue)")
+                //print("[workoutBuilder] Heart Rate: \(stringValue)")
                 self.heartRate = stringValue
             case HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning):
                 let statistics = workoutBuilder.statistics(for: quantityType)
+                let distanceUnit = HKUnit.meter()
+                let valueRun = statistics!.mostRecentQuantity()?.doubleValue(for: distanceUnit)
+                let stringValue = String(Int(Double(round(1 * valueRun!) / 1)))
+                //print("[workoutBuilder] Distance walked: \(stringValue)")
+                self.distanceWalked += Int(stringValue)!
                 //print(workoutBuilder.dataSource?.typesToCollect)
+    
             default:
                 return
             }
@@ -210,4 +147,4 @@ class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilde
         print("[workoutBuilderDidCollectEvent] Workout Builder changed event: \(workoutEventType.rawValue)")
     }
 }
->>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
+

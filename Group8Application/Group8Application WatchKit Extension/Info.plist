@@ -32,11 +32,18 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
+	<key>NSFallDetectionUsageDescription</key>
+	<string>Want to access fall detection</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>Want to access data of healthstore to read/write</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Want to access data of healthstore to read/write</string>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+	<key>NSMotionUsageDescription</key>
+	<string></string>
+>>>>>>> 70d160bce87d1531659137a31d63a667b98523ea
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
@@ -45,8 +52,11 @@
 	<array>
 		<string>workout-processing</string>
 	</array>
+<<<<<<< HEAD
 =======
 >>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
+=======
+>>>>>>> 70d160bce87d1531659137a31d63a667b98523ea
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<false/>
 </dict>

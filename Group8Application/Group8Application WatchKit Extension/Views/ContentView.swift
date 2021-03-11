@@ -15,8 +15,9 @@ struct ContentView: View {
     var store: HealthStoreWatch?
     
     init(healthStore : HealthStoreWatch, phoneCon : PhoneConnection) {
-        store = healthStore
+        self.store = healthStore
         self.phoneCon = phoneCon
+        //Move to init.
         store!.requestAuthorization(){ success in
             if success {
                 print("Authorazation was sucessfully completed")
@@ -38,7 +39,7 @@ struct ContentView: View {
                         Image(systemName: "heart")
                     }
             })
-                    
+                
             NavigationLink(
                 destination: FibaroView(phoneCon: self.phoneCon!),
                 label: {
@@ -47,13 +48,23 @@ struct ContentView: View {
             })
             
             NavigationLink(
-                destination: ZWaveView(),
+                destination: PhilipHueView(phoneCon: self.phoneCon!)
+                            .onAppear(){
+                                self.phoneCon!.send(msg: ["HUE":true,"GET":true ,"CODE":0])}
+                            .onDisappear(){
+                                print("Om denna text syns då vi exitar philipHueView avkommentera nedanstående rad.")
+                                //self.phoneCon!.getHueContainer().waitRefreshList()
+                            },
                 label: {
-                    Text("Z-wave")
-                    Image(systemName: "zzz")
+                    Text("PhilipHue")
+                    Image(systemName: "lightbulb.fill")
             })
         }
+    
+        
+        
     }
+    
 }
 
 /*
