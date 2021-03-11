@@ -9,6 +9,7 @@ import Foundation
 import HealthKit
 import WatchKit
 
+<<<<<<< HEAD
 
 /*
 class HealthStoreWatch: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
@@ -29,6 +30,38 @@ class HealthStoreWatch: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveW
             guard let healthStore = healthStore else { return }
             
             
+=======
+class HealthStoreWatch:  NSObject ,HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+    
+    
+    
+    
+    var healthStore: HKHealthStore?
+    // Our workout session
+    var session: HKWorkoutSession?
+    // Live workout builder
+    var builder: HKLiveWorkoutBuilder?
+    // Tracking our workout state
+    var workingOut = false
+    // Var that holds current heartRate
+    var heartRate : String
+    
+    
+    override init() {
+       heartRate = "0"
+        super.init()
+        if (HKHealthStore.isHealthDataAvailable()) {
+            healthStore = HKHealthStore()
+            
+            //Workout
+            let configuration = HKWorkoutConfiguration()
+            configuration.activityType = .running
+            configuration.locationType = .outdoor
+                    
+            guard let healthStore = healthStore else { return }
+                    
+                    
+>>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
             do {
                 session = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
                 builder = session?.associatedWorkoutBuilder()
@@ -38,16 +71,23 @@ class HealthStoreWatch: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveW
             }
             guard let session = session else { return }
             guard let builder = builder else { return }
+<<<<<<< HEAD
             
             builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
             
             
+=======
+                    
+            builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
+                    
+>>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
             session.delegate = self
             builder.delegate = self
         }
     }
     
     func requestAuthorization(completion:@escaping (Bool) ->Void) {
+<<<<<<< HEAD
         
         // Readable/Writable data
        // let allTypes = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKObjectType.quantityType(forIdentifier: .oxygenSaturation)!])
@@ -91,3 +131,83 @@ class HealthStoreWatch: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveW
         }
     }
 }*/
+=======
+            
+            // Readable/Writable data
+    
+            let typesToShare = Set([HKQuantityType.workoutType()])
+            
+            //Quantities to read from HealthStore
+            let typesToRead = Set([
+                HKQuantityType.quantityType(forIdentifier: .heartRate)!,
+                HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!,
+                HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
+            ])
+            
+            //unwrapping healthStore i.e checking if healthstore has been initiated and not nil
+            guard let healthStore = self.healthStore else { return completion(false)}
+            
+            
+            healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
+                completion(success)
+            }
+    }
+    
+    func startWokrout() {
+        guard let session = session else { return }
+        guard let builder = builder else { return }
+        session.startActivity(with: Date())
+        builder.beginCollection(withStart: Date()){ (success, error) in
+            guard success else {
+                print("begin collection crashed")
+                return
+            }
+            print("Session and builder started")
+        }
+    }
+    
+    public func getHeartRate() -> Int {
+        return Int(self.heartRate)!
+    }
+    
+    // ---------------------------------------------------------------------------
+    
+    // Event functions
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+        print("[workoutSession] Changed State: \(toState.rawValue)")
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
+        print("[workoutSession] Encountered an error: \(error)")
+    }
+    
+    func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
+        for type in collectedTypes {
+            guard let quantityType = type as? HKQuantityType else {
+                return
+            }
+            switch quantityType {
+            case HKQuantityType.quantityType(forIdentifier: .heartRate):
+                let statistics = workoutBuilder.statistics(for: quantityType)
+                let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
+                let value = statistics!.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
+                let stringValue = String(Int(Double(round(1 * value!) / 1)))
+                print("[workoutBuilder] Heart Rate: \(stringValue)")
+                self.heartRate = stringValue
+            case HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning):
+                let statistics = workoutBuilder.statistics(for: quantityType)
+                //print(workoutBuilder.dataSource?.typesToCollect)
+            default:
+                return
+            }
+        }
+    }
+    
+    
+    func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
+        // Retreive the workout event.
+        guard let workoutEventType = workoutBuilder.workoutEvents.last?.type else { return }
+        print("[workoutBuilderDidCollectEvent] Workout Builder changed event: \(workoutEventType.rawValue)")
+    }
+}
+>>>>>>> b45cd0c7e63545229d46e4c8e02b97a641d16314
