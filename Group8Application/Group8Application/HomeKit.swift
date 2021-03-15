@@ -28,7 +28,7 @@ class Fibaro: MQTTObserver{
             access = HMHomeManager()
         }
         self.id = 80085
-        
+        //implement test connection on startup....
         //Fibaro base config.
         self.encoding = "\(usr):\(pw)".data(using: .utf8)!.base64EncodedString()
         self.url_base = "http://\(ip)/api/"

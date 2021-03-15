@@ -125,13 +125,14 @@ class MQTTClient{
 extension MQTTClient: CocoaMQTTDelegate{
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topics: [String]) {
         for topic in topics{
-            print("Subscribed too : \(topic)")
+            print("Subscribing to topic: \(topic) in MQTT broker...")
         }
     }
     
      
      func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         if ack == .accept{
+            print("Established connection to MQTT broker...")
             mqtt.subscribe("#", qos: CocoaMQTTQOS.qos0)
             return
         }
@@ -167,16 +168,16 @@ extension MQTTClient: CocoaMQTTDelegate{
     
     
      func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopics success: NSDictionary, failed: [String]) {
-        print("subscribed: \(success), failed: \(failed)")
+        print("succesfully subscribed: \(success), failed: \(failed)")
      }
      
      //Call recconnect on missed ping from certain intervall ??
      func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
-        print("RECIEVED PING")
+        print("Recieved ping from MQTT broker")
      }
      //Call reconnect??
      func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
-        print("DISCONNECTED")
+        print("Disconnected from MQTT broker with address \(self.host)")
         //Raise error
      }
     

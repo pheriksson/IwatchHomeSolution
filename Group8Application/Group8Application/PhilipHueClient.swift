@@ -28,6 +28,7 @@ class HueClient : MQTTObserver{
         self.ip = ip
         self.usr = usr
         self.url_base = "http://\(ip)/api/\(usr)/"
+        
         self.observers = [HueObserver]()
     }
     
@@ -36,18 +37,6 @@ class HueClient : MQTTObserver{
         var request = URLRequest(url : url!)
         request.httpMethod = "GET"
         return request
-    }
-    
-    func test() {
-        //updateLights()
-        //var test = watchGetLights()
-        //self.printLights()
-        //turnOnLight(light: "13")
-        //turnOnLight(light: "14")
-        //turnOnLight(light: "15")
-        //turnOffLight(light: "13")
-        //turnOffLight(light: "14")
-        //turnOffLight(light: "15")
     }
     
     func parseLights(d : Data) -> [String : Int]{
@@ -181,9 +170,6 @@ class HueClient : MQTTObserver{
     
     private func notifyObservers(_ msg : [String : Any]){
         print("Notifying observers of msg from philip hue:")
-        for (key,value) in msg{
-            print("Node: \(key) status : \(value)")
-        }
         for obs in observers{
             obs.hueNotification(msg)
         }
