@@ -1,4 +1,4 @@
 # SmartWatch-D0020E
 
- Markup : * Dependencies
-      * CocoaMQTT
+- Third party dependencies
+  - [CocoaMQTT](https://github.com/emqx/CocoaMQTT)
